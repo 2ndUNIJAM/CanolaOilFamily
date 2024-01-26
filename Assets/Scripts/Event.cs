@@ -12,8 +12,18 @@ public class Event
     public static EventType MakeRandomEvent()
     {
         System.Random r = new System.Random();
-        return (EventType)(r.Next() % 3);
+        return ((EventType)(r.Next() % 3));
     }
-
-
 }
+
+//public class RainEvent
+//{
+
+//}
+
+//public class WorldCupEvent
+//{
+
+//}
+
+//public class 
