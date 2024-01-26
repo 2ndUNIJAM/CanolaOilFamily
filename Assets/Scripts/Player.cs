@@ -32,6 +32,7 @@ public class Player : MonoBehaviour
             if (value < 10000 || value > 30000) { return; }
 
             _price = value;
+            GameManager.Instance.UpdatePriceUI();
         }
     }
 

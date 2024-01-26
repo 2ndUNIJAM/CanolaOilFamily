@@ -18,21 +18,28 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _decreasePrice;
 
-    
+    public Player Player;
+    public Player Enemy;
+
     public int Weeks; // 현재 주차
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        //_increasePrice.onClick.AddListener(() => Price += 100);
-        //_decreasePrice.onClick.AddListener(() => Price -= 100);
+        _increasePrice.onClick.AddListener(() => Player.Price += 100);
+        _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void UpdatePriceUI()
+    {
+        _priceText.text = Player.Price.ToString();
     }
 
 }
