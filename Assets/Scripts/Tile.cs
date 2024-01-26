@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum TileType
 {
@@ -11,7 +12,7 @@ public enum TileType
     OpponentStore
 }
 
-public enum PreferType
+public enum VipType
 {
     None,
     MyStore,
@@ -26,7 +27,7 @@ public class Tile : MonoBehaviour
     
     public TileType Type;
     
-    public PreferType Prefer = PreferType.None;
+    public VipType Vip = VipType.None;
     public bool IsPreferPermanent = false;
     public int PurchaseCount = 10;
 

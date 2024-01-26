@@ -25,24 +25,18 @@ public static class Event
     public static void SetDoubleDeliveryFee()
     {
         CurrentEventType = EventType.DoubleDeliveryFee;
-        OrderFactor = 1;
         DeliveryFeeFactor = 2f;
-        IngredientCostAdjustValue = 0f;
     }
     
     public static void SetDoubleOrder()
     {
         CurrentEventType = EventType.DoubleOrder;
         OrderFactor = 2;
-        DeliveryFeeFactor = 1f;
-        IngredientCostAdjustValue = 0f;
     }
     
     public static void SetAdjustIngredientCost(float value)
     {
         CurrentEventType = EventType.AdjustIngredientCost;
-        OrderFactor = 1;
-        DeliveryFeeFactor = 1f;
         IngredientCostAdjustValue = value;
     }
 }

@@ -13,20 +13,27 @@ public static class Simulation
     private const float SimulationInterval = 0.5f;
     private const int SimulationIntervalMaxCount = 2;
     
+    // Price for one 
     private static float GetFinalPrice(Tile tile, Store store)
     {
-        // Price for one   
-        return store.Price + store.DeliveryFee * Tile.GetDistance(tile, store.Position) * Event.DeliveryFeeFactor;
+        var d = (float) Tile.GetDistance(tile, store.Position);
+        var stats = store.Upgrade;
+        if (stats.FreeDeliveryDistance >= d)
+            d = 0;
+            
+        return store.Price + store.DeliveryFee * d * stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
     }
     
+    // doesn't consider stock
     private static DecisionType GetDecision(Tile tile, Store player, Store opponent)
     {
-        // doesn't consider stock
+        var playerStat = player.Upgrade;
+        var opponentStat = opponent.Upgrade;
         
-        var playerFinalPrice = GetFinalPrice(tile, player);
-        var opponentFinalPrice = GetFinalPrice(tile, opponent);
-        
-        // TODO: Add calculations for events
+        var playerFinalPrice = GetFinalPrice(tile, player) - playerStat.VersusCostBias -
+                               ((tile.Vip == VipType.MyStore) ? playerStat.VipVersusCostBias : 0f);
+        var opponentFinalPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias -
+                                 ((tile.Vip == VipType.OpponentStore) ? opponentStat.VipVersusCostBias : 0f);
         
         if (playerFinalPrice < opponentFinalPrice)
         {
