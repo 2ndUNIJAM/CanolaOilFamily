@@ -24,8 +24,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public Store Player;
     public Store Enemy;
 
-    public Event CurrentEvent;
-
     public int Weeks; // current weeks
 
     // Start is called before the first frame update

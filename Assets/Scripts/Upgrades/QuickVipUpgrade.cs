@@ -4,5 +4,5 @@ public class QuickVipUpgrade : Upgrade
 {
     public override string Name => "QuickVipUpgrade";
     public override int LvConstraint => 1;
-    public override int VipTurnDecrement => 5;
+    public override UpgradeStat Stat => new(vipTurnDecrement: 5);
 }
