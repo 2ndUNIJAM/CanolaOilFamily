@@ -2,17 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tile : MonoBehaviour
+public enum TileType
 {
-    // Start is called before the first frame update
-    void Start()
+    Customer,
+    MyStore,
+    OpponentStore
+}
+
+public enum PreferType
+{
+    None,
+    MyStore,
+    OpponentStore
+}
+
+public class Tile
+{
+    public static List<Tile> AllTiles = new();
+
+    public int Q, R;
+    
+    public TileType Type;
+    
+    public PreferType Prefer = PreferType.None;
+    public bool IsPreferPermanent = false;
+    
+    public Tile(int q, int r, TileType type)
     {
-        
+        Q = q;
+        R = r;
+        Type = type;
     }
 
-    // Update is called once per frame
-    void Update()
+    public static int GetDistance(Tile a, Tile b)
     {
-        
+        return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.Q + a.R - b.Q - b.R));
+    }
+
+    public static int GetPrice(Tile store, Tile customer, int deliveryFee, int price)
+    {
+        var distance = GetDistance(store, customer);
+
+        return price + distance * deliveryFee;
     }
 }
