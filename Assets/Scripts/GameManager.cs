@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     void Start()
     {
         Instance = this;
+        Player = new Player();
+        Enemy = new Player();
         _increasePrice.onClick.AddListener(() => Player.Price += 100);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
     }
