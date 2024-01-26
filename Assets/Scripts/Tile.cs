@@ -27,6 +27,7 @@ public class Tile
     
     public PreferType Prefer = PreferType.None;
     public bool IsPreferPermanent = false;
+    public int PurchaseCount = 10;
     
     public Tile(int q, int r, TileType type)
     {
