@@ -26,7 +26,7 @@ public class Store
     public int Stock = 100;
     public int Level = 1;
     private List<Upgrade> _upgrades;
-    public UpgradeStat Upgrade => _upgrades.Aggregate(new UpgradeStat(), (stat, upgrade) => stat + upgrade.Stat);
+    public UpgradeStat Upgrade = new();
 
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||
@@ -42,6 +42,7 @@ public class Store
                 _upgrades.RemoveAt(index);
         }
         _upgrades.Add(upgrade);
+        Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
     }
 
     public float Money;
