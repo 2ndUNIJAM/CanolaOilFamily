@@ -1101,6 +1101,7 @@ MonoBehaviour:
   _priceText: {fileID: 445836598}
   _increasePrice: {fileID: 913440577}
   _decreasePrice: {fileID: 139235451}
+  Weeks: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

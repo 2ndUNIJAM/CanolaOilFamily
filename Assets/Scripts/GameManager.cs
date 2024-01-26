@@ -18,17 +18,17 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _decreasePrice;
 
-    public Player Player;
-    public Player Enemy;
+    public Store Player;
+    public Store Enemy;
 
-    public int Weeks; // 현재 주차
+    public int Weeks; // current weeks
 
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
-        Player = new Player();
-        Enemy = new Player();
+        Player = new Store();
+        Enemy = new Store();
         _increasePrice.onClick.AddListener(() => Player.Price += 100);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
     }
