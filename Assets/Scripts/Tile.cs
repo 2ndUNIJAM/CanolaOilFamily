@@ -59,7 +59,7 @@ public class Tile
         return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.Q + a.R - b.Q - b.R));
     }
 
-    public static int GetPrice(Tile store, Tile customer, int deliveryFee, int price)
+    public static float GetPrice(Tile store, Tile customer, float deliveryFee, float price)
     {
         var distance = GetDistance(store, customer);
 
