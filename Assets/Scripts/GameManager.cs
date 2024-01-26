@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
-        CurrentEvent = Event.MakeRandomEvent();
+        //CurrentEvent = Event.MakeRandomEvent();
     }
 
 }
