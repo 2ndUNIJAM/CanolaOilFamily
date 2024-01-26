@@ -168,14 +168,14 @@ public static class Simulation
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
                     myMargin +=
-                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue - playerStat.IngredientCostDecrement)) *
+                        (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue - playerStat.IngredientCostDecrement)) *
                         purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
                     enemyMargin +=
-                        (GetFinalPrice(tile, opponent) - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
+                        (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
                                                           opponentStat.IngredientCostDecrement)) *
                         purchaseCount;
                     break;
@@ -184,11 +184,11 @@ public static class Simulation
                     playerStock -= purchaseCount / 2;
                     opponentStock -= purchaseCount / 2;
                     myMargin +=
-                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue -
+                        (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
                                                         playerStat.IngredientCostDecrement)) *
                         purchaseCount / 2;
                     enemyMargin +=
-                        (GetFinalPrice(tile, opponent) - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
+                        (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
                                                           opponentStat.IngredientCostDecrement)) *
                         purchaseCount / 2;
                     break;
