@@ -78,6 +78,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         var tiles = Tile.AllTiles;
         tiles.ForEach(x => x.Type = TileType.Customer);
         at.Type = TileType.MyStore;
+        Player.Position = at;
 
         var r = new System.Random();
         while (true)
@@ -86,6 +87,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             if (tiles[rr].Type != TileType.MyStore)
             {
                 tiles[rr].Type = TileType.OpponentStore;
+                Enemy.Position = tiles[rr];
                 break;
             }
         }
