@@ -1,8 +1,12 @@
-﻿public abstract class Upgrade
+﻿using System;
+using JetBrains.Annotations;
+
+public abstract class Upgrade
 {
     public virtual string Name => "";
 
     public virtual int LvConstraint => 0;
+    [CanBeNull] public virtual Type UpgradeConstraint => null;
     public virtual bool IsReplaceConstraint => false;
     public virtual int FreeDeliveryDistance => 0;
     public virtual float DeliveryCostFactor => 1;
