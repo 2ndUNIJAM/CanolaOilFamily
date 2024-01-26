@@ -22,14 +22,16 @@ public enum VipType
 public class Tile : MonoBehaviour
 {
     public static List<Tile> AllTiles = new();
-
+    
     public int Q, R;
-    
+
     public TileType Type;
-    
+    [HideInInspector]
     public VipType Vip = VipType.None;
+    [HideInInspector]
     public bool IsPreferPermanent = false;
-    public int PurchaseCount = 10;
+
+    public int PurchaseCount { get; set; } = 10;
 
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);

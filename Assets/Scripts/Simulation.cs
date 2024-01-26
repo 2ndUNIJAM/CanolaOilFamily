@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 public enum DecisionType
 {
@@ -134,7 +135,9 @@ public static class Simulation
         var player = GameManager.Instance.Player;
         var enemy = GameManager.Instance.Enemy;
         enemy.Price = DecideOpponentPrice(player, enemy);
+        Debug.Log(enemy.Price);
         var margin = SellChicken(player, enemy);
+        Debug.Log(margin);
         player.Money += margin.myMargin;
         enemy.Money += margin.enemyMargin;
     }
@@ -155,6 +158,7 @@ public static class Simulation
             if (tile.Type != TileType.Customer) continue;
 
             var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
+            Debug.Log($"purchaseCount: {purchaseCount}");
             var playerStat = player.Upgrade;
             var opponentStat = opponent.Upgrade;
 
@@ -164,8 +168,7 @@ public static class Simulation
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
                     myMargin +=
-                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                        playerStat.IngredientCostDecrement)) *
+                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue - playerStat.IngredientCostDecrement)) *
                         purchaseCount;
                     break;
 
