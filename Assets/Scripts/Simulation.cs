@@ -16,7 +16,7 @@ public static class Simulation
     private static float GetFinalPrice(Tile tile, Store store)
     {
         // Price for one   
-        return store.Price + store.DeliveryFee * Tile.GetDistance(tile, store.Position);
+        return store.Price + store.DeliveryFee * Tile.GetDistance(tile, store.Position) * Event.DeliveryFeeFactor;
     }
     
     private static DecisionType GetDecision(Tile tile, Store player, Store opponent)
@@ -147,24 +147,34 @@ public static class Simulation
             // Skip this tile if current tile is not customer
             if (tile.Type != TileType.Customer) continue;
 
+            var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
+
             // Calculates final decision for player and opponent
-            switch (CheckForStock(tile.PurchaseCount, playerStock, opponentStock, GetDecision(tile, player, opponent)))
+            switch (CheckForStock(purchaseCount, playerStock, opponentStock, GetDecision(tile, player, opponent)))
             {
                 case DecisionType.Player:
-                    playerStock -= tile.PurchaseCount;
-                    myMargin += (GetFinalPrice(tile, player) - player.IngredientCost) * tile.PurchaseCount;
+                    playerStock -= purchaseCount;
+                    myMargin +=
+                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue)) *
+                        purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
-                    opponentStock -= tile.PurchaseCount;
-                    enemyMargin += (GetFinalPrice(tile, opponent) - opponent.IngredientCost) * tile.PurchaseCount;
+                    opponentStock -= purchaseCount;
+                    enemyMargin +=
+                        (GetFinalPrice(tile, opponent) - (opponent.IngredientCost + Event.IngredientCostAdjustValue)) *
+                        purchaseCount;
                     break;
 
                 case DecisionType.Both:
-                    playerStock -= tile.PurchaseCount / 2;
-                    opponentStock -= tile.PurchaseCount / 2;
-                    myMargin += (GetFinalPrice(tile, player) - player.IngredientCost) * tile.PurchaseCount / 2;
-                    enemyMargin += (GetFinalPrice(tile, opponent) - opponent.IngredientCost) * tile.PurchaseCount / 2;
+                    playerStock -= purchaseCount / 2;
+                    opponentStock -= purchaseCount / 2;
+                    myMargin +=
+                        (GetFinalPrice(tile, player) - (player.IngredientCost + Event.IngredientCostAdjustValue)) *
+                        purchaseCount / 2;
+                    enemyMargin +=
+                        (GetFinalPrice(tile, opponent) - (opponent.IngredientCost + Event.IngredientCostAdjustValue)) *
+                        purchaseCount / 2;
                     break;
 
                 case DecisionType.None:
