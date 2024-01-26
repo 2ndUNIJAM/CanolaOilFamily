@@ -45,16 +45,18 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 for (int q = -3 - r; q <= 3; q++)
                 {
-                    var x = Instantiate<GameObject>(_tilePrefab);
-                    x.GetComponent<Tile>().Init(q, r, TileType.Uninitialized);
+                    var x = Instantiate<GameObject>(_tilePrefab).GetComponent<Tile>();
+                    x.Init(q, r, TileType.Uninitialized);
+                    Tile.AllTiles.Add(x);
                 }
             }
             else
             {
                 for (int q = -3; q <= 3 - r; q++)
                 {
-                    var x = Instantiate<GameObject>(_tilePrefab);
-                    x.GetComponent<Tile>().Init(q, r, TileType.Uninitialized);
+                    var x = Instantiate<GameObject>(_tilePrefab).GetComponent<Tile>();
+                    x.Init(q, r, TileType.Uninitialized);
+                    Tile.AllTiles.Add(x);
                 }
             }
         }
