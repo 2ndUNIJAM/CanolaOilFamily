@@ -82,11 +82,11 @@ public static class Simulation
                 }
                 else if (playerStock >= purchaseCount / 2)
                 {
-                    return DecisionType.Player;
+                    return CheckForStock(purchaseCount, playerStock, opponentStock, DecisionType.Player);
                 }
                 else if (opponentStock >= purchaseCount / 2)
                 {
-                    return DecisionType.Opponent;
+                    return CheckForStock(purchaseCount, playerStock, opponentStock, DecisionType.Opponent);
                 }
                 else
                 {
