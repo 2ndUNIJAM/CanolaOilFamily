@@ -50,9 +50,7 @@ public class Tile
         {
             n--;
             int k = rng.Next(n + 1);
-            var value = AllTiles[k];
-            AllTiles[k] = AllTiles[n];
-            AllTiles[n] = value;
+            (AllTiles[n], AllTiles[k]) = (AllTiles[k], AllTiles[n]);
         }
     }
 

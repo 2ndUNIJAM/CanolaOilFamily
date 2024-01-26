@@ -34,6 +34,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
     }
 
+    public float Money;
+    public int weeks; // 현재 주차
+
     // Start is called before the first frame update
     void Start()
     {
