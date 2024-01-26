@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum TileType
 {
+    Uninitialized,
     Customer,
     MyStore,
     OpponentStore
@@ -31,7 +32,6 @@ public class Tile : MonoBehaviour
 
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);
-
 
     public void Init(int q, int r, TileType type)
     {
@@ -66,5 +66,13 @@ public class Tile : MonoBehaviour
     public static int GetDistance(Tile a, Tile b)
     {
         return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.Q + a.R - b.Q - b.R));
+    }
+
+    private void OnMouseUpAsButton()
+    {
+        if (!GameManager.Instance.isStorePositioned)
+        {
+            GameManager.Instance.MakeStore(this);
+        }
     }
 }

@@ -7,8 +7,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
     static public GameManager Instance;
 
-    public Tile[][] grid;
-
     [SerializeField]
     private Button _simulateButton;
     [SerializeField]
@@ -25,6 +23,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public Store Enemy;
 
     public int Weeks; // current weeks
+    public bool isStorePositioned = false;
 
     // Start is called before the first frame update
     void Start()
@@ -37,6 +36,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         _increasePrice.onClick.AddListener(() => Player.Price += 100);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
+        _simulateButton.onClick.AddListener(DoSimulation);
 
         for (int r = -3; r <= 3; r++)
         {
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 for (int q = -3 - r; q <= 3; q++)
                 {
                     var x = Instantiate<GameObject>(_tilePrefab);
-                    x.GetComponent<Tile>().Init(q, r, TileType.Customer);
+                    x.GetComponent<Tile>().Init(q, r, TileType.Uninitialized);
                 }
             }
             else
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 for (int q = -3; q <= 3 - r; q++)
                 {
                     var x = Instantiate<GameObject>(_tilePrefab);
-                    x.GetComponent<Tile>().Init(q, r, TileType.Customer);
+                    x.GetComponent<Tile>().Init(q, r, TileType.Uninitialized);
                 }
             }
         }
@@ -70,9 +70,35 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _priceText.text = Player.Price.ToString();
     }
 
+    public void MakeStore(Tile at)
+    {
+        var tiles = Tile.AllTiles;
+        tiles.ForEach(x => x.Type = TileType.Customer);
+        at.Type = TileType.MyStore;
+
+        var r = new System.Random();
+        while (true)
+        {
+            var rr = r.Next();
+            if (tiles[rr].Type != TileType.MyStore)
+            {
+                tiles[rr].Type = TileType.OpponentStore;
+                break;
+            }
+        }
+
+        isStorePositioned = true;
+    }
+
+    private void DoSimulation()
+    {
+        Simulation.Simulate();
+        AfterSimulation();
+    }
+
     private void AfterSimulation()
     {
-        //CurrentEvent = Event.MakeRandomEvent();
+        
     }
 
 }
