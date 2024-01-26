@@ -1,14 +1,14 @@
-﻿class Upgrade
+﻿public abstract class Upgrade
 {
-    public string Name => "";
+    public virtual string Name => "";
 
-    public int LvConstraint => 0;
-    public bool IsReplaceConstraint => false;
-    public int FreeDeliveryDistance => 0;
-    public float DeliveryCostFactor => 1;
-    public float IngredientCostDecrement => 0;
-    public bool IsPriorInVersus => false;
-    public float VersusCostBias => 0;
-    public int VipTurnDecrement => 0;
-    public float VipVersusCostBias => 0;
+    public virtual int LvConstraint => 0;
+    public virtual bool IsReplaceConstraint => false;
+    public virtual int FreeDeliveryDistance => 0;
+    public virtual float DeliveryCostFactor => 1;
+    public virtual float IngredientCostDecrement => 0;
+    public virtual bool IsPriorInVersus => false;
+    public virtual float VersusCostBias => 0;
+    public virtual int VipTurnDecrement => 0;
+    public virtual float VipVersusCostBias => 0;
 }
