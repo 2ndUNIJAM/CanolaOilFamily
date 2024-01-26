@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.U2D.Aseprite;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,7 +80,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         var r = new System.Random();
         while (true)
         {
-            var rr = r.Next();
+            var rr = r.Next(tiles.Count);
             if (tiles[rr].Type != TileType.MyStore)
             {
                 tiles[rr].Type = TileType.OpponentStore;
@@ -100,5 +101,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         
     }
+
+    public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
 
 }
