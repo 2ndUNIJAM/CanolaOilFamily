@@ -104,3 +104,4 @@ $RECYCLE.BIN/
 
 # JetBrains IDE
 .idea
+/.vsconfig
