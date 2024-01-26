@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _decreasePrice;
 
-    private int _price = 20000;
-    public int Price
+    private float _price = 20000;
+    public float Price
     {
         get
         {

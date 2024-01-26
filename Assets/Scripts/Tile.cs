@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public enum TileType
@@ -34,9 +35,25 @@ public class Tile
         Type = type;
     }
 
-    public Tile FindTile(int q, int r)
+
+    /* Helpers */
+    public static Tile FindTile(int q, int r)
     {
         return AllTiles.Find(x => (x.Q == q && x.R == r));
+    }
+
+    public static void ShuffleTileList()
+    {
+        System.Random rng = new();
+        int n = AllTiles.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = rng.Next(n + 1);
+            var value = AllTiles[k];
+            AllTiles[k] = AllTiles[n];
+            AllTiles[n] = value;
+        }
     }
 
     public static int GetDistance(Tile a, Tile b)
