@@ -16,7 +16,9 @@ public class Store
             }
 
             _price = value;
-            GameManager.Instance.UpdatePriceUI();
+
+            if (this == GameManager.Instance.Player)
+                GameManager.Instance.UpdatePriceUI();
         }
     }
 

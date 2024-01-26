@@ -35,8 +35,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");
 
-        _increasePrice.onClick.AddListener(() => Player.Price += 100);
-        _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
+        _increasePrice.onClick.AddListener(() => Player.Price += 0.1f);
+        _decreasePrice.onClick.AddListener(() => Player.Price -= 0.1f);
         _simulateButton.onClick.AddListener(DoSimulation);
 
         for (int r = -3; r <= 3; r++)
