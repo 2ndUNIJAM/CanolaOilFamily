@@ -17,7 +17,7 @@ public enum PreferType
     OpponentStore
 }
 
-public class Tile
+public class Tile : MonoBehaviour
 {
     public static List<Tile> AllTiles = new();
 
@@ -28,12 +28,20 @@ public class Tile
     public PreferType Prefer = PreferType.None;
     public bool IsPreferPermanent = false;
     public int PurchaseCount = 10;
-    
-    public Tile(int q, int r, TileType type)
+
+    private static Vector2 C_VECTOR = new(0.86602540378f, 0);
+    private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);
+
+
+    public void Init(int q, int r, TileType type)
     {
         Q = q;
         R = r;
         Type = type;
+
+        var col = q + (r - (r & 1) / 2);
+
+        transform.position = col * C_VECTOR + r * R_VECTOR;
     }
 
 

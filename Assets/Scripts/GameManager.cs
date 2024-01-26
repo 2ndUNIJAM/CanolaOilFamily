@@ -18,6 +18,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _decreasePrice;
 
+    [SerializeField]
+    private GameObject _tilePrefab;
+
     public Store Player;
     public Store Enemy;
 
@@ -31,6 +34,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Instance = this;
         Player = new Store();
         Enemy = new Store();
+
+        _tilePrefab = Resources.Load<GameObject>("TileObject");
+
         _increasePrice.onClick.AddListener(() => Player.Price += 100);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 100);
 
@@ -40,14 +46,16 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 for (int q = -3 - r; q <= 3; q++)
                 {
-                    Tile.AllTiles.Add(new Tile(q, r, TileType.Customer));
+                    var x = Instantiate<GameObject>(_tilePrefab);
+                    x.GetComponent<Tile>().Init(q, r, TileType.Customer);
                 }
             }
             else
             {
                 for (int q = -3; q <= 3 - r; q++)
                 {
-                    Tile.AllTiles.Add(new Tile(q, r, TileType.Customer));
+                    var x = Instantiate<GameObject>(_tilePrefab);
+                    x.GetComponent<Tile>().Init(q, r, TileType.Customer);
                 }
             }
         }
