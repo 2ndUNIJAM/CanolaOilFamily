@@ -6,5 +6,5 @@ public class VersusCostBenefitsLv4Upgrade : Upgrade
     public override int LvConstraint => 4;
     public override Type UpgradeConstraint => typeof(VersusCostBenefitsLv3Upgrade);
     public override bool IsReplaceConstraint => true;
-    public override float VersusCostBias => 1f;
+    public override UpgradeStat Stat => new(versusCostBias: 1f);
 }

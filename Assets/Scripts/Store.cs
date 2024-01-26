@@ -16,7 +16,6 @@ public class Store
     }
 
     public Tile Position;
-
     public float DeliveryFee = 1f;
     public float IngredientCost = 1f;
     public int Stock = 100;
