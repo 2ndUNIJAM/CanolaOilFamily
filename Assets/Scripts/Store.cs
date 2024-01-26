@@ -15,6 +15,8 @@ public class Store
         }
     }
 
+    public Tile Position;
+
     public float DeliveryFee = 1f;
     public int Stock = 100;
     private List<Upgrade> _upgrades;
