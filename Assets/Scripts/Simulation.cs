@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 public enum DecisionType
 {
@@ -13,11 +10,14 @@ public enum DecisionType
 
 public static class Simulation
 {
+    private const float SimulationInterval = 0.5f;
+    private const int SimulationIntervalMaxCount = 2;
+    
     public static float GetFinalPrice(Tile tile, Store store)
     {
         // Price for one
         
-        return store.Price + store.DeliveryFee * Tile.GetDistance(tile, Tile.FindTile(0, 0));
+        return store.Price + store.DeliveryFee * Tile.GetDistance(tile, store.Position);
     }
 
     
@@ -141,5 +141,25 @@ public static class Simulation
         }
 
         return totalMargin;
+    }
+
+    public static float DecideOpponentPrice(Store player, Store opponent)
+    {
+        var bestMargin = 0f;
+        var bestPrice = player.Price;
+        
+        for (var price = player.Price - SimulationIntervalMaxCount * SimulationInterval;
+            price <= player.Price + SimulationIntervalMaxCount * SimulationInterval;
+            price += SimulationInterval)
+        {
+            var currentMargin = GetOpponentMargin(player, opponent);
+            if (currentMargin > bestMargin)
+            {
+                bestMargin = currentMargin;
+                bestPrice = price;
+            }
+        }
+
+        return bestPrice;
     }
 }
