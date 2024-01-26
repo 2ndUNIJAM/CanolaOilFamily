@@ -18,7 +18,7 @@ public class Store
         }
     }
 
-    public float DeliveryFee = 1000f;
+    public float DeliveryFee = 1f;
     public int Stock = 100;
 
     public float Money;
