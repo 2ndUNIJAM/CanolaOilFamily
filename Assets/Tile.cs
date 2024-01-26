@@ -34,6 +34,11 @@ public class Tile
         Type = type;
     }
 
+    public Tile FindTile(int q, int r)
+    {
+        return AllTiles.Find(x => (x.Q == q && x.R == r));
+    }
+
     public static int GetDistance(Tile a, Tile b)
     {
         return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.Q + a.R - b.Q - b.R));
