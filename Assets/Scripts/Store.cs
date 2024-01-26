@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 public class Store
 {
@@ -20,6 +17,8 @@ public class Store
 
     public float DeliveryFee = 1f;
     public int Stock = 100;
+    private List<Upgrade> _upgrades;
+    public IReadOnlyList<Upgrade> Upgrades => _upgrades;
 
     public float Money;
 }
