@@ -3,7 +3,8 @@ public enum EventType
     None,
     DoubleDeliveryFee,
     DoubleOrder,
-    AdjustIngredientCost
+    AdjustIngredientCost,
+    AdjustRent
 }
 
 public static class Event
@@ -13,6 +14,7 @@ public static class Event
     public static int OrderFactor { get; private set; } = 1;
     public static float DeliveryFeeFactor { get; private set; } = 1f;
     public static float IngredientCostAdjustValue { get; private set; } = 0f;
+    public static float RentAdjustValue { get; private set; } = 0f;
 
     public static void ResetEvent()
     {
@@ -20,6 +22,7 @@ public static class Event
         OrderFactor = 1;
         DeliveryFeeFactor = 1f;
         IngredientCostAdjustValue = 0f;
+        RentAdjustValue = 0f;
     }
     
     public static void SetDoubleDeliveryFee()
@@ -38,5 +41,11 @@ public static class Event
     {
         CurrentEventType = EventType.AdjustIngredientCost;
         IngredientCostAdjustValue = value;
+    }
+    
+    public static void SetAdjustRent(float value)
+    {
+        CurrentEventType = EventType.AdjustRent;
+        RentAdjustValue = value;
     }
 }
