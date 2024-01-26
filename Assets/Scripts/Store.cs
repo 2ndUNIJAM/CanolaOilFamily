@@ -5,16 +5,13 @@ using UnityEngine;
 
 public class Store
 {
-    private float _price = 20000;
+    private float _price = 20f;
     public float Price
     {
-        get
-        {
-            return _price;
-        }
+        get => _price;
         set
         {
-            if (value < 10000 || value > 30000) { return; }
+            if (value is < 10f or > 30f) { return; }
 
             _price = value;
             GameManager.Instance.UpdatePriceUI();
