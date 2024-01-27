@@ -91,6 +91,7 @@ public class ItemPanel : MonoBehaviour
         SoldOut(); // no more buy this turn
         _money.text = player.Money.ToString(); // money UI update
         GameManager.Instance.UpdateUpgradableStatUI(); // stat UI update
+        GameManager.Instance.PlaySfx(SfxIndex.PurchaseItem);
         Notify("구매했습니다.");
     }
 

@@ -123,6 +123,7 @@ public class UpgradeManager : MonoBehaviour
         player.BuyUpgrade(c);
         CurrentSelection = null;
         UpdateUi();
+        GameManager.Instance.PlaySfx(SfxIndex.PurchaseUpgrade);
     }
 
     private void ChangeLockState(bool isDisabled, bool isLocked, GameObject g)
