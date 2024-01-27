@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 public class VersusCostBenefitsLv4Upgrade : Upgrade
 {
@@ -9,6 +9,6 @@ public class VersusCostBenefitsLv4Upgrade : Upgrade
     public override int LvConstraint => 4;
     public override Type UpgradeConstraint => typeof(VersusCostBenefitsLv3Upgrade);
     public override bool IsReplaceConstraint => true;
-    public override UpgradeStat Stat => new(versusCostBias: 1);
+    public override UpgradeStat Stat => new(versusCostBias: 1.1m);
     public override string ImagePath => "Sprites/upgrade_versus_image";
 }

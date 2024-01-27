@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 public class VersusCostBenefitsLv3Upgrade : Upgrade
 {
@@ -8,6 +8,6 @@ public class VersusCostBenefitsLv3Upgrade : Upgrade
     public override decimal Price => 300m;
     public override int LvConstraint => 3;
     public override Type UpgradeConstraint => typeof(VersusPriorityUpgrade);
-    public override UpgradeStat Stat => new(versusCostBias: 0.5m);
+    public override UpgradeStat Stat => new(versusCostBias: 0.6m);
     public override string ImagePath => "Sprites/upgrade_versus_image";
 }
