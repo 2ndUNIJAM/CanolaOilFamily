@@ -26,7 +26,7 @@ public static class Event
     {
         List<Sprite> _sprites = new()
         {
-            Resources.Load<Sprite>("Evnet/Delivery"),
+            Resources.Load<Sprite>("Evnet/Delievery"),
             null,//Resources.Load<Sprite>("Evnet/"),
             Resources.Load<Sprite>("Evnet/Soccer"),
             Resources.Load<Sprite>("Evnet/Storm"),

@@ -1,3 +1,5 @@
+#define INVULNERABLE
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -236,6 +238,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         if (eventInfo != null)
         {
+            Debug.Log("event occured");
             _eventNoticePanel.SetActive(true);
             _eventImage.sprite = eventInfo.Value.spr;
             _eventName.text = eventInfo.Value.name;
@@ -264,6 +267,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
+#if !INVULNERABLE
         if (Player.Money <= 0)
         {
             FinishGame(false);
@@ -275,6 +279,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             FinishGame(true);
             return;
         }
+#endif
 
         EndWeek();
         StartControlPhase();
