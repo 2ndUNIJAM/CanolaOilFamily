@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _shopPanelOn;
     [SerializeField]
-    private GameObject _shopPanel;
+    private ItemPanel _shopPanel;
     [SerializeField]
     private GameObject _eventNoticePanel;
     [SerializeField]
@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
         _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
-        _shopPanelOn.onClick.AddListener(() => _shopPanel.SetActive(true));
+        _shopPanelOn.onClick.AddListener(() => _shopPanel.gameObject.SetActive(true));
 
         Event.Init();
 
@@ -240,6 +240,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Event.ResetEvent();
         _topEventIcon.gameObject.SetActive(false);
         var eventInfo = Event.FireEvent(Weeks);
+
+        _shopPanel.Refresh();
 
         if (eventInfo != null)
         {

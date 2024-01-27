@@ -1,24 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ItemPanel : MonoBehaviour
 {
-    private void OnEnable()
-    {
-        Current = null;
-        _selectedContent.SetActive(false);
-        DeNotify();
-    }
-
-    private void Start()
-    {
-        _itemSprites = new[]
-        {
-            Resources.Load<Sprite>("Item/Skill_Icon_Flame"),
-            Resources.Load<Sprite>("Item/Skill_Icon_Rob"),
-            Resources.Load<Sprite>("Item/Skill_Icon_Shield")
-        };
-    }
 
     public enum ItemCode
     {
@@ -39,14 +24,34 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
+    private GameObject _currentButton;
+
     [SerializeField] private GameObject _selectedContent;
     [SerializeField] private Image _selectedImage;
     [SerializeField] private TMPro.TMP_Text _name;
     [SerializeField] private TMPro.TMP_Text _desc;
     [SerializeField] private TMPro.TMP_Text _extraNotify;
 
-    public void SelectItem(int c)
+    private void OnEnable()
     {
+        Current = null;
+        _selectedContent.SetActive(false);
+        DeNotify();
+    }
+
+    private void Start()
+    {
+        _itemSprites = new[]
+        {
+            Resources.Load<Sprite>("Item/Skill_Icon_Flame"),
+            Resources.Load<Sprite>("Item/Skill_Icon_Rob"),
+            Resources.Load<Sprite>("Item/Skill_Icon_Shield")
+        };
+    }
+    
+    public void SelectItem(int c, GameObject button)
+    {
+        _currentButton = button;
         _selectedImage.sprite = _itemSprites[c];
         _selectedContent.SetActive(true);
         DeNotify();
@@ -78,6 +83,7 @@ public class ItemPanel : MonoBehaviour
 
         player.Money -= Current.Price;
         player.ItemManager.BuyItem(Current);
+        _currentButton.GetComponent<Button>().interactable = false;
         Notify("구매했습니다.");
     }
 
@@ -90,5 +96,12 @@ public class ItemPanel : MonoBehaviour
     private void DeNotify()
     {
         _extraNotify.gameObject.SetActive(false);
+    }
+
+    public void Refresh()
+    {
+        transform.GetChild(2).GetComponent<Button>().interactable = true;
+        transform.GetChild(3).GetComponent<Button>().interactable = true;
+        transform.GetChild(4).GetComponent<Button>().interactable = true;
     }
 }
