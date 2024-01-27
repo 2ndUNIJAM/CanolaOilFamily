@@ -39,7 +39,6 @@ public static class Event
         _futureEvents = new()
         {
             (6, 10, () => SetDoubleDeliveryFee(-0.5m), ("배달 이벤트", "배달비 $0.5 감소", _sprites[0])),
-            // dangol
             (16, 20, () => SetDoubleOrder(), ("월드컵", "구매 치킨 수 2배 증가", _sprites[2])),
             (24, 28, () => SetDoubleDeliveryFee(0.5m), ("폭우", "배달비 $0.5 증가", _sprites[3])),
             (30, 34, () => SetAdjustRent(50), ("가게 보수", "임대료 $50 증가", _sprites[4])),

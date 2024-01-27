@@ -515,7 +515,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 "상대의 습격을 방어했습니다." : "상대가 가게를 습격했습니다.";
             _enemyActionSummary.text += '\n';
         }
-        //todo upgrade notify
         
         weeklyResultPanel.SetActive(true);
         weeklyResultPanelAnim.SetTrigger(AnimShowHash);

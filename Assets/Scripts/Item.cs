@@ -43,6 +43,7 @@ public class ItemManager
         isIngredientCostSabotaged = false;
         DoBlocked = false;
         IsThief = false;
+        _toBeApplied.Clear();
     }
 
     public void BuyItem(IItem item)
