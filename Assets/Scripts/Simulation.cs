@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public static class Simulation
 {
-    private const decimal SimulationMinPrice = 10;
+    private const decimal SimulationMinPrice = 0.5m;
     private const decimal SimulationMaxPrice = 20;
     private const decimal SimulationInterval = 0.5m;
 
