@@ -204,10 +204,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         _myDeliveryFee.text
             = "배달비 | "
-            + (Player.DeliveryFee * Player.Upgrade.DeliveryCostFactor * Event.DeliveryFeeFactor).ToString();
+            + ((Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement) * Event.DeliveryFeeFactor).ToString();
         _enemyDeliveryFee.text
             = "배달비 | "
-            + (Enemy.DeliveryFee * Enemy.Upgrade.DeliveryCostFactor * Event.DeliveryFeeFactor).ToString();
+            + ((Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostFactor) * Event.DeliveryFeeFactor).ToString();
         _myIngreCost.text
             = "재료비 | " 
             +   (Player.IngredientCost 
