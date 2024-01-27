@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 
 public class Store
 {
@@ -30,6 +31,7 @@ public class Store
     public int Level = 1;
     private List<Upgrade> _upgrades;
     public UpgradeStat Upgrade = new();
+    public ItemManager ItemManager;
 
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||
@@ -49,4 +51,11 @@ public class Store
     }
 
     public float Money;
+
+    public override string ToString()
+    {
+        return this == GameManager.Instance.Player ? "Player" : "Enemy";
+    }
+
+    public Store GetEnemy() => GameManager.Instance.FindMyEnemy(this);
 }
