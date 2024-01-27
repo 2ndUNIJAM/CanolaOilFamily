@@ -121,3 +121,21 @@ public class Shield : IItem
     {
     }
 }
+
+public class SpyItem : IItem
+{
+    public string Name => "도청";
+
+    public string Description => "이번 주 상대의 판매 가격을 미리 확인합니다.";
+
+    public int Price => 200;
+
+    public void OnApply(Store user)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void OnBuy(Store user)
+    {
+    }
+}
