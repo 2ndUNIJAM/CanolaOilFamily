@@ -80,7 +80,7 @@ public class EnemyIngredientCostIncrease : IItem
 {
     public string Name => "방화";
     public string Description => "상대 가게에 불을 질러 재료비를 증가시킨다.";
-    public int Price => 100;
+    public int Price => 150;
 
     public void OnBuy(Store user)
     {
@@ -97,9 +97,8 @@ public class ThiefItem : IItem
 {
     public string Name => "도둑질";
     public string Description => "상대 가게에서 $100을 훔쳐 온다.";
-    public int Price => 100;
+    public int Price => 300;
 
-    private const decimal AMOUNT = 100;
     public void OnBuy(Store user)
     {
         user.ItemManager.IsThief = true;
