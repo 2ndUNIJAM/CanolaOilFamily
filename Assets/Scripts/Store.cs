@@ -37,6 +37,10 @@ public class Store
         ItemManager = new(this);
     }
 
+    public bool IsNextUpgrade(Upgrade upgrade) =>
+        upgrade.UpgradeConstraint == null ||
+        _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint);
+    
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||
                                           _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint));
