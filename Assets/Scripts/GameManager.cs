@@ -481,15 +481,12 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             if (Enemy.HasUpgrade(next))
                 continue;
 
-            if (next.Price < Enemy.Money)
+            if (next.Price < Enemy.Money && Enemy.BuyUpgrade(next))
             {
-                if (!Enemy.BuyUpgrade(next))
-                    continue;
-                else
-                {
-                    EndWeek(next);
-                    return;
-                }
+                if (next.ToLevel > Enemy.Level)
+                    Enemy.Level = next.ToLevel;
+                EndWeek(next);
+                return;
             }
         }
         EndWeek(null);
