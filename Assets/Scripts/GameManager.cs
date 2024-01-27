@@ -119,6 +119,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private GameObject gameResult;
     [SerializeField]
+    private Animator gameResultAnim;
+    [SerializeField]
     private Image resultBackgroundImage;
     [SerializeField]
     private TMP_Text resultWeekText;
@@ -536,6 +538,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         resultMyMoneyText.text = Player.Money.ToString(PriceSpecifier);
         
         gameResult.SetActive(true);
+        gameResultAnim.SetTrigger(AnimShowHash);
     }
 
     private IEnumerator SimulationMotionCoroutine()
