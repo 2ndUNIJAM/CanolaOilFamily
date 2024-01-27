@@ -194,11 +194,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         if (store == Player)
         {
-            _myMoney.text = "Money: " + Player.Money.ToString();
+            _myMoney.text = "소지금 | " + Player.Money.ToString();
         }
         else
         {
-            _enemyMoney.text = "Money: " + Enemy.Money.ToString();
+            _enemyMoney.text = "소지금 | " + Enemy.Money.ToString();
         }
     }
 
@@ -206,11 +206,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         if(store == Player)
         {
-            _myDeliveryFee.text = "Deliv. fee: " + Player.DeliveryFee.ToString();
+            _myDeliveryFee.text = "배달비 | " + Player.DeliveryFee.ToString();
         }
         else
         {
-            _enemyDeliveryFee.text = "Deliv. fee: " + Enemy.DeliveryFee.ToString();
+            _enemyDeliveryFee.text = "배달비 | " + Enemy.DeliveryFee.ToString();
         }
     }
 
@@ -218,11 +218,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         if(store == Player)
         {
-            _myIngreCost.text = "Ingre. cost: " + Player.IngredientCost.ToString();
+            _myIngreCost.text = "재료비 | " + Player.IngredientCost.ToString();
         }
         else
         {
-            _enemyIngreCost.text = "Ingre. cost: " + Enemy.IngredientCost.ToString();
+            _enemyIngreCost.text = "재료비 | " + Enemy.IngredientCost.ToString();
         }
     }
 
