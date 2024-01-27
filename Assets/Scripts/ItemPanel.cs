@@ -86,6 +86,7 @@ public class ItemPanel : MonoBehaviour
 
         // buy item
         player.ItemManager.BuyItem(Current);
+        player.ItemManager.ApplyItem();
 
         Current = null; // reset selected
         SoldOut(); // no more buy this turn
