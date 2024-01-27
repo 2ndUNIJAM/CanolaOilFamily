@@ -58,12 +58,20 @@ public class ItemManager
 
 public interface IItem
 {
+    public string Name { get; }
+    public string Description { get; }
+    public int Price { get; }
+
     public void OnBuy(Store user);
     public void OnApply(Store user);
 }
 
 public class EnemyIngredientCostIncrease : IItem
 {
+    public string Name => "방화";
+    public string Description => "상대 가게에 불을 질러 재료비를 증가시킨다.";
+    public int Price => 100;
+
     public void OnBuy(Store user)
     {
     }
@@ -76,6 +84,10 @@ public class EnemyIngredientCostIncrease : IItem
 
 public class ThiefItem : IItem
 {
+    public string Name => "도둑질";
+    public string Description => "상대 가게에서 $100을 훔쳐 온다.";
+    public int Price => 100;
+
     private const decimal AMOUNT = 100;
     public void OnBuy(Store user)
     {
@@ -90,6 +102,9 @@ public class ThiefItem : IItem
 
 public class Shield : IItem
 {
+    public string Name => "야간 경비";
+    public string Description => "이번 주 동안 오는 모든 방해 공작을 무효화한다.";
+    public int Price => 100;
     public void OnBuy(Store user)
     {
         user.GetEnemy().ItemManager.usingShield = true;
