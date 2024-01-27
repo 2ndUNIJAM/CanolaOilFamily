@@ -9,6 +9,9 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
+    private readonly int AnimShowHash = Animator.StringToHash("Show");
+    private readonly int AnimHideHash = Animator.StringToHash("Hide");
+    
     private const float SimulationMotionInterval = 0.03f;
     private const string PriceSpecifier = "$######0.0";
     
@@ -83,6 +86,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [Header("Weekly Result Panel")]
     [SerializeField]
     private GameObject weeklyResultPanel;
+    [SerializeField]
+    private Animator weeklyResultPanelAnim;
     [SerializeField]
     private TMP_Text titleText;
 
@@ -355,6 +360,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public void StartControlPhase()
     {
         Weeks += 1;
+        
+        weeklyResultPanelAnim.SetTrigger(AnimHideHash);
 
         _simulateButton.interactable = true;
         
@@ -512,6 +519,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         //todo upgrade notify
         
         weeklyResultPanel.SetActive(true);
+        weeklyResultPanelAnim.SetTrigger(AnimShowHash);
+        
         if (enemyDidThis != null)
         {
             _enemyActionSummary.text += "상대가 가게를 강화했습니다. ";
