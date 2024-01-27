@@ -183,7 +183,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public void UpdatePriceUI()
     {
-        _priceText.text = Player.Price.ToString();
+        _priceText.text = Player.Price.ToString("#0.0");
     }
 
     public void UpdateMoneyUI(Store store)
