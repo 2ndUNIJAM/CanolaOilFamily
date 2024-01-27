@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
+    public const int MaxWeeks = 52;
+    
     public static GameManager Instance { get; private set; }
 
     [Header("UI")]
@@ -75,6 +77,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         Player = new Store();
         Enemy = new Store();
+
+        _weeks = 0;
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");
         _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
@@ -195,7 +199,48 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
+        if (Player.Money <= 0)
+        {
+            FinishGame(false);
+            return;
+        }
+
+        if (Enemy.Money <= 0)
+        {
+            FinishGame(true);
+            return;
+        }
+
+        EndWeek();
+    }
+
+    private void StartWeek()
+    {
+        Weeks++;
         
+        /*
+         * TODO:
+         * Show enemy upgrade
+         * Show week event (if exists)
+         * Upgrade, item, pricing
+         *
+         * finally: simulation
+         */
+    }
+
+    private void EndWeek()
+    {
+        // TODO: Show this week result panel
+
+        if (Weeks == MaxWeeks)
+        {
+            FinishGame(Player.Money > Enemy.Money);
+        }
+    }
+
+    private void FinishGame(bool isPlayerWin)
+    {
+        // TODO: Show game result panel
     }
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;

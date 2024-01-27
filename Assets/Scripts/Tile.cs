@@ -10,7 +10,7 @@ public enum TileType
     OpponentStore
 }
 
-public enum TileState
+public enum DecisionType
 {
     None,       // Store tiles must have this state
     Player,
@@ -28,7 +28,7 @@ public enum VipType
 public class Tile : MonoBehaviour
 {
     private TileType _type;
-    private TileState _state = TileState.None;
+    private DecisionType _decision = DecisionType.None;
     
     private SpriteRenderer _spriteRenderer;
     
@@ -51,12 +51,12 @@ public class Tile : MonoBehaviour
         }
     }
 
-    public TileState State
+    public DecisionType Decision
     {
-        get => _state;
+        get => _decision;
         set
         {
-            _state = value;
+            _decision = value;
             UpdateSprite();
         }
     }
@@ -117,7 +117,7 @@ public class Tile : MonoBehaviour
 
     private void UpdateSprite()
     {
-        switch (_type)
+        switch (Type)
         {
             case TileType.Uninitialized:
                 break;
@@ -128,21 +128,21 @@ public class Tile : MonoBehaviour
                 // TODO: Change spriteIndex based on special tile type
                 spriteIndex = 1;
                 
-                switch (_state)
+                switch (Decision)
                 {
-                    case TileState.None:
+                    case DecisionType.None:
                         _spriteRenderer.sprite = GameManager.Instance.normalTileSprites[spriteIndex];
                         break;
                     
-                    case TileState.Player:
+                    case DecisionType.Player:
                         _spriteRenderer.sprite = GameManager.Instance.playerTileSprites[spriteIndex];
                         break;
                     
-                    case TileState.Opponent:
+                    case DecisionType.Opponent:
                         _spriteRenderer.sprite = GameManager.Instance.enemyTileSprites[spriteIndex];
                         break;
                     
-                    case TileState.Both:
+                    case DecisionType.Both:
                         _spriteRenderer.sprite = GameManager.Instance.bothTileSprites[spriteIndex];
                         break;
                     

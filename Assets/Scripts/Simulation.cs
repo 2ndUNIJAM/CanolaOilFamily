@@ -1,14 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum DecisionType
-{
-    None,
-    Player,
-    Opponent,
-    Both
-}
-
 public static class Simulation
 {
     private const decimal SimulationInterval = 0.5m;
@@ -202,14 +194,7 @@ public static class Simulation
 
             if (!isVirtual)
             {
-                tile.State = decision switch
-                {
-                    DecisionType.None     => TileState.None,
-                    DecisionType.Player   => TileState.Player,
-                    DecisionType.Opponent => TileState.Opponent,
-                    DecisionType.Both     => TileState.Both,
-                    _ => throw new ArgumentException()
-                };
+                tile.Decision = decision;
             }
         }
 
