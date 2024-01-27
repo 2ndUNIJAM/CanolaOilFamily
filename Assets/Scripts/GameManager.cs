@@ -1,16 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
 using Unity.VisualScripting;
 
+public enum SfxIndex
+{
+    Simulation = 0,
+    WeekResult = 1,
+    PurchaseUpgrade = 2,
+    PurchaseItem = 3,
+    Defeat = 4,
+    Victory = 5
+}
+
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
-    private readonly int AnimShowHash = Animator.StringToHash("Show");
-    private readonly int AnimHideHash = Animator.StringToHash("Hide");
+    
+    private static readonly int AnimShowHash = Animator.StringToHash("Show");
+    private static readonly int AnimHideHash = Animator.StringToHash("Hide");
     
     private const float SimulationMotionInterval = 0.03f;
     private const string PriceSpecifier = "$######0.0";
@@ -141,6 +151,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public Sprite[] playerTileSprites;
     public Sprite[] enemyTileSprites;
     public Sprite[] bothTileSprites;
+
+    [Header("Audios")]
+    [SerializeField] private AudioSource bgmSource;
+    [SerializeField] private AudioSource sfxSource;
+    [SerializeField] private AudioClip[] sfxClips;
     
     [Header("Values")]
     private int _weeks; // current weeks
@@ -242,6 +257,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             }
             tile.UpdateSprite();
         }
+        
+        // Play BGM
+        bgmSource.Play();
     }
 
     // Update is called once per frame
@@ -402,6 +420,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
 
+        PlaySfx(SfxIndex.Simulation);
+        
         Simulation.Simulate();
         _simulationCoroutine = StartCoroutine(SimulationMotionCoroutine());
     }
@@ -420,6 +440,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             FinishGame(true);
             return;
         }
+
+        StopSfx();
+        PlaySfx(SfxIndex.WeekResult);
 
         // theif check
         decimal myGinpai = 0, marineGinpai = 0;
@@ -530,6 +553,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         resultBackgroundImage.sprite = isPlayerWin ? victorySprite : defeatSprite;
         
+        PlaySfx(isPlayerWin ? SfxIndex.Victory : SfxIndex.Defeat);
+        
         resultWeekText.text = Weeks.ToString();
         resultMyMoneyText.text = Player.Money.ToString(PriceSpecifier);
         
@@ -547,6 +572,17 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
 
         AfterSimulation();
+    }
+
+    public void PlaySfx(SfxIndex sfxIndex)
+    {
+        sfxSource.clip = sfxClips[(int)sfxIndex];
+        sfxSource.Play();
+    }
+
+    public void StopSfx()
+    {
+        sfxSource.Stop();
     }
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
