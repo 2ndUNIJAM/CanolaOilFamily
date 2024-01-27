@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Security.Cryptography;
@@ -12,6 +13,14 @@ public enum TileType
     OpponentStore
 }
 
+public enum TileState
+{
+    None,       // Store tiles must have this state
+    Player,
+    Opponent,
+    Both
+}
+
 public enum VipType
 {
     None,
@@ -21,15 +30,39 @@ public enum VipType
 
 public class Tile : MonoBehaviour
 {
+    private TileType _type;
+    private TileState _state = TileState.None;
+    
+    private SpriteRenderer _spriteRenderer;
+    
     public static List<Tile> AllTiles = new();
     
     public int Q, R;
 
-    public TileType Type;
     [HideInInspector]
     public VipType Vip = VipType.None;
     [HideInInspector]
     public bool IsPreferPermanent = false;
+    
+    public TileType Type
+    {
+        get => _type;
+        set
+        {
+            _type = value;
+            UpdateSprite();
+        }
+    }
+
+    public TileState State
+    {
+        get => _state;
+        set
+        {
+            _state = value;
+            UpdateSprite();
+        }
+    }
 
     public int PurchaseCount { get; set; } = 10;
     public decimal MaximumPrice { get; set; } = 20m;
@@ -37,6 +70,11 @@ public class Tile : MonoBehaviour
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);
 
+    private void Start()
+    {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+    
     public void Init(int q, int r, TileType type)
     {
         Q = q;
@@ -77,6 +115,54 @@ public class Tile : MonoBehaviour
         if (!GameManager.Instance.isStorePositioned)
         {
             GameManager.Instance.MakeStore(this);
+        }
+    }
+
+    private void UpdateSprite()
+    {
+        switch (_type)
+        {
+            case TileType.Uninitialized:
+                break;
+            
+            case TileType.Customer:
+                int spriteIndex;
+                
+                // TODO: Change spriteIndex based on special tile type
+                spriteIndex = 1;
+                
+                switch (_state)
+                {
+                    case TileState.None:
+                        break;
+                    
+                    case TileState.Player:
+                        _spriteRenderer.sprite = GameManager.Instance.playerTileSprites[spriteIndex];
+                        break;
+                    
+                    case TileState.Opponent:
+                        _spriteRenderer.sprite = GameManager.Instance.enemyTileSprites[spriteIndex];
+                        break;
+                    
+                    case TileState.Both:
+                        _spriteRenderer.sprite = GameManager.Instance.bothTileSprites[spriteIndex];
+                        break;
+                    
+                    default:
+                        throw new ArgumentException();
+                }
+                break;
+            
+            case TileType.MyStore:
+                _spriteRenderer.sprite = GameManager.Instance.playerStoreTileSprite;
+                break;
+            
+            case TileType.OpponentStore:
+                _spriteRenderer.sprite = GameManager.Instance.enemyStoreTileSprite;
+                break;
+            
+            default:
+                throw new ArgumentException();
         }
     }
 }
