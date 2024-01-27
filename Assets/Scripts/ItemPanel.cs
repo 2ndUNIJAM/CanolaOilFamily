@@ -5,8 +5,9 @@ public class ItemPanel : MonoBehaviour
 {
     private void OnEnable()
     {
-        _current = null;
+        Current = null;
         _selectedContent.SetActive(false);
+        DeNotify();
     }
 
     private void Start()
@@ -33,8 +34,8 @@ public class ItemPanel : MonoBehaviour
         set
         {
             _current = value;
-            _name.text = _current.Name;
-            _desc.text = _current.Description;
+            _name.text = _current?.Name ?? string.Empty;
+            _desc.text = _current?.Description ?? string.Empty;
         }
     }
 
@@ -42,11 +43,13 @@ public class ItemPanel : MonoBehaviour
     [SerializeField] private Image _selectedImage;
     [SerializeField] private TMPro.TMP_Text _name;
     [SerializeField] private TMPro.TMP_Text _desc;
+    [SerializeField] private TMPro.TMP_Text _extraNotify;
 
     public void SelectItem(int c)
     {
         _selectedImage.sprite = _itemSprites[c];
         _selectedContent.SetActive(true);
+        DeNotify();
         switch ((ItemCode)c)
         {
             case ItemCode.FLAME:
@@ -68,9 +71,24 @@ public class ItemPanel : MonoBehaviour
         Store player = GameManager.Instance.Player;
 
         if (player.Money < Current.Price)
+        {
+            Notify("돈이 모자랍니다!");
             return;
+        }
 
         player.Money -= Current.Price;
         player.ItemManager.BuyItem(Current);
+        Notify("구매했습니다.");
+    }
+
+    private void Notify(string msg)
+    {
+        _extraNotify.text = msg;
+        _extraNotify.gameObject.SetActive(true);
+    }
+
+    private void DeNotify()
+    {
+        _extraNotify.gameObject.SetActive(false);
     }
 }
