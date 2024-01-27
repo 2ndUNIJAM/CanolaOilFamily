@@ -36,6 +36,11 @@ public static class Simulation
         var opponentFinalPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias -
                                  ((tile.Vip == VipType.OpponentStore) ? opponentStat.VipVersusCostBias : 0f);
 
+        if (playerFinalPrice >= tile.MaximumPrice && opponentFinalPrice >= tile.MaximumPrice)
+        {
+            return DecisionType.None;
+        }
+
         if (playerFinalPrice < opponentFinalPrice)
         {
             return DecisionType.Player;
@@ -127,6 +132,7 @@ public static class Simulation
             opponent.Price = temp;
         }
 
+        Debug.Log($"bestPrice: {bestPrice}");
         return bestPrice;
     }
 
@@ -158,12 +164,13 @@ public static class Simulation
             if (tile.Type != TileType.Customer) continue;
 
             var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
-            Debug.Log($"purchaseCount: {purchaseCount}");
             var playerStat = player.Upgrade;
             var opponentStat = opponent.Upgrade;
+            var decision = CheckForStock(purchaseCount, playerStock, opponentStock,
+                GetDecision(tile, player, opponent));
 
             // Calculates final decision for player and opponent
-            switch (CheckForStock(purchaseCount, playerStock, opponentStock, GetDecision(tile, player, opponent)))
+            switch (decision)
             {
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
