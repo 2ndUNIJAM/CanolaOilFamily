@@ -8,6 +8,6 @@ public class HalfDeliveryCostUpgrade : Upgrade
     public override decimal Price => 200m;
     public override int LvConstraint => 3;
     public override Type UpgradeConstraint => typeof(FreeDeliveryUpgrade);
-    public override UpgradeStat Stat => new(deliveryCostFactor: 0.5m);
+    public override UpgradeStat Stat => new(deliveryCostDecrement: 0.5m);
     public override string ImagePath => "Sprites/upgrade_delivery_image";
 }

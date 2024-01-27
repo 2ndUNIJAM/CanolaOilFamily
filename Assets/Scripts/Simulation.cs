@@ -14,7 +14,7 @@ public static class Simulation
         if (stats.FreeDeliveryDistance >= d)
             d = 0;
 
-        var finalPrice = store.Price + store.DeliveryFee * d * stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
+        var finalPrice = store.Price + (store.DeliveryFee - stats.DeliveryCostDecrement) * d * Event.DeliveryFeeFactor;
         // Debug.Log($"Tile: ({tile.Q}, {tile.R}), Store: ({store.Position.Q}, {store.Position.R}), Distance: {d}, Price: {finalPrice}");
         return finalPrice;
     }
