@@ -208,8 +208,16 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _enemyDeliveryFee.text
             = "배달비 | "
             + (Enemy.DeliveryFee * Enemy.Upgrade.DeliveryCostFactor * Event.DeliveryFeeFactor).ToString();
-        _myIngreCost.text = "재료비 | " + (Player.IngredientCost - Player.Upgrade.IngredientCostDecrement).ToString();
-        _enemyIngreCost.text = "재료비 | " + (Enemy.IngredientCost - Enemy.Upgrade.IngredientCostDecrement).ToString();
+        _myIngreCost.text
+            = "재료비 | " 
+            +   (Player.IngredientCost 
+                - Player.Upgrade.IngredientCostDecrement
+                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString();
+        _enemyIngreCost.text
+            = "재료비 | "
+            +   (Enemy.IngredientCost
+                - Enemy.Upgrade.IngredientCostDecrement
+                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString();
     }
 
     public void MakeStore(Tile at)
