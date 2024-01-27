@@ -200,28 +200,24 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
     }
 
-    public void UpdateDeliveryFeeUI(Store store)
+    public void UpdateUpgradableStatUI()
     {
-        if(store == Player)
-        {
-            _myDeliveryFee.text = "배달비 | " + Player.DeliveryFee.ToString();
-        }
-        else
-        {
-            _enemyDeliveryFee.text = "배달비 | " + Enemy.DeliveryFee.ToString();
-        }
-    }
-
-    public void UpdateIngreCostUI(Store store)
-    {
-        if(store == Player)
-        {
-            _myIngreCost.text = "재료비 | " + Player.IngredientCost.ToString();
-        }
-        else
-        {
-            _enemyIngreCost.text = "재료비 | " + Enemy.IngredientCost.ToString();
-        }
+        _myDeliveryFee.text
+            = "배달비 | "
+            + ((Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement) * Event.DeliveryFeeFactor).ToString();
+        _enemyDeliveryFee.text
+            = "배달비 | "
+            + ((Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostDecrement) * Event.DeliveryFeeFactor).ToString();
+        _myIngreCost.text
+            = "재료비 | " 
+            +   (Player.IngredientCost 
+                - Player.Upgrade.IngredientCostDecrement
+                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString();
+        _enemyIngreCost.text
+            = "재료비 | "
+            +   (Enemy.IngredientCost
+                - Enemy.Upgrade.IngredientCostDecrement
+                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString();
     }
 
     public void MakeStore(Tile at)
@@ -277,6 +273,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Event.ResetEvent();
         _topEventIcon.gameObject.SetActive(false);
         var eventInfo = Event.FireEvent(Weeks);
+        UpdateUpgradableStatUI();
 
         _shopPanel.Refresh();
 
@@ -302,7 +299,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         if (!isStorePositioned)
         { return; }
 
-        Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
 
         Simulation.Simulate();

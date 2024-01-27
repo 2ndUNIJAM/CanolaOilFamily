@@ -4,7 +4,7 @@ using System.Linq;
 public class Store
 {
     private const decimal BaseRent = 300m;
-    
+
     private decimal _price;
 
     public decimal Price
@@ -25,6 +25,7 @@ public class Store
     }
 
     private decimal _money;
+
     public decimal Money
     {
         get { return _money; }
@@ -36,33 +37,26 @@ public class Store
     }
 
     private decimal _delivFee;
-    public decimal DeliveryFee
-    {
-        get { return _delivFee; }
-        set
-        {
-            _delivFee = value;
-            GameManager.Instance.UpdateDeliveryFeeUI(this);
-        }
-    }
+    public decimal DeliveryFee => _delivFee;
 
     private decimal _ingCost;
-    public decimal IngredientCost
-    {
-        get { return _ingCost; }
-        set
-        {
-            _ingCost = value;
-            GameManager.Instance.UpdateIngreCostUI(this);
-        }
-    }
+    public decimal IngredientCost => _ingCost;
 
     public decimal Rent => BaseRent - Upgrade.RentCostDecrement;
-    
+
     public Tile Position;
-    public int Stock = 50;      // Not decreased by selling
-    public int SaleVolume = 0;  // Weekly
-    public decimal Profit = 0;  // Weekly
+
+    public int Stock => Level switch
+    {
+        1 => 100,
+        2 => 200,
+        3 => 300,
+        4 => 400,
+        _ => 50
+    };
+
+    public int SaleVolume = 0; // Weekly
+    public decimal Profit = 0; // Weekly
     public int Level = 0;
     private List<Upgrade> _upgrades = new();
     public UpgradeStat Upgrade = new();
@@ -79,23 +73,26 @@ public class Store
     {
         Price = 15;
         Money = 300;
-        DeliveryFee = 1.5m;
-        IngredientCost = 10;
+        _delivFee = 1.5m;
+        _ingCost = 10;
+        GameManager.Instance.UpdateUpgradableStatUI();
     }
 
     public bool HasUpgrade(Upgrade upgrade) => _upgrades.Contains(upgrade);
-    
+
     public bool IsNextUpgrade(Upgrade upgrade) =>
         upgrade.UpgradeConstraint == null ||
         _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint);
-    
+
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||
-                                          _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint));
+                                          _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint)) &&
+        Money >= upgrade.Price;
 
     public void BuyUpgrade(Upgrade upgrade)
     {
         if (!IsUpgradeAvailable(upgrade)) return;
+        Money -= upgrade.Price;
         if (upgrade.UpgradeConstraint != null)
         {
             var index = _upgrades.FindIndex(upg => upg.GetType() == upgrade.UpgradeConstraint);
@@ -105,6 +102,7 @@ public class Store
         }
         _upgrades.Add(upgrade);
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
+        GameManager.Instance.UpdateUpgradableStatUI();
     }
 
 

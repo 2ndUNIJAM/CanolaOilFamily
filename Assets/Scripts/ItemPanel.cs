@@ -28,18 +28,18 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
-    private GameObject _currentButton;
-
     [SerializeField] private GameObject _selectedContent;
     [SerializeField] private Image _selectedImage;
     [SerializeField] private TMPro.TMP_Text _name;
     [SerializeField] private TMPro.TMP_Text _desc;
     [SerializeField] private TMPro.TMP_Text _extraNotify;
+    [SerializeField] private TMPro.TMP_Text _money;
 
     private void OnEnable()
     {
         Current = null;
         _selectedContent.SetActive(false);
+        _money.text = GameManager.Instance.Player.Money.ToString();
         DeNotify();
     }
 
@@ -72,11 +72,6 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
-    public void SelectButton(GameObject button)
-    {
-        _currentButton = button;
-    }
-
     public void Purchase()
     {
         if (Current == null) { return; }
@@ -89,10 +84,14 @@ public class ItemPanel : MonoBehaviour
             return;
         }
 
-        player.Money -= Current.Price;
+        // buy item
         player.ItemManager.BuyItem(Current);
-        Current = null;
-        _currentButton.GetComponent<Button>().interactable = false;
+        player.ItemManager.ApplyItem();
+
+        Current = null; // reset selected
+        SoldOut(); // no more buy this turn
+        _money.text = player.Money.ToString(); // money UI update
+        GameManager.Instance.UpdateUpgradableStatUI(); // stat UI update
         Notify("구매했습니다.");
     }
 
@@ -105,6 +104,13 @@ public class ItemPanel : MonoBehaviour
     private void DeNotify()
     {
         _extraNotify.gameObject.SetActive(false);
+    }
+
+    public void SoldOut()
+    {
+        transform.GetChild(2).GetComponent<Button>().interactable = false;
+        transform.GetChild(3).GetComponent<Button>().interactable = false;
+        transform.GetChild(4).GetComponent<Button>().interactable = false;
     }
 
     public void Refresh()

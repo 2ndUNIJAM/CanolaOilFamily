@@ -17,12 +17,12 @@ public class ItemManager
 
     public static void EnemyBuyItem(ItemManager enemyItemManager) // called at start of each control turn
     {
-        if (true) // some cond to buy shield
+        if (false) // some cond to buy shield
         {
             enemyItemManager.BuyItem(new Shield());
         }
 
-        if (true)
+        if (false)
         {
             enemyItemManager.BuyItem(new EnemyIngredientCostIncrease());
         }
@@ -40,11 +40,12 @@ public class ItemManager
         // player: called when they buys it
         // enemy: called by EnemyBuyItem, at start of each control turn
     {
+        _store.Money -= item.Price;
         item.OnBuy(_store);
         _toBeApplied.Add(item);
     }
 
-    public void ApplyItem() // called at end of control turn
+    public void ApplyItem() // player: called when they by / enemy: at the end of control turn
     {
         if (_store.GetEnemy().ItemManager.usingShield)
         {
