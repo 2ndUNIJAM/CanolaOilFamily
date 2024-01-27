@@ -7,6 +7,6 @@ public class RentCostLv2Upgrade : Upgrade
     public override Type UpgradeConstraint => typeof(RentCostLv1Upgrade);
     public override bool IsReplaceConstraint => true;
     public override UpgradeStat Stat => new(rentCostDecrement: 40);
-    public override string ImagePath => "Sprites/upgrade_rent_cost_lv2_image";
-    public override string IconPath => "Sprites/upgrade_rent_icon";
+    public override string ImagePath => "Sprites/upgrade_rent_image";
+    public override string IconPath => "Sprites/upgrade_rent_image";
 }
