@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 
 public class Store
 {
@@ -32,6 +31,11 @@ public class Store
     private List<Upgrade> _upgrades;
     public UpgradeStat Upgrade = new();
     public ItemManager ItemManager;
+
+    public Store()
+    {
+        ItemManager = new(this);
+    }
 
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||

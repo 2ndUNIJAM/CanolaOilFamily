@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         _increasePrice.onClick.AddListener(() => Player.Price += 0.1f);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.1f);
-        _simulateButton.onClick.AddListener(DoSimulation);
+        _simulateButton.onClick.AddListener(StartSimulationPhase);
 
         for (int r = -3; r <= 3; r++)
         {
@@ -93,10 +93,24 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
 
         isStorePositioned = true;
+
+        // start first turn
+        StartControlPhase();
     }
 
-    private void DoSimulation()
+    private void StartControlPhase()
     {
+        Player.ItemManager.Init();
+        Enemy.ItemManager.Init();
+
+        ItemManager.EnemyBuyItem(Enemy.ItemManager);
+    }
+
+    private void StartSimulationPhase()
+    {
+        Player.ItemManager.ApplyItem();
+        Enemy.ItemManager.ApplyItem();
+
         Simulation.Simulate();
         AfterSimulation();
     }

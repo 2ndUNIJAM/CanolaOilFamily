@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,6 +5,8 @@ public class ItemManager
 {
     private Store _store;
     public bool usingShield = false;
+    public bool isIngredientCostSabotaged = false;
+    public const decimal INGREDIENT_COST_SABOTAGE_FACTOR = 2;
 
     public ItemManager(Store store)
     {
@@ -29,6 +30,12 @@ public class ItemManager
 
     }
 
+    public void Init()
+    {
+        usingShield = false;
+        isIngredientCostSabotaged = false;
+    }
+
     public void BuyItem(IItem item)
         // player: called when they buys it
         // enemy: called by EnemyBuyItem, at start of each control turn
@@ -42,7 +49,6 @@ public class ItemManager
         if (_store.GetEnemy().ItemManager.usingShield)
         {
             Debug.Log("Apply shield of " + _store.ToString());
-            _store.GetEnemy().ItemManager.usingShield = false;
             return;
         }
 
@@ -64,7 +70,7 @@ public class EnemyIngredientCostIncrease : IItem
 
     public void OnApply(Store user)
     {
-        throw new NotImplementedException();
+        user.GetEnemy().ItemManager.isIngredientCostSabotaged = true;
     }
 }
 
@@ -77,7 +83,7 @@ public class ThiefItem : IItem
 
     public void OnApply(Store user)
     {
-        GameManager.Instance.FindMyEnemy(user).Money -= AMOUNT;
+        user.GetEnemy().Money -= AMOUNT;
         user.Money += AMOUNT;
     }
 }
