@@ -60,23 +60,23 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
-    private List<Upgrade> _store = new()
+    public static List<Upgrade> _store = new()
         { new StoreLv1Upgrade(), new StoreLv2Upgrade(), new StoreLv3Upgrade(), new StoreLv4Upgrade() };
 
-    private List<Upgrade> _delivery = new() { new FreeDeliveryUpgrade(), new HalfDeliveryCostUpgrade() };
+    public static List<Upgrade> _delivery = new() { new FreeDeliveryUpgrade(), new HalfDeliveryCostUpgrade() };
 
-    private List<Upgrade> _ingredient = new()
+    public static List<Upgrade> _ingredient = new()
     {
         new IngredientCostLv1Upgrade(), new IngredientCostLv2Upgrade(), new IngredientCostLv3Upgrade(),
         new IngredientCostLv4Upgrade()
     };
 
-    private List<Upgrade> _versus = new()
+    public static List<Upgrade> _versus = new()
         { new VersusPriorityUpgrade(), new VersusCostBenefitsLv3Upgrade(), new VersusCostBenefitsLv4Upgrade() };
 
-    private List<Upgrade> _vip = new() { new QuickVipUpgrade(), new VipCostBenefitsUpgrade() };
+    public static List<Upgrade> _vip = new() { new QuickVipUpgrade(), new VipCostBenefitsUpgrade() };
 
-    private List<Upgrade> _rent = new()
+    public static List<Upgrade> _rent = new()
         { new RentCostLv1Upgrade(), new RentCostLv2Upgrade(), new RentCostLv3Upgrade() };
 
     private void Start()
@@ -84,7 +84,7 @@ public class UpgradeManager : MonoBehaviour
         UpdateUi();
     }
 
-    private Upgrade GetCurrentUpgrade(List<Upgrade> list, Store store)
+    public static Upgrade GetCurrentUpgrade(List<Upgrade> list, Store store)
     {
         if (store.HasUpgrade(list.Last())) return list.Last();
         for (var i = list.Count - 1; i >= 0; i--)

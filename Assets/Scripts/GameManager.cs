@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -378,6 +379,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
+        // check if dead
         if (Player.Money <= 0)
         {
             FinishGame(false);
@@ -390,11 +392,59 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             return;
         }
 
-        EndWeek();
+        // theif check
+        decimal myGinpai = 0, marineGinpai = 0;
+        
+        if (Player.ItemManager.IsThief && !Player.ItemManager.DoBlocked)
+        {
+            myGinpai = Enemy.Profit / 2;
+        }
+
+        if (Enemy.ItemManager.IsThief && !Enemy.ItemManager.DoBlocked)
+        {
+            marineGinpai = Player.Profit / 2;
+        }
+
+        Player.Profit += (myGinpai - marineGinpai);
+        Player.Money += (myGinpai - marineGinpai);
+        Enemy.Profit += (marineGinpai - myGinpai);
+        Enemy.Money += (marineGinpai - myGinpai);
+
+        // enemy consider upgrade
+        System.Random r = new();
+        List<List<Upgrade>> upgll = new()
+        {
+            UpgradeManager._delivery, UpgradeManager._ingredient, UpgradeManager._rent, UpgradeManager._store
+        };
+
+        var count = 0;
+        Upgrade next;
+        while (true)
+        {
+            next = UpgradeManager.GetCurrentUpgrade(upgll[r.Next(upgll.Count)], Enemy);
+
+            if (count++ > 10)
+                break;
+
+            if (Enemy.HasUpgrade(next))
+                continue;
+
+            if (next.Price < Enemy.Money)
+            {
+                if (!Enemy.BuyUpgrade(next))
+                    continue;
+                else
+                {
+                    EndWeek(next);
+                    return;
+                }
+            }
+        }
+        EndWeek(null);
     }
     
 
-    private void EndWeek()
+    private void EndWeek(Upgrade enemyDidThis)
     {
         if (Weeks == MaxWeeks)
         {
@@ -442,6 +492,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         //todo upgrade notify
         
         weeklyResultPanel.SetActive(true);
+        if (enemyDidThis != null)
+        {
+            _enemyActionSummary.text += "상대가 가게를 강화했습니다. ";
+            _enemyActionSummary.text += enemyDidThis.Title;
+        }
     }
 
     private void FinishGame(bool isPlayerWin)
