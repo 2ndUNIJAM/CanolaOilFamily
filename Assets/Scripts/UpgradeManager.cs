@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +9,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _infoParent;
     [SerializeField] private TextMeshProUGUI _infoTitle;
     [SerializeField] private TextMeshProUGUI _infoContent;
+    [SerializeField] private Image _infoImage;
     [SerializeField] private GameObject _storeIcon;
     [SerializeField] private GameObject _ingredientIcon;
     [SerializeField] private GameObject _vipIcon;
@@ -29,6 +27,7 @@ public class UpgradeManager : MonoBehaviour
             _infoParent.SetActive(value != null);
             _infoTitle.text = value?.Title;
             _infoContent.text = value?.Description;
+            _infoImage.sprite = Resources.Load<Sprite>(value?.ImagePath);
         }
     }
 

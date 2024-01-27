@@ -11,6 +11,7 @@ public static class ResourceDictionary
         if (Dict.TryGetValue(path, out object obj)) return obj;
 
         object temp = Resources.Load(path);
+        Debug.Log($"{temp} temp");
         Dict.Add(path, temp);
         return temp;
     }
