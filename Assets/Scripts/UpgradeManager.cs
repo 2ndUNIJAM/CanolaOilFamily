@@ -18,6 +18,7 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _deliveryIcon;
     [SerializeField] private GameObject _versusIcon;
     [SerializeField] private Image _purchaseBtn;
+    [SerializeField] private TextMeshProUGUI _currentMoney;
 
     private Upgrade _currentSelection = null;
 
@@ -44,6 +45,11 @@ public class UpgradeManager : MonoBehaviour
                 {
                     _purchaseBtn.sprite = ResourcesDictionary.Load<Sprite>("gray_btn");
                     tmp.text = "Lv.MAX";
+                }
+                else if (player.Money < value.Price)
+                {
+                    _purchaseBtn.sprite = ResourcesDictionary.Load<Sprite>("gray_btn");
+                    tmp.text = "소지금 부족";
                 }
                 else
                 {
@@ -109,7 +115,7 @@ public class UpgradeManager : MonoBehaviour
     {
         var c = CurrentSelection;
         var player = GameManager.Instance.Player;
-        if (c == null || player.HasUpgrade(c) || c.LvConstraint > player.Level) return;
+        if (c == null || player.HasUpgrade(c) || player.Money < c.Price || c.LvConstraint > player.Level) return;
 
         if (c.ToLevel != -1)
             player.Level = c.ToLevel;
@@ -147,7 +153,6 @@ public class UpgradeManager : MonoBehaviour
                         tmpColor.a = isDisabled ? 0.3f : 1f;
                         tmp.color = tmpColor;
                     }
-                        
                 }
             }
         }
@@ -159,13 +164,14 @@ public class UpgradeManager : MonoBehaviour
         var tmp = go.GetComponentInChildren<TextMeshProUGUI>();
         tmp.text = current.Price.ToString(CultureInfo.InvariantCulture);
         var isLocked = current.LvConstraint > player.Level;
-        var isDisabled = isLocked || player.HasUpgrade(current);
+        var isDisabled = isLocked || player.HasUpgrade(current) || player.Money < current.Price;
         ChangeLockState(isDisabled, isLocked, go);
     }
 
     private void UpdateUi()
     {
         var player = GameManager.Instance.Player;
+        _currentMoney.text = player.Money.ToString(CultureInfo.InvariantCulture);
         UpdateUiInternal(player, _store, _storeIcon);
         UpdateUiInternal(player, _delivery, _deliveryIcon);
         UpdateUiInternal(player, _ingredient, _ingredientIcon);
