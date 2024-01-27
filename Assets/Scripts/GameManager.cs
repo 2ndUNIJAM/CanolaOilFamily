@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
     public static GameManager Instance { get; private set; }
 
+    [Header("UI")]
     [SerializeField]
     private Button _simulateButton;
     [SerializeField]
@@ -20,12 +21,23 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private GameObject _tilePrefab;
 
-    public Store Player;
-    public Store Enemy;
-
+    [Header("Sprites")]
+    public Sprite playerStoreTileSprite;
+    public Sprite enemyStoreTileSprite;
+    
+    [Space(10)]
+    public Sprite[] normalTileSprites;
+    public Sprite[] playerTileSprites;
+    public Sprite[] enemyTileSprites;
+    public Sprite[] bothTileSprites;
+    
+    [Header("Values")]
     public int Weeks; // current weeks
     public bool isStorePositioned = false;
-
+    
+    public Store Player;
+    public Store Enemy;
+    
     private void Awake()
     {
         if (Instance is null)

@@ -1659,6 +1659,32 @@ MonoBehaviour:
   _increasePrice: {fileID: 913440577}
   _decreasePrice: {fileID: 139235451}
   _tilePrefab: {fileID: 0}
+  playerStoreSprite: {fileID: 0}
+  enemyStoreSprite: {fileID: 0}
+  normalTileSprites:
+  - {fileID: 21300000, guid: 75895e52bfb7f481d843908034b2bdae, type: 3}
+  - {fileID: 21300000, guid: 71f2d70bfd1e14166a42f435a05b4c99, type: 3}
+  - {fileID: 21300000, guid: 6e24f92deed024926af6ed0429fe8a3d, type: 3}
+  - {fileID: 21300000, guid: 2b4c6745640134db9b4751aefe600f56, type: 3}
+  - {fileID: 21300000, guid: 368927f2a01e14cf99ac193f0ee45d52, type: 3}
+  playerTileSprites:
+  - {fileID: 21300000, guid: 07da7cdf98ce44ac8a18e8da1e35938a, type: 3}
+  - {fileID: 21300000, guid: 3cd4d02b418774577bdfd588e8e43309, type: 3}
+  - {fileID: 21300000, guid: 6cf6838c28dfe4879a4d4c0a4ab2756f, type: 3}
+  - {fileID: 21300000, guid: 4e8e25463e5ca40548abbac4d3042e11, type: 3}
+  - {fileID: 21300000, guid: a7996b892bd3f43be9c674d28c7f73b9, type: 3}
+  enemyTileSprites:
+  - {fileID: 21300000, guid: e20c3035f95c0425bbe2fd8764be7a6b, type: 3}
+  - {fileID: 21300000, guid: 7f94ede3127364b489d1f10a44953d04, type: 3}
+  - {fileID: 21300000, guid: 4a0e552cb5d66404ca4bd2cc29956dc5, type: 3}
+  - {fileID: 21300000, guid: df3741fba3e5b463396e73e09d5a465a, type: 3}
+  - {fileID: 21300000, guid: 09325c1949e8a41dfbee22a7de51b892, type: 3}
+  bothTileSprites:
+  - {fileID: 21300000, guid: 8be62c2d03ac7455bb46e0272fd01105, type: 3}
+  - {fileID: 21300000, guid: 7877ed14cd82a4038ac4a9834f1f14e1, type: 3}
+  - {fileID: 21300000, guid: 2946fa8807f7842b299531172238c2b1, type: 3}
+  - {fileID: 21300000, guid: 12e5a9303f31e43838819b07f73e62ce, type: 3}
+  - {fileID: 21300000, guid: 8192b327919fc4c2c9f4830821615486, type: 3}
   Weeks: 0
   isStorePositioned: 0
 --- !u!1660057539 &9223372036854775807
