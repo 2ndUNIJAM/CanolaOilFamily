@@ -162,16 +162,16 @@ public class Tile : MonoBehaviour
             switch (_specialType)
             {
                 case SpecialTileType.RandomOrder:
-                    Ttt.SetText("", "치킨을 10마리 구매합니다. 가격은 고려하지 않고 구매합니다.");
+                    Ttt.SetText("부잣집", "치킨을 10마리 구매합니다. 가격은 고려하지 않고 구매합니다.");
                     break;
                 case SpecialTileType.OccasionalHighOrder:
-                    Ttt.SetText("", "치킨을 6마리 구매합니다. 5주에 1번은 치킨을 20마리 구매합니다.");
+                    Ttt.SetText("교회", "치킨을 6마리 구매합니다. 5주에 1번은 치킨을 20마리 구매합니다.");
                     break;
                 case SpecialTileType.LowOrder:
-                    Ttt.SetText("저소득 지구", "치킨을 6마리 구매합니다.");
+                    Ttt.SetText("저밀도 지구", "치킨을 6마리 구매합니다.");
                     break;
                 case SpecialTileType.HighOrder:
-                    Ttt.SetText("고소득 지구", "치킨을 20마리 구매합니다.");
+                    Ttt.SetText("고밀도 지구", "치킨을 20마리 구매합니다.");
                     break;
                 default:
                     Ttt.SetText("일반 지구", "치킨을 10마리 구매합니다.");
