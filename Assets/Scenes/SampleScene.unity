@@ -4445,6 +4445,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WeeklyResult
       objectReference: {fileID: 0}
+    - target: {fileID: 3555123311303403382, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6872313477212417803, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
