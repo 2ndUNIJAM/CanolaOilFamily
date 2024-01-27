@@ -122,7 +122,7 @@ public static class Simulation
             var temp = opponent.Price;
             opponent.Price = price;
 
-            var currentMargin = SellChicken(player, opponent).enemyMargin;
+            var currentMargin = SellChicken(player, opponent, true).enemyMargin;
             if (currentMargin > bestMargin)
             {
                 bestMargin = currentMargin;
@@ -148,7 +148,7 @@ public static class Simulation
         enemy.Money += margin.enemyMargin;
     }
 
-    private static (decimal myMargin, decimal enemyMargin) SellChicken(Store player, Store opponent)
+    private static (decimal myMargin, decimal enemyMargin) SellChicken(Store player, Store opponent, bool isVirtual = false)
     {
         var playerStock = player.Stock;
         var opponentStock = opponent.Stock;
@@ -174,30 +174,23 @@ public static class Simulation
             {
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
-                    myMargin +=
-                        (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue - playerStat.IngredientCostDecrement)) *
-                        purchaseCount;
+                    myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
+                                                 playerStat.IngredientCostDecrement)) * purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
-                    enemyMargin +=
-                        (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                          opponentStat.IngredientCostDecrement)) *
-                        purchaseCount;
+                    enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
+                                                      opponentStat.IngredientCostDecrement)) * purchaseCount;
                     break;
 
                 case DecisionType.Both:
                     playerStock -= purchaseCount / 2;
                     opponentStock -= purchaseCount / 2;
-                    myMargin +=
-                        (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                        playerStat.IngredientCostDecrement)) *
-                        purchaseCount / 2;
-                    enemyMargin +=
-                        (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                          opponentStat.IngredientCostDecrement)) *
-                        purchaseCount / 2;
+                    myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
+                                                 playerStat.IngredientCostDecrement)) * purchaseCount / 2;
+                    enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
+                                                      opponentStat.IngredientCostDecrement)) * purchaseCount / 2;
                     break;
 
                 case DecisionType.None:
@@ -205,6 +198,18 @@ public static class Simulation
 
                 default:
                     throw new ArgumentException();
+            }
+
+            if (!isVirtual)
+            {
+                tile.State = decision switch
+                {
+                    DecisionType.None     => TileState.None,
+                    DecisionType.Player   => TileState.Player,
+                    DecisionType.Opponent => TileState.Opponent,
+                    DecisionType.Both     => TileState.Both,
+                    _ => throw new ArgumentException()
+                };
             }
         }
 
