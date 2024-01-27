@@ -3191,7 +3191,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &586914216
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10671,6 +10671,10 @@ MonoBehaviour:
   _tileParent: {fileID: 881736214}
   _upgradePanelOn: {fileID: 1840094761}
   _upgradePanel: {fileID: 1500522891}
+  _eventNoticePanel: {fileID: 1826153544}
+  _eventImage: {fileID: 335940291}
+  _eventName: {fileID: 353963228}
+  _eventDescription: {fileID: 1182937835}
   playerStoreTileSprite: {fileID: 21300000, guid: 4e682eb8817f44a459f38a0a515748f0, type: 3}
   enemyStoreTileSprite: {fileID: 21300000, guid: b81031b7de766488ba7c6c071ca88607, type: 3}
   normalTileSprites:
