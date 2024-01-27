@@ -8,7 +8,7 @@ public class TitleManager : MonoBehaviour
 
     private void StartGame()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("StoryScene");
     }
 
     private void QuitGame()
