@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text _eventDescription;
     [SerializeField]
     private Image _topEventIcon;
+    [SerializeField]
+    private TileTooltip _tileTooltip;
     
     [Header("Weekly Result Panel")]
     [SerializeField]
@@ -141,6 +143,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _simulateButton.onClick.AddListener(StartSimulationPhase);
         _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
         _shopPanelOn.onClick.AddListener(() => _shopPanel.gameObject.SetActive(true));
+
+        Tile.Ttt = _tileTooltip;
 
         Event.Init();
 

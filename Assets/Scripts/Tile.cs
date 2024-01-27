@@ -56,6 +56,8 @@ public class Tile : MonoBehaviour
     public VipType Vip = VipType.None;
     [HideInInspector]
     public bool IsPreferPermanent = false;
+
+    public static TileTooltip Ttt;
     
     public TileType Type
     {
@@ -162,6 +164,17 @@ public class Tile : MonoBehaviour
         {
             GameManager.Instance.MakeStore(this);
         }
+    }
+
+    private void OnMouseEnter()
+    {
+        Ttt.transform.position = transform.position;
+        Ttt.gameObject.SetActive(true);
+    }
+
+    private void OnMouseExit()
+    {
+        Ttt.gameObject.SetActive(false);
     }
 
     private void UpdateSprite()
