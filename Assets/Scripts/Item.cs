@@ -45,7 +45,7 @@ public class ItemManager
         _toBeApplied.Add(item);
     }
 
-    public void ApplyItem() // player: called when they by / enemy: at the end of control turn
+    public void ApplyItem() // called at the end of control turn
     {
         if (_store.GetEnemy().ItemManager.usingShield)
         {

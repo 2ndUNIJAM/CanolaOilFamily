@@ -311,6 +311,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         if (!isStorePositioned)
         { return; }
 
+        Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
 
         Simulation.Simulate();
