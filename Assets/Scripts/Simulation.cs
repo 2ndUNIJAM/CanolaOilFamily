@@ -15,91 +15,83 @@ public static class Simulation
         if (stats.FreeDeliveryDistance >= d)
             d = 0;
 
-        return store.Price + store.DeliveryFee * d * (decimal)stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
+        var finalPrice = store.Price + store.DeliveryFee * d * stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
+        // Debug.Log($"Tile: ({tile.Q}, {tile.R}), Store: ({store.Position.Q}, {store.Position.R}), Distance: {d}, Price: {finalPrice}");
+        return finalPrice;
     }
 
     // doesn't consider stock
-    private static DecisionType GetDecision(Tile tile, Store player, Store opponent)
+    private static DecisionType GetDecision(Tile tile, Store player, Store opponent, int playerStock, int opponentStock)
     {
         var playerStat = player.Upgrade;
         var opponentStat = opponent.Upgrade;
 
-        var playerFinalPrice = GetFinalPrice(tile, player) - (decimal)playerStat.VersusCostBias -
-                               ((tile.Vip == VipType.MyStore) ? (decimal)playerStat.VipVersusCostBias : 0m);
-        var opponentFinalPrice = GetFinalPrice(tile, opponent) - (decimal)opponentStat.VersusCostBias -
-                                 ((tile.Vip == VipType.OpponentStore) ? (decimal)opponentStat.VipVersusCostBias : 0m);
-
-        if (playerFinalPrice >= tile.MaximumPrice && opponentFinalPrice >= tile.MaximumPrice)
+        var playerDecisionPrice = GetFinalPrice(tile, player) - playerStat.VersusCostBias;
+        var opponentDecisionPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias;
+        
+        // Do not place order when both exceeds MaximumPrice
+        if (playerDecisionPrice > tile.MaximumPrice && opponentDecisionPrice > tile.MaximumPrice)
         {
             return DecisionType.None;
         }
-
-        if (playerFinalPrice < opponentFinalPrice)
+        
+        // Player is cheaper
+        if (playerDecisionPrice < opponentDecisionPrice)
         {
-            return DecisionType.Player;
+            if (playerStock >= tile.PurchaseCount)
+            {
+                return DecisionType.Player;
+            }
+            else if (opponentDecisionPrice <= tile.MaximumPrice && opponentStock >= tile.PurchaseCount)
+            {
+                return DecisionType.Opponent;
+            }
+            else
+            {
+                return DecisionType.None;
+            }
         }
-        else if (playerFinalPrice > opponentFinalPrice)
+        
+        // Opponent is cheaper
+        if (playerDecisionPrice > opponentDecisionPrice)
+        {
+            if (opponentStock >= tile.PurchaseCount)
+            {
+                return DecisionType.Opponent;
+            }
+            else if (playerDecisionPrice <= tile.MaximumPrice && playerStock >= tile.PurchaseCount)
+            {
+                return DecisionType.Player;
+            }
+            else
+            {
+                return DecisionType.None;
+            }
+        }
+        
+        // Both are same
+        if (playerStock >= tile.PurchaseCount / 2)
+        {
+            if (opponentStock >= tile.PurchaseCount / 2)
+            {
+                return DecisionType.Both;
+            }
+            else if (playerStock >= tile.PurchaseCount)
+            {
+                return DecisionType.Player;
+            }
+            else
+            {
+                return DecisionType.None;
+            }
+        }
+        else if (opponentStock >= tile.PurchaseCount)
         {
             return DecisionType.Opponent;
         }
         else
         {
-            return DecisionType.Both;
-        }
-    }
-
-    private static DecisionType CheckForStock(int purchaseCount, int playerStock, int opponentStock,
-        DecisionType priorDecision)
-    {
-        switch (priorDecision)
-        {
-            case DecisionType.Player:
-                if (playerStock >= purchaseCount)
-                {
-                    return DecisionType.Player;
-                }
-                else if (opponentStock >= purchaseCount)
-                {
-                    return DecisionType.Opponent;
-                }
-                else
-                {
-                    return DecisionType.None;
-                }
-            case DecisionType.Opponent:
-                if (opponentStock >= purchaseCount)
-                {
-                    return DecisionType.Opponent;
-                }
-                else if (playerStock >= purchaseCount)
-                {
-                    return DecisionType.Player;
-                }
-                else
-                {
-                    return DecisionType.None;
-                }
-            case DecisionType.Both:
-                if (playerStock >= purchaseCount / 2 && opponentStock >= purchaseCount / 2)
-                {
-                    return DecisionType.Both;
-                }
-                else if (playerStock >= purchaseCount / 2)
-                {
-                    return CheckForStock(purchaseCount, playerStock, opponentStock, DecisionType.Player);
-                }
-                else if (opponentStock >= purchaseCount / 2)
-                {
-                    return CheckForStock(purchaseCount, playerStock, opponentStock, DecisionType.Opponent);
-                }
-                else
-                {
-                    return DecisionType.None;
-                }
-            case DecisionType.None:
-                return DecisionType.None;
-            default:
-                throw new ArgumentException();
+            return DecisionType.None;
         }
     }
 
@@ -115,7 +107,11 @@ public static class Simulation
             var temp = opponent.Price;
             opponent.Price = price;
 
-            var currentMargin = SellChicken(player, opponent, true).enemyMargin;
+            var sale = SellChicken(player, opponent, true);
+            var currentMargin = sale.enemyMargin;
+            
+            Debug.Log($"Enemy price: {price}, margin: {sale}");
+            
             if (currentMargin > bestMargin)
             {
                 bestMargin = currentMargin;
@@ -134,9 +130,7 @@ public static class Simulation
         var player = GameManager.Instance.Player;
         var enemy = GameManager.Instance.Enemy;
         enemy.Price = DecideOpponentPrice(player, enemy);
-        Debug.Log(enemy.Price);
         var margin = SellChicken(player, enemy);
-        Debug.Log(margin);
         player.Money += margin.myMargin - player.Rent;
         enemy.Money += margin.enemyMargin - enemy.Rent;
     }
@@ -159,8 +153,7 @@ public static class Simulation
             var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
             var playerStat = player.Upgrade;
             var opponentStat = opponent.Upgrade;
-            var decision = CheckForStock(purchaseCount, playerStock, opponentStock,
-                GetDecision(tile, player, opponent));
+            var decision = GetDecision(tile, player, opponent, playerStock, opponentStock);
 
             // Calculates final decision for player and opponent
             switch (decision)
