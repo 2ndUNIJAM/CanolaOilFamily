@@ -21,6 +21,10 @@ public class ItemPanel : MonoBehaviour
             _current = value;
             _name.text = _current?.Name ?? string.Empty;
             _desc.text = _current?.Description ?? string.Empty;
+            if (value == null)
+            {
+                _selectedContent.SetActive(false);
+            }
         }
     }
 
@@ -49,9 +53,8 @@ public class ItemPanel : MonoBehaviour
         };
     }
     
-    public void SelectItem(int c, GameObject button)
+    public void SelectItem(int c)
     {
-        _currentButton = button;
         _selectedImage.sprite = _itemSprites[c];
         _selectedContent.SetActive(true);
         DeNotify();
@@ -69,6 +72,11 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
+    public void SelectButton(GameObject button)
+    {
+        _currentButton = button;
+    }
+
     public void Purchase()
     {
         if (Current == null) { return; }
@@ -83,6 +91,7 @@ public class ItemPanel : MonoBehaviour
 
         player.Money -= Current.Price;
         player.ItemManager.BuyItem(Current);
+        Current = null;
         _currentButton.GetComponent<Button>().interactable = false;
         Notify("구매했습니다.");
     }
