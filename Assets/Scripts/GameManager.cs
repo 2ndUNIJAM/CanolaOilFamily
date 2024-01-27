@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text _enemyIngreCost;
     [SerializeField]
     private TMPro.TMP_Text _weekText;
+    [SerializeField]
+    private Transform _tileParent;
 
     private GameObject _tilePrefab;
 
@@ -91,7 +93,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 for (int q = -3 - r; q <= 3; q++)
                 {
-                    var x = Instantiate<GameObject>(_tilePrefab).GetComponent<Tile>();
+                    var x = Instantiate<GameObject>(_tilePrefab, _tileParent).GetComponent<Tile>();
                     x.Init(q, r, TileType.Uninitialized);
                     Tile.AllTiles.Add(x);
                 }
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 for (int q = -3; q <= 3 - r; q++)
                 {
-                    var x = Instantiate<GameObject>(_tilePrefab).GetComponent<Tile>();
+                    var x = Instantiate<GameObject>(_tilePrefab, _tileParent).GetComponent<Tile>();
                     x.Init(q, r, TileType.Uninitialized);
                     Tile.AllTiles.Add(x);
                 }

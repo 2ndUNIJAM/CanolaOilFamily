@@ -79,7 +79,7 @@ public class Tile : MonoBehaviour
 
         var col = q + (r - (r & 1) / 2);
 
-        transform.position = col * C_VECTOR + r * R_VECTOR;
+        transform.localPosition = col * C_VECTOR + r * R_VECTOR;
     }
 
 
