@@ -4,7 +4,7 @@ using System.Linq;
 public class Store
 {
     private const decimal BaseRent = 300m;
-    
+
     private decimal _price;
 
     public decimal Price
@@ -25,6 +25,7 @@ public class Store
     }
 
     private decimal _money;
+
     public decimal Money
     {
         get { return _money; }
@@ -42,11 +43,20 @@ public class Store
     public decimal IngredientCost => _ingCost;
 
     public decimal Rent => BaseRent - Upgrade.RentCostDecrement;
-    
+
     public Tile Position;
-    public int Stock = 50;      // Not decreased by selling
-    public int SaleVolume = 0;  // Weekly
-    public decimal Profit = 0;  // Weekly
+
+    public int Stock => Level switch
+    {
+        1 => 100,
+        2 => 200,
+        3 => 300,
+        4 => 400,
+        _ => 50
+    };
+
+    public int SaleVolume = 0; // Weekly
+    public decimal Profit = 0; // Weekly
     public int Level = 0;
     private List<Upgrade> _upgrades = new();
     public UpgradeStat Upgrade = new();
@@ -69,18 +79,20 @@ public class Store
     }
 
     public bool HasUpgrade(Upgrade upgrade) => _upgrades.Contains(upgrade);
-    
+
     public bool IsNextUpgrade(Upgrade upgrade) =>
         upgrade.UpgradeConstraint == null ||
         _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint);
-    
+
     public bool IsUpgradeAvailable(Upgrade upgrade) =>
         upgrade.LvConstraint <= Level && (upgrade.UpgradeConstraint == null ||
-                                          _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint));
+                                          _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint)) &&
+        Money >= upgrade.Price;
 
     public void BuyUpgrade(Upgrade upgrade)
     {
         if (!IsUpgradeAvailable(upgrade)) return;
+        Money -= upgrade.Price;
         if (upgrade.UpgradeConstraint != null)
         {
             var index = _upgrades.FindIndex(upg => upg.GetType() == upgrade.UpgradeConstraint);
