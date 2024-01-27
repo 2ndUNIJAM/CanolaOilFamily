@@ -95,7 +95,7 @@ public class ItemPanel : MonoBehaviour
         player.ItemManager.BuyItem(Current);
 
         Current = null; // reset selected
-        _currentButton.GetComponent<Button>().interactable = false; // no more affordable this turn
+        SoldOut(); // no more buy this turn
         _money.text = player.Money.ToString(); // money UI update
         GameManager.Instance.UpdateUpgradableStatUI(); // stat UI update
         Notify("구매했습니다.");
@@ -110,6 +110,13 @@ public class ItemPanel : MonoBehaviour
     private void DeNotify()
     {
         _extraNotify.gameObject.SetActive(false);
+    }
+
+    public void SoldOut()
+    {
+        transform.GetChild(2).GetComponent<Button>().interactable = false;
+        transform.GetChild(3).GetComponent<Button>().interactable = false;
+        transform.GetChild(4).GetComponent<Button>().interactable = false;
     }
 
     public void Refresh()
