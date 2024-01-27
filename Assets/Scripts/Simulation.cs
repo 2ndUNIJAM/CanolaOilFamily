@@ -226,30 +226,38 @@ public static class Simulation
             var opponentStat = opponent.Upgrade;
             var decision = GetDecision(tile, player, opponent, playerStock, opponentStock);
 
+            var playerIngredientCost = player.IngredientCost
+                                        + Event.IngredientCostAdjustValue
+                                        - (decimal)playerStat.IngredientCostDecrement
+                                        + (player.ItemManager.isIngredientCostSabotaged ? 1 : 0);
+            var opponentIngredientCost = opponent.IngredientCost
+                                        + Event.IngredientCostAdjustValue
+                                        - (decimal)opponentStat.IngredientCostDecrement
+                                        + (opponent.ItemManager.isIngredientCostSabotaged ? 1 : 0);
+
+
             // Calculates final decision for player and opponent
             switch (decision)
             {
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
-                    myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                 (decimal)playerStat.IngredientCostDecrement)) * purchaseCount;
+                    var ingreCost = 
+                    myMargin += (player.Price - playerIngredientCost) * purchaseCount;
                     player.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
-                    enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                      (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount;
+                    ingreCost = 
+                    enemyMargin += (opponent.Price - opponentIngredientCost) * purchaseCount;
                     opponent.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Both:
                     playerStock -= purchaseCount / 2;
                     opponentStock -= purchaseCount / 2;
-                    myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                 (decimal)playerStat.IngredientCostDecrement)) * purchaseCount / 2;
-                    enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                      (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount / 2;
+                    myMargin += (player.Price - playerIngredientCost) * purchaseCount / 2;
+                    enemyMargin += (opponent.Price - opponentIngredientCost) * purchaseCount / 2;
                     player.SaleVolume += purchaseCount / 2;
                     opponent.SaleVolume += purchaseCount / 2;
                     break;
