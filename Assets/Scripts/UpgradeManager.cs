@@ -1,8 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UpgradeManager : MonoBehaviour
 {
+    [SerializeField] private GameObject _infoParent;
+    [SerializeField] private TextMeshProUGUI _infoTitle;
+    [SerializeField] private TextMeshProUGUI _infoContent;
+    [SerializeField] private GameObject _storeIcon;
+    [SerializeField] private GameObject _ingredientIcon;
+    [SerializeField] private GameObject _vipIcon;
+    [SerializeField] private GameObject _rentIcon;
+    [SerializeField] private GameObject _deliveryIcon;
+    [SerializeField] private GameObject _versusIcon;
+
     private Upgrade currentSelection = null;
 
     private List<Upgrade> _store = new()
@@ -23,6 +36,11 @@ public class UpgradeManager : MonoBehaviour
 
     private List<Upgrade> _rent = new()
         { new RentCostLv1Upgrade(), new RentCostLv2Upgrade(), new RentCostLv3Upgrade() };
+
+    private void Start()
+    {
+        ChangeLockState(true, _storeIcon);
+    }
 
     private Upgrade GetCurrentUpgrade(List<Upgrade> list, Store store)
     {
@@ -50,7 +68,7 @@ public class UpgradeManager : MonoBehaviour
     public void OnClickVipButton() => ChangeCurrentSelection(_vip);
     public void OnClickRentButton() => ChangeCurrentSelection(_rent);
 
-    private void OnPurchaseUpgrade()
+    public void OnPurchaseUpgrade()
     {
         var c = currentSelection;
         if (c == null) return;
@@ -62,6 +80,28 @@ public class UpgradeManager : MonoBehaviour
         player.BuyUpgrade(c);
         currentSelection = null;
         UpdateUi();
+    }
+
+    private void ChangeLockState(bool isLocked, GameObject g)
+    {
+        // Assuming your parent GameObject has a Renderer component
+        var parent = g.GetComponent<Image>();
+        
+        Color parentColor = parent.color;
+        parentColor.a = isLocked ? 0.3f : 1f; // Set the desired alpha value for the parent
+        parent.color = parentColor;
+
+        foreach (Transform child in g.transform)
+        {
+            if (child.tag == "Lock")
+                child.gameObject.SetActive(isLocked);
+            else
+            {
+                var color = child.GetComponent<Image>();
+                if (color != null)
+                    color.color = parentColor;
+            }
+        }
     }
 
     private void UpdateUi()
