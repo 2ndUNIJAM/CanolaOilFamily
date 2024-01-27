@@ -93,6 +93,7 @@ public class ItemPanel : MonoBehaviour
         player.ItemManager.BuyItem(Current);
         Current = null;
         _currentButton.GetComponent<Button>().interactable = false;
+        GameManager.Instance.UpdateUpgradableStatUI();
         Notify("구매했습니다.");
     }
 

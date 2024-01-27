@@ -36,26 +36,10 @@ public class Store
     }
 
     private decimal _delivFee;
-    public decimal DeliveryFee
-    {
-        get { return _delivFee; }
-        set
-        {
-            _delivFee = value;
-            GameManager.Instance.UpdateDeliveryFeeUI(this);
-        }
-    }
+    public decimal DeliveryFee => _delivFee;
 
     private decimal _ingCost;
-    public decimal IngredientCost
-    {
-        get { return _ingCost; }
-        set
-        {
-            _ingCost = value;
-            GameManager.Instance.UpdateIngreCostUI(this);
-        }
-    }
+    public decimal IngredientCost => _ingCost;
 
     public decimal Rent => BaseRent - Upgrade.RentCostDecrement;
     
@@ -79,8 +63,9 @@ public class Store
     {
         Price = 15;
         Money = 300;
-        DeliveryFee = 1.5m;
-        IngredientCost = 10;
+        _delivFee = 1.5m;
+        _ingCost = 10;
+        GameManager.Instance.UpdateUpgradableStatUI();
     }
 
     public bool HasUpgrade(Upgrade upgrade) => _upgrades.Contains(upgrade);
@@ -105,6 +90,7 @@ public class Store
         }
         _upgrades.Add(upgrade);
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
+        GameManager.Instance.UpdateUpgradableStatUI();
     }
 
 
