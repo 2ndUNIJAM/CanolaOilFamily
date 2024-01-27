@@ -3,6 +3,9 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
+    [SerializeField]
+    private GameObject _credit;
+
     private void StartGame()
     {
         SceneManager.LoadScene("SampleScene");
@@ -25,5 +28,18 @@ public class TitleManager : MonoBehaviour
     public void OnClickQuitButton()
     {
         QuitGame();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            _credit.SetActive(true);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            _credit.SetActive(false);
+        }
     }
 }
