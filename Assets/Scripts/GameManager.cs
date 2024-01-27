@@ -36,6 +36,14 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private Button _upgradePanelOn;
     [SerializeField]
     private GameObject _upgradePanel;
+    [SerializeField]
+    private GameObject _eventNoticePanel;
+    [SerializeField]
+    private Image _eventImage;
+    [SerializeField]
+    private TMPro.TMP_Text _eventName;
+    [SerializeField]
+    private TMPro.TMP_Text _eventDescription;
 
     private GameObject _tilePrefab;
 
@@ -88,6 +96,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
         _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
+
+        Event.Init();
 
         for (int r = -3; r <= 3; r++)
         {
@@ -217,6 +227,17 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private void StartControlPhase()
     {
         Weeks++;
+
+        Event.ResetEvent();
+        var eventInfo = Event.FireEvent(Weeks);
+
+        if (eventInfo != null)
+        {
+            _eventNoticePanel.SetActive(true);
+            _eventImage.sprite = eventInfo.Value.spr;
+            _eventName.text = eventInfo.Value.name;
+            _eventDescription.text = eventInfo.Value.desc;
+        }
 
         Player.ItemManager.Init();
         Enemy.ItemManager.Init();
