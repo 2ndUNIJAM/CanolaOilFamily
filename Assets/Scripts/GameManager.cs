@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
-    static public GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
     [SerializeField]
     private Button _simulateButton;
@@ -26,6 +26,19 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public int Weeks; // current weeks
     public bool isStorePositioned = false;
 
+    private void Awake()
+    {
+        if (Instance is null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
