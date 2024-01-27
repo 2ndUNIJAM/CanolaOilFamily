@@ -33,7 +33,7 @@ public class Store
         }
     }
 
-    private decimal _delivFee = 1;
+    private decimal _delivFee;
     public decimal DeliveryFee
     {
         get { return _delivFee; }
@@ -44,7 +44,7 @@ public class Store
         }
     }
 
-    private decimal _ingCost = 1;
+    private decimal _ingCost;
     public decimal IngredientCost
     {
         get { return _ingCost; }
@@ -68,6 +68,15 @@ public class Store
     {
         ItemManager = new(this);
         _price = 15;
+    }
+
+    // This process should NOT be happened in constructor since it needs to occur UI text change.
+    public void InitValues()
+    {
+        Price = 15;
+        Money = 300000000;
+        DeliveryFee = 1;
+        IngredientCost = 1;
     }
 
     public bool IsNextUpgrade(Upgrade upgrade) =>

@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
         else
         {
-            _myDeliveryFee.text = "Deliv. fee: " + Enemy.DeliveryFee.ToString();
+            _enemyDeliveryFee.text = "Deliv. fee: " + Enemy.DeliveryFee.ToString();
         }
     }
 
@@ -204,6 +204,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         isStorePositioned = true;
 
         // start first turn
+        Player.InitValues();
+        Enemy.InitValues();
         StartControlPhase();
     }
 
