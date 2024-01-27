@@ -163,11 +163,22 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             }
         }
         
+        // Random select Special tiles
+        Tile.ShuffleTileList();
+        
+        // HighOrder
+        
+        
+        // LowOrder
+        
+        
+        // RandomOrder
+        
         // Set tiles initial validity
         // Decision of uninitialized tiles shows validity
         foreach (var tile in Tile.AllTiles)
         {
-            if (tile.Q >= -1 && tile.S <= +1)
+            if ((tile.Q >= -1 && tile.S <= +1) || tile.SpecialType != SpecialTileType.None)
             {
                 tile.Decision = DecisionType.Opponent;  // Invalid MyStore position
             }

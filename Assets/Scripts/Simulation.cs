@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class Simulation
 {
@@ -27,11 +28,74 @@ public static class Simulation
 
         var playerDecisionPrice = GetFinalPrice(tile, player) - playerStat.VersusCostBias;
         var opponentDecisionPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias;
-        
+
         // Do not place order when both exceeds MaximumPrice
         if (playerDecisionPrice > tile.MaximumPrice && opponentDecisionPrice > tile.MaximumPrice)
         {
             return DecisionType.None;
+        }
+        
+        // RandomOrder tile actions
+        if (tile.SpecialType == SpecialTileType.RandomOrder)
+        {
+            if (playerDecisionPrice > tile.MaximumPrice)
+            {
+                if (opponentStock >= tile.PurchaseCount)
+                {
+                    return DecisionType.Opponent;
+                }
+                else
+                {
+                    return DecisionType.None;
+                }
+            }
+            else if (opponentDecisionPrice > tile.MaximumPrice)
+            {
+                if (playerStock >= tile.PurchaseCount)
+                {
+                    return DecisionType.Player;
+                }
+                else
+                {
+                    return DecisionType.None;
+                }
+            }
+            else
+            {
+                // Random select player
+                if (Random.Range(0, 2) == 0)
+                {
+                    if (playerStock >= tile.PurchaseCount)
+                    {
+                        return DecisionType.Player;
+                    }
+                    else if (opponentStock >= tile.PurchaseCount)
+                    {
+                        return DecisionType.Opponent;
+                    }
+                    else
+                    {
+                        return DecisionType.None;
+                    }
+                }
+                
+                // Random select opponent
+                else
+                {
+                    if (opponentStock >= tile.PurchaseCount)
+                    {
+                        return DecisionType.Opponent;
+                    }
+                    else if (opponentStock >= tile.PurchaseCount)
+                    {
+                        return DecisionType.Player;
+                    }
+                    else
+                    {
+                        return DecisionType.None;
+                    }
+                }
+            }
         }
         
         // Player is cheaper
@@ -154,6 +218,8 @@ public static class Simulation
         {
             // Skip this tile if current tile is not customer
             if (tile.Type != TileType.Customer) continue;
+            
+            tile.SetSpacialTileValues();
 
             var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
             var playerStat = player.Upgrade;

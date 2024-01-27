@@ -25,14 +25,28 @@ public enum VipType
     OpponentStore
 }
 
+public enum SpecialTileType
+{
+    None = 1,
+    HighOrder = 2,
+    LowOrder = 0,
+    OccasionalHighOrder = 3,
+    RandomOrder = 4
+}
+
 public class Tile : MonoBehaviour
 {
+    private const int HighOrderCount = 20;
+    private const int LowOrderCount = 6;
+    private const int OccasionalOrderPeriod = 5;
+    
     private TileType _type;
     private DecisionType _decision = DecisionType.None;
+    private SpecialTileType _specialType = SpecialTileType.None;
     
     private SpriteRenderer _spriteRenderer;
     
-    public static List<Tile> AllTiles = new();
+    public static readonly List<Tile> AllTiles = new();
     
     public int Q, R;
     
@@ -63,6 +77,16 @@ public class Tile : MonoBehaviour
         }
     }
 
+    public SpecialTileType SpecialType
+    {
+        get => _specialType;
+        set
+        {
+            _specialType = value;
+            SetSpacialTileValues();
+        }
+    }
+
     public int PurchaseCount { get; set; } = 10;
     public decimal MaximumPrice { get; set; } = 20m;
 
@@ -80,6 +104,31 @@ public class Tile : MonoBehaviour
         var col = q + (r - (r & 1) / 2);
 
         transform.localPosition = col * C_VECTOR + r * R_VECTOR;
+    }
+
+    public void SetSpacialTileValues()
+    {
+        switch (SpecialType)
+        {
+            case SpecialTileType.None:
+            case SpecialTileType.RandomOrder:
+                break;
+            
+            case SpecialTileType.HighOrder:
+                PurchaseCount = HighOrderCount;
+                break;
+            
+            case SpecialTileType.LowOrder:
+                PurchaseCount = LowOrderCount;
+                break;
+            
+            case SpecialTileType.OccasionalHighOrder:
+                PurchaseCount = (GameManager.Instance.Weeks % OccasionalOrderPeriod == 0) ? HighOrderCount : LowOrderCount;
+                break;
+            
+            default:
+                throw new ArgumentException();
+        }
     }
 
 
@@ -120,10 +169,7 @@ public class Tile : MonoBehaviour
         {
             case TileType.Uninitialized:
             case TileType.Customer:
-                int spriteIndex;
-                
-                // TODO: Change spriteIndex based on special tile type
-                spriteIndex = 1;
+                var spriteIndex = (int)SpecialType;
                 
                 switch (Decision)
                 {
