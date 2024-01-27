@@ -44,6 +44,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text _eventName;
     [SerializeField]
     private TMPro.TMP_Text _eventDescription;
+    [SerializeField]
+    private Image _topEventIcon;
 
     private GameObject _tilePrefab;
 
@@ -229,6 +231,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Weeks++;
 
         Event.ResetEvent();
+        _topEventIcon.gameObject.SetActive(false);
         var eventInfo = Event.FireEvent(Weeks);
 
         if (eventInfo != null)
@@ -237,6 +240,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             _eventImage.sprite = eventInfo.Value.spr;
             _eventName.text = eventInfo.Value.name;
             _eventDescription.text = eventInfo.Value.desc;
+            _topEventIcon.gameObject.SetActive(true);
+            _topEventIcon.sprite = eventInfo.Value.spr;
         }
 
         Player.ItemManager.Init();
