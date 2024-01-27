@@ -3323,6 +3323,7 @@ MonoBehaviour:
   _enemyDeliveryFee: {fileID: 458777524}
   _myIngreCost: {fileID: 1689406114}
   _enemyIngreCost: {fileID: 814159111}
+  _weekText: {fileID: 540970406}
   playerStoreTileSprite: {fileID: 0}
   enemyStoreTileSprite: {fileID: 0}
   normalTileSprites:
@@ -3349,7 +3350,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2946fa8807f7842b299531172238c2b1, type: 3}
   - {fileID: 21300000, guid: 12e5a9303f31e43838819b07f73e62ce, type: 3}
   - {fileID: 21300000, guid: 8192b327919fc4c2c9f4830821615486, type: 3}
-  Weeks: 0
   isStorePositioned: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

@@ -14,8 +14,21 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private Button _increasePrice;
     [SerializeField]
     private Button _decreasePrice;
-
     [SerializeField]
+    private TMPro.TMP_Text _myMoney;
+    [SerializeField]
+    private TMPro.TMP_Text _enemyMoney;
+    [SerializeField]
+    private TMPro.TMP_Text _myDeliveryFee;
+    [SerializeField]
+    private TMPro.TMP_Text _enemyDeliveryFee;
+    [SerializeField]
+    private TMPro.TMP_Text _myIngreCost;
+    [SerializeField]
+    private TMPro.TMP_Text _enemyIngreCost;
+    [SerializeField]
+    private TMPro.TMP_Text _weekText;
+
     private GameObject _tilePrefab;
 
     [Header("Sprites")]
@@ -29,7 +42,17 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public Sprite[] bothTileSprites;
     
     [Header("Values")]
-    public int Weeks; // current weeks
+    private int _weeks; // current weeks
+    public int Weeks
+    {
+        get { return _weeks; }
+        set
+        {
+            _weeks = value;
+            _weekText.text = _weeks.ToString();
+        }
+    }
+
     public bool isStorePositioned = false;
     
     public Store Player;
@@ -90,6 +113,42 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public void UpdatePriceUI()
     {
         _priceText.text = Player.Price.ToString();
+    }
+
+    public void UpdateMoneyUI(Store store)
+    {
+        if (store == Player)
+        {
+            _myMoney.text = "Money: " + Player.Money.ToString();
+        }
+        else
+        {
+            _enemyMoney.text = "Money: " + Enemy.Money.ToString();
+        }
+    }
+
+    public void UpdateDeliveryFeeUI(Store store)
+    {
+        if(store == Player)
+        {
+            _myDeliveryFee.text = "Deliv. fee: " + Player.DeliveryFee.ToString();
+        }
+        else
+        {
+            _myDeliveryFee.text = "Deliv. fee: " + Enemy.DeliveryFee.ToString();
+        }
+    }
+
+    public void UpdateIngreCostUI(Store store)
+    {
+        if(store == Player)
+        {
+            _myIngreCost.text = "Ingre. cost: " + Player.IngredientCost.ToString();
+        }
+        else
+        {
+            _enemyIngreCost.text = "Ingre. cost: " + Enemy.IngredientCost.ToString();
+        }
     }
 
     public void MakeStore(Tile at)

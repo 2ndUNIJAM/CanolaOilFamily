@@ -22,9 +22,41 @@ public class Store
         }
     }
 
+    private decimal _money;
+    public decimal Money
+    {
+        get { return _money; }
+        set
+        {
+            _money = value;
+            GameManager.Instance.UpdateMoneyUI(this);
+        }
+    }
+
+    private decimal _delivFee = 1;
+    public decimal DeliveryFee
+    {
+        get { return _delivFee; }
+        set
+        {
+            _delivFee = value;
+            GameManager.Instance.UpdateDeliveryFeeUI(this);
+        }
+    }
+
+    private decimal _ingCost = 1;
+    public decimal IngredientCost
+    {
+        get { return _ingCost; }
+        set
+        {
+            _ingCost = value;
+            GameManager.Instance.UpdateIngreCostUI(this);
+        }
+    }
+    
+    
     public Tile Position;
-    public decimal DeliveryFee = 1;
-    public decimal IngredientCost = 1;
     public decimal Rent = 150;
     public int Stock = 100;
     public int Level = 1;
@@ -58,7 +90,6 @@ public class Store
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
     }
 
-    public decimal Money;
 
     public override string ToString()
     {
