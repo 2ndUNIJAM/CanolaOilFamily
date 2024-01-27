@@ -4,11 +4,13 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
     private const float SimulationMotionInterval = 0.03f;
-    private const string DecimalSpecifier = "#####0.0";
+    private const string PriceSpecifier = "$######0.0";
     
     private Coroutine _simulationCoroutine;
     
@@ -24,25 +26,37 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Button _simulateButton;
     [SerializeField]
-    private TMPro.TMP_Text _priceText;
+    private TMP_Text _priceText;
     [SerializeField]
     private Button _increasePrice;
     [SerializeField]
     private Button _decreasePrice;
+    
+    [Space(10)]
     [SerializeField]
-    private TMPro.TMP_Text _myMoney;
+    private TMP_Text _myMoney;
     [SerializeField]
-    private TMPro.TMP_Text _enemyMoney;
+    private TMP_Text _enemyMoney;
     [SerializeField]
-    private TMPro.TMP_Text _myDeliveryFee;
+    private TMP_Text _myStock;
     [SerializeField]
-    private TMPro.TMP_Text _enemyDeliveryFee;
+    private TMP_Text _enemyStock;
     [SerializeField]
-    private TMPro.TMP_Text _myIngreCost;
+    private TMP_Text _myIngreCost;
     [SerializeField]
-    private TMPro.TMP_Text _enemyIngreCost;
+    private TMP_Text _enemyIngreCost;
     [SerializeField]
-    private TMPro.TMP_Text _weekText;
+    private TMP_Text _myRent;
+    [SerializeField]
+    private TMP_Text _enemyRent;
+    [SerializeField]
+    private TMP_Text _myDeliveryFee;
+    [SerializeField]
+    private TMP_Text _enemyDeliveryFee;
+    [SerializeField]
+    
+    [Space(10)]
+    private TMP_Text _weekText;
     [SerializeField]
     private Transform _tileParent;
     [SerializeField]
@@ -58,9 +72,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Image _eventImage;
     [SerializeField]
-    private TMPro.TMP_Text _eventName;
+    private TMP_Text _eventName;
     [SerializeField]
-    private TMPro.TMP_Text _eventDescription;
+    private TMP_Text _eventDescription;
     [SerializeField]
     private Image _topEventIcon;
     [SerializeField]
@@ -70,31 +84,31 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private GameObject weeklyResultPanel;
     [SerializeField]
-    private TMPro.TMP_Text titleText;
+    private TMP_Text titleText;
 
     [Space(10)]
     [SerializeField]
-    private TMPro.TMP_Text myPriceText;
+    private TMP_Text myPriceText;
     [SerializeField]
-    private TMPro.TMP_Text enemyPriceText;
+    private TMP_Text enemyPriceText;
     [SerializeField]
-    private TMPro.TMP_Text myVolumeText;
+    private TMP_Text myVolumeText;
     [SerializeField]
-    private TMPro.TMP_Text enemyVolumeText;
+    private TMP_Text enemyVolumeText;
     [SerializeField]
-    private TMPro.TMP_Text myRentText;
+    private TMP_Text myRentText;
     [SerializeField]
-    private TMPro.TMP_Text enemyRentText;
+    private TMP_Text enemyRentText;
     [SerializeField]
-    private TMPro.TMP_Text myProfitText;
+    private TMP_Text myProfitText;
     [SerializeField]
-    private TMPro.TMP_Text enemyProfitText;
+    private TMP_Text enemyProfitText;
     [SerializeField]
-    private TMPro.TMP_Text myMoneyText;
+    private TMP_Text myMoneyText;
     [SerializeField]
-    private TMPro.TMP_Text enemyMoneyText;
+    private TMP_Text enemyMoneyText;
     [SerializeField]
-    private TMPro.TMP_Text _enemyActionSummary;
+    private TMP_Text _enemyActionSummary;
 
     [Header("Game Result Panel")]
     [SerializeField]
@@ -102,9 +116,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private Image resultBackgroundImage;
     [SerializeField]
-    private TMPro.TMP_Text resultWeekText;
+    private TMP_Text resultWeekText;
     [SerializeField]
-    private TMPro.TMP_Text resultMyMoneyText;
+    private TMP_Text resultMyMoneyText;
 
 
     [Header("Sprites")]
@@ -231,39 +245,45 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public void UpdatePriceUI()
     {
-        _priceText.text = Player.Price.ToString("#0.0");
+        _priceText.text = Player.Price.ToString("$#0.0");
     }
 
     public void UpdateMoneyUI(Store store)
     {
         if (store == Player)
         {
-            _myMoney.text = "소지금 | " + Player.Money.ToString();
+            _myMoney.text = "소지금 | " + Player.Money.ToString(PriceSpecifier);
         }
         else
         {
-            _enemyMoney.text = "소지금 | " + Enemy.Money.ToString();
+            _enemyMoney.text = "소지금 | " + Enemy.Money.ToString(PriceSpecifier);
         }
     }
 
     public void UpdateUpgradableStatUI()
     {
-        _myDeliveryFee.text
-            = "배달비 | "
-            + (Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias).ToString(CultureInfo.InvariantCulture);
-        _enemyDeliveryFee.text
-            = "배달비 | "
-            + (Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias);
+        _myStock.text = "재고량 | " + Player.Stock.ToString();
+        _enemyStock.text = "재고량 | " + Enemy.Stock.ToString();
         _myIngreCost.text
             = "재료비 | " 
             +   (Player.IngredientCost 
                 - Player.Upgrade.IngredientCostDecrement
-                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString(CultureInfo.InvariantCulture);
+                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString(PriceSpecifier);
         _enemyIngreCost.text
             = "재료비 | "
             +   (Enemy.IngredientCost
                 - Enemy.Upgrade.IngredientCostDecrement
-                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString(CultureInfo.InvariantCulture);
+                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString(PriceSpecifier);
+        _myRent.text
+            = "임대료 | " + (Player.Rent - Player.Upgrade.RentCostDecrement).ToString(PriceSpecifier);
+        _enemyRent.text
+            = "임대료 | " + (Enemy.Rent - Enemy.Upgrade.RentCostDecrement).ToString(PriceSpecifier);
+        _myDeliveryFee.text
+            = "배달비 | "
+            + (Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias).ToString(PriceSpecifier);
+        _enemyDeliveryFee.text
+            = "배달비 | "
+            + (Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias).ToString(PriceSpecifier);
     }
 
     public void MakeStore(Tile at)
@@ -455,24 +475,24 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         titleText.text = Weeks.ToString();
         
         // Sales
-        myPriceText.text = Player.Price.ToString(DecimalSpecifier);
-        enemyPriceText.text = Enemy.Price.ToString(DecimalSpecifier);
+        myPriceText.text = Player.Price.ToString(PriceSpecifier);
+        enemyPriceText.text = Enemy.Price.ToString(PriceSpecifier);
 
         // Volume
         myVolumeText.text = Player.SaleVolume.ToString();
         enemyVolumeText.text = Enemy.SaleVolume.ToString();
 
         // Rent
-        myRentText.text = Player.Rent.ToString(DecimalSpecifier);
-        enemyRentText.text = Enemy.Rent.ToString(DecimalSpecifier);
+        myRentText.text = Player.Rent.ToString(PriceSpecifier);
+        enemyRentText.text = Enemy.Rent.ToString(PriceSpecifier);
 
         // Profit
-        myProfitText.text = Player.Profit.ToString(DecimalSpecifier);
-        enemyProfitText.text = Enemy.Profit.ToString(DecimalSpecifier);
+        myProfitText.text = Player.Profit.ToString(PriceSpecifier);
+        enemyProfitText.text = Enemy.Profit.ToString(PriceSpecifier);
 
         // Money
-        myMoneyText.text = Player.Money.ToString(DecimalSpecifier);
-        enemyMoneyText.text = Enemy.Money.ToString(DecimalSpecifier);
+        myMoneyText.text = Player.Money.ToString(PriceSpecifier);
+        enemyMoneyText.text = Enemy.Money.ToString(PriceSpecifier);
 
         // Summary
         _enemyActionSummary.text = string.Empty;
@@ -504,7 +524,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         resultBackgroundImage.sprite = isPlayerWin ? victorySprite : defeatSprite;
         
         resultWeekText.text = Weeks.ToString();
-        resultMyMoneyText.text = Player.Money.ToString(DecimalSpecifier);
+        resultMyMoneyText.text = Player.Money.ToString(PriceSpecifier);
         
         gameResult.SetActive(true);
     }
