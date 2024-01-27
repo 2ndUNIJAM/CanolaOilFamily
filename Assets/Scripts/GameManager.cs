@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
@@ -371,13 +372,45 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
 
         Player.Profit += (myGinpai - marineGinpai);
+        Player.Money += (myGinpai - marineGinpai);
         Enemy.Profit += (marineGinpai - myGinpai);
+        Enemy.Money += (marineGinpai - myGinpai);
 
-        EndWeek();
+        // enemy consider upgrade
+        System.Random r = new();
+        List<List<Upgrade>> upgll = new()
+        {
+            UpgradeManager._delivery, UpgradeManager._ingredient, UpgradeManager._rent, UpgradeManager._store
+        };
+
+        var count = 0;
+        Upgrade next;
+        while (true)
+        {
+            next = UpgradeManager.GetCurrentUpgrade(upgll[r.Next(upgll.Count)], Enemy);
+
+            if (count++ > 10)
+                break;
+
+            if (Enemy.HasUpgrade(next))
+                continue;
+
+            if (next.Price < Enemy.Money)
+            {
+                if (!Enemy.BuyUpgrade(next))
+                    continue;
+                else
+                {
+                    EndWeek(next);
+                    return;
+                }
+            }
+        }
+        EndWeek(null);
     }
     
 
-    private void EndWeek()
+    private void EndWeek(Upgrade enemyDidThis)
     {
         if (Weeks == MaxWeeks)
         {
@@ -424,7 +457,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 "상대의 습격을 방어했습니다." : "상대가 가게를 습격했습니다.";
             _enemyActionSummary.text += '\n';
         }
-        //todo upgrade notify
+        if (enemyDidThis != null)
+        {
+            _enemyActionSummary.text += "상대가 가게를 강화했습니다. ";
+            _enemyActionSummary.text += enemyDidThis.Title;
+        }
     }
 
     private void FinishGame(bool isPlayerWin)

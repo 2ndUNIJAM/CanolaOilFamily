@@ -89,20 +89,21 @@ public class Store
                                           _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint)) &&
         Money >= upgrade.Price;
 
-    public void BuyUpgrade(Upgrade upgrade)
+    public bool BuyUpgrade(Upgrade upgrade)
     {
-        if (!IsUpgradeAvailable(upgrade)) return;
+        if (!IsUpgradeAvailable(upgrade)) return false;
         Money -= upgrade.Price;
         if (upgrade.UpgradeConstraint != null)
         {
             var index = _upgrades.FindIndex(upg => upg.GetType() == upgrade.UpgradeConstraint);
-            if (index < 0) return;
+            if (index < 0) return true;
             if (upgrade.IsReplaceConstraint)
                 _upgrades.RemoveAt(index);
         }
         _upgrades.Add(upgrade);
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
         GameManager.Instance.UpdateUpgradableStatUI();
+        return true;
     }
 
 
