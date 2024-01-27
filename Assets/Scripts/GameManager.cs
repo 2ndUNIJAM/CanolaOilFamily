@@ -109,17 +109,15 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         
         // Set tiles initial validity
         // Decision of uninitialized tiles shows validity
-        var center = Tile.FindTile(0, 0);
-        
         foreach (var tile in Tile.AllTiles)
         {
-            if (tile == center || Tile.GetDistance(tile, center) == 1 || (tile.Q >= -1 && tile.S <= +1))
+            if (tile.Q >= -1 && tile.S <= +1)
             {
-                tile.Decision = DecisionType.Opponent;
+                tile.Decision = DecisionType.Opponent;  // Invalid MyStore position
             }
             else
             {
-                tile.Decision = DecisionType.Player;
+                tile.Decision = DecisionType.Player;    // Valid MyStore position
             }
         }
     }
