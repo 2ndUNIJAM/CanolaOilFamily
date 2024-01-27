@@ -3,6 +3,8 @@ using System.Linq;
 
 public class Store
 {
+    private const decimal BaseRent = 30m;
+    
     private decimal _price;
 
     public decimal Price
@@ -54,11 +56,11 @@ public class Store
             GameManager.Instance.UpdateIngreCostUI(this);
         }
     }
-    
+
+    public decimal Rent => BaseRent - Upgrade.RentCostDecrement;
     
     public Tile Position;
-    public decimal Rent = 150;
-    public int Stock = 100;
+    public int Stock = 50;
     public int Level = 0;
     private List<Upgrade> _upgrades = new();
     public UpgradeStat Upgrade = new();
@@ -74,9 +76,9 @@ public class Store
     public void InitValues()
     {
         Price = 15;
-        Money = 300000000;
-        DeliveryFee = 1;
-        IngredientCost = 1;
+        Money = 300;
+        DeliveryFee = 1.5m;
+        IngredientCost = 10;
     }
 
     public bool IsNextUpgrade(Upgrade upgrade) =>

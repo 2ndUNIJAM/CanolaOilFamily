@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public static class Simulation
@@ -136,8 +137,8 @@ public static class Simulation
         Debug.Log(enemy.Price);
         var margin = SellChicken(player, enemy);
         Debug.Log(margin);
-        player.Money += margin.myMargin;
-        enemy.Money += margin.enemyMargin;
+        player.Money += margin.myMargin - player.Rent;
+        enemy.Money += margin.enemyMargin - enemy.Rent;
     }
 
     private static (decimal myMargin, decimal enemyMargin) SellChicken(Store player, Store opponent, bool isVirtual = false)
