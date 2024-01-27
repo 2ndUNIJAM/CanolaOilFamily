@@ -147,8 +147,41 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
-        Ttt.transform.position = transform.position;
         Ttt.gameObject.SetActive(true);
+        Ttt.SetPosition(transform.position, R);
+        
+        switch (Type)
+        {
+        case TileType.OpponentStore:
+            Ttt.SetText("상대 가게", string.Empty);
+            break;
+        case TileType.MyStore:
+            Ttt.SetText("우리 가게", string.Empty);
+            break;
+        case TileType.Customer:
+            switch (_specialType)
+            {
+                case SpecialTileType.RandomOrder:
+                    Ttt.SetText("", "치킨을 10마리 구매합니다. 가격은 고려하지 않고 구매합니다.");
+                    break;
+                case SpecialTileType.OccasionalHighOrder:
+                    Ttt.SetText("", "치킨을 6마리 구매합니다. 5주에 1번은 치킨을 20마리 구매합니다.");
+                    break;
+                case SpecialTileType.LowOrder:
+                    Ttt.SetText("저소득 지구", "치킨을 6마리 구매합니다.");
+                    break;
+                case SpecialTileType.HighOrder:
+                    Ttt.SetText("고소득 지구", "치킨을 20마리 구매합니다.");
+                    break;
+                default:
+                    Ttt.SetText("일반 지구", "치킨을 10마리 구매합니다.");
+                    break;
+            }
+            break;
+        default:
+            Ttt.gameObject.SetActive(false);
+            break;
+        }
     }
 
     private void OnMouseExit()
