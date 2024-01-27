@@ -5,7 +5,8 @@ using Random = UnityEngine.Random;
 
 public static class Simulation
 {
-    private const int SimulationIntervalMaxCount = 2;
+    private const decimal SimulationMinPrice = 10;
+    private const decimal SimulationMaxPrice = 20;
     private const decimal SimulationInterval = 0.5m;
 
     // Price for one 
@@ -165,9 +166,7 @@ public static class Simulation
         var bestMargin = decimal.MinValue;
         var bestPrice = player.Price;
 
-        for (var price = player.Price - SimulationIntervalMaxCount * SimulationInterval;
-             price <= player.Price + SimulationIntervalMaxCount * SimulationInterval;
-             price += SimulationInterval)
+        for (var price = SimulationMinPrice; price <= SimulationMaxPrice; price += SimulationInterval)
         {
             var temp = opponent.Price;
             opponent.Price = price;

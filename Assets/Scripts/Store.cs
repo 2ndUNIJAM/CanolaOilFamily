@@ -12,7 +12,7 @@ public class Store
         get => _price;
         set
         {
-            if (value is < 10 or > 30)
+            if (value is < 10 or > 20)
             {
                 return;
             }
