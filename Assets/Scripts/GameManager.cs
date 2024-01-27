@@ -320,6 +320,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         Weeks += 1;
 
+        _simulateButton.interactable = true;
+        
         Event.ResetEvent();
         _topEventIcon.gameObject.SetActive(false);
         var eventInfo = Event.FireEvent(Weeks);
@@ -348,6 +350,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         if (!IsStorePositioned)
         { return; }
+
+        _simulateButton.interactable = false;
+        Debug.Log("StartSimulationPhase");
 
         Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
