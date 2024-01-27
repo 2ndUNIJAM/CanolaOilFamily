@@ -76,7 +76,7 @@ public class EnemyIngredientCostIncrease : IItem
 
 public class ThiefItem : IItem
 {
-    private const float AMOUNT = 100f;
+    private const decimal AMOUNT = 100;
     public void OnBuy(Store user)
     {
     }

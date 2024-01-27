@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
-    static public GameManager Instance;
+    public static GameManager Instance { get; private set; }
 
     [SerializeField]
     private Button _simulateButton;
@@ -26,17 +26,27 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public int Weeks; // current weeks
     public bool isStorePositioned = false;
 
+    private void Awake()
+    {
+        if (Instance is null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         Player = new Store();
         Enemy = new Store();
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");
-
-        _increasePrice.onClick.AddListener(() => Player.Price += 0.1f);
-        _decreasePrice.onClick.AddListener(() => Player.Price -= 0.1f);
+        _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
+        _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
 
         for (int r = -3; r <= 3; r++)
