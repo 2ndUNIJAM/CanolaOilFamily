@@ -3,13 +3,27 @@ using UnityEngine.SceneManagement;
 
 public class TitleManager : MonoBehaviour
 {
-    private void MoveScene()
+    private void StartGame()
     {
         SceneManager.LoadScene("SampleScene");
     }
-    
-    public void OnClickMoveSceneButton()
+
+    private void QuitGame()
     {
-        MoveScene();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+    
+    public void OnClickStartButton()
+    {
+        StartGame();
+    }
+
+    public void OnClickQuitButton()
+    {
+        QuitGame();
     }
 }
