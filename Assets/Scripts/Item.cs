@@ -20,17 +20,13 @@ public class ItemManager
 
     public static void EnemyBuyItem(ItemManager enemyItemManager) // called at start of each control turn
     {
-        if (false) // some cond to buy shield
+        if (GameManager.Instance.Weeks >= 15) // some cond to buy shield
         {
-            enemyItemManager.BuyItem(new Shield());
+            if (new System.Random().Next(5) == 0)
+            {
+                enemyItemManager.BuyItem(new Shield());
+            }
         }
-
-        if (false)
-        {
-            enemyItemManager.BuyItem(new EnemyIngredientCostIncrease());
-        }
-        //...
-
     }
 
     public void Init()
@@ -80,6 +76,10 @@ public class EnemyIngredientCostIncrease : IItem
 
     public void OnBuy(Store user)
     {
+        if (new System.Random().Next(2) == 0)
+        {
+            GameManager.Instance.Enemy.ItemManager.BuyItem(new Shield());
+        }
     }
 
     public void OnApply(Store user)
@@ -98,6 +98,10 @@ public class ThiefItem : IItem
     public void OnBuy(Store user)
     {
         user.ItemManager.IsThief = true;
+        if (new System.Random().Next(2) == 0)
+        {
+            GameManager.Instance.Enemy.ItemManager.BuyItem(new Shield());
+        }
     }
 
     public void OnApply(Store user)
