@@ -5281,6 +5281,7 @@ MonoBehaviour:
   enemyMoneyText: {fileID: 1895492144}
   _enemyActionSummary: {fileID: 1895492143}
   gameResult: {fileID: 6087716136674886020}
+  gameResultAnim: {fileID: 8903055293558839068}
   resultBackgroundImage: {fileID: 2680927669052026776}
   resultWeekText: {fileID: 8391985324778639033}
   resultMyMoneyText: {fileID: 7861102301450785651}
@@ -5825,7 +5826,10 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 4175185430610567007}
+  - {fileID: 3106807400271329014}
+  - {fileID: 1749307695191406522}
   m_Father: {fileID: 998324977935590784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -5846,9 +5850,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 900692787865412609}
-  - {fileID: 4175185430610567007}
-  - {fileID: 3106807400271329014}
-  - {fileID: 1749307695191406522}
   m_Father: {fileID: 1111434362}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5898,13 +5899,13 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1702497976404231458}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3661195426497385191}
-  m_Father: {fileID: 998324977935590784}
+  m_Father: {fileID: 900692787865412609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6064,14 +6065,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8371859992892661249}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3771210003420976559}
   - {fileID: 2059553347543385555}
-  m_Father: {fileID: 998324977935590784}
+  m_Father: {fileID: 900692787865412609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6123,14 +6124,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1179868569702345338}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6663241154124685984}
   - {fileID: 7089930335428038784}
-  m_Father: {fileID: 998324977935590784}
+  m_Father: {fileID: 900692787865412609}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -6432,6 +6433,7 @@ GameObject:
   - component: {fileID: 998324977935590784}
   - component: {fileID: 8903055293558839067}
   - component: {fileID: 7445875002776900931}
+  - component: {fileID: 8903055293558839068}
   m_Layer: 5
   m_Name: GameResult
   m_TagString: Untagged
@@ -6902,6 +6904,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6087716136674886020}
   m_CullTransparentMesh: 1
+--- !u!95 &8903055293558839068
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087716136674886020}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 58db68708d830449c9542104ecb86661, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!222 &9159490796065441183
 CanvasRenderer:
   m_ObjectHideFlags: 0
