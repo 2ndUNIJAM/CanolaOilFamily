@@ -32,6 +32,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text _weekText;
     [SerializeField]
     private Transform _tileParent;
+    [SerializeField]
+    private Button _upgradePanelOn;
+    [SerializeField]
+    private GameObject _upgradePanel;
 
     private GameObject _tilePrefab;
 
@@ -83,6 +87,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
+        _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
 
         for (int r = -3; r <= 3; r++)
         {
