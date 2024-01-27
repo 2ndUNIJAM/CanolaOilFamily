@@ -14,7 +14,7 @@ public static class Simulation
         if (stats.FreeDeliveryDistance >= d)
             d = 0;
 
-        return store.Price + store.DeliveryFee * d * stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
+        return store.Price + store.DeliveryFee * d * (decimal)stats.DeliveryCostFactor * Event.DeliveryFeeFactor;
     }
 
     // doesn't consider stock
@@ -23,10 +23,10 @@ public static class Simulation
         var playerStat = player.Upgrade;
         var opponentStat = opponent.Upgrade;
 
-        var playerFinalPrice = GetFinalPrice(tile, player) - playerStat.VersusCostBias -
-                               ((tile.Vip == VipType.MyStore) ? playerStat.VipVersusCostBias : 0m);
-        var opponentFinalPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias -
-                                 ((tile.Vip == VipType.OpponentStore) ? opponentStat.VipVersusCostBias : 0m);
+        var playerFinalPrice = GetFinalPrice(tile, player) - (decimal)playerStat.VersusCostBias -
+                               ((tile.Vip == VipType.MyStore) ? (decimal)playerStat.VipVersusCostBias : 0m);
+        var opponentFinalPrice = GetFinalPrice(tile, opponent) - (decimal)opponentStat.VersusCostBias -
+                                 ((tile.Vip == VipType.OpponentStore) ? (decimal)opponentStat.VipVersusCostBias : 0m);
 
         if (playerFinalPrice >= tile.MaximumPrice && opponentFinalPrice >= tile.MaximumPrice)
         {
@@ -167,22 +167,22 @@ public static class Simulation
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
                     myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                 playerStat.IngredientCostDecrement)) * purchaseCount;
+                                                 (decimal)playerStat.IngredientCostDecrement)) * purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
                     enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                      opponentStat.IngredientCostDecrement)) * purchaseCount;
+                                                      (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount;
                     break;
 
                 case DecisionType.Both:
                     playerStock -= purchaseCount / 2;
                     opponentStock -= purchaseCount / 2;
                     myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
-                                                 playerStat.IngredientCostDecrement)) * purchaseCount / 2;
+                                                 (decimal)playerStat.IngredientCostDecrement)) * purchaseCount / 2;
                     enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
-                                                      opponentStat.IngredientCostDecrement)) * purchaseCount / 2;
+                                                      (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount / 2;
                     break;
 
                 case DecisionType.None:

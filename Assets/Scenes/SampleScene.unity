@@ -3324,6 +3324,7 @@ MonoBehaviour:
   _myIngreCost: {fileID: 1689406114}
   _enemyIngreCost: {fileID: 814159111}
   _weekText: {fileID: 540970406}
+  _tileParent: {fileID: 881736214}
   playerStoreTileSprite: {fileID: 21300000, guid: 4e682eb8817f44a459f38a0a515748f0, type: 3}
   enemyStoreTileSprite: {fileID: 21300000, guid: b81031b7de766488ba7c6c071ca88607, type: 3}
   normalTileSprites:
