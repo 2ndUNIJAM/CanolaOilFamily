@@ -35,6 +35,8 @@ public class Tile : MonoBehaviour
     public static List<Tile> AllTiles = new();
     
     public int Q, R;
+    
+    public int S => -(Q + R);
 
     [HideInInspector]
     public VipType Vip = VipType.None;
@@ -66,14 +68,11 @@ public class Tile : MonoBehaviour
 
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);
-
-    private void Start()
-    {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-    }
     
     public void Init(int q, int r, TileType type)
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        
         Q = q;
         R = r;
         Type = type;
@@ -104,7 +103,7 @@ public class Tile : MonoBehaviour
 
     public static int GetDistance(Tile a, Tile b)
     {
-        return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.Q + a.R - b.Q - b.R));
+        return Mathf.Max(Mathf.Abs(a.Q - b.Q), Mathf.Abs(a.R - b.R), Mathf.Abs(a.S - b.S));
     }
 
     private void OnMouseUpAsButton()
@@ -120,8 +119,6 @@ public class Tile : MonoBehaviour
         switch (Type)
         {
             case TileType.Uninitialized:
-                break;
-            
             case TileType.Customer:
                 int spriteIndex;
                 

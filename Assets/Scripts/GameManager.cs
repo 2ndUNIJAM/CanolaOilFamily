@@ -106,6 +106,22 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 }
             }
         }
+        
+        // Set tiles initial validity
+        // Decision of uninitialized tiles shows validity
+        var center = Tile.FindTile(0, 0);
+        
+        foreach (var tile in Tile.AllTiles)
+        {
+            if (tile == center || Tile.GetDistance(tile, center) == 1 || (tile.Q >= -1 && tile.S <= +1))
+            {
+                tile.Decision = DecisionType.Opponent;
+            }
+            else
+            {
+                tile.Decision = DecisionType.Player;
+            }
+        }
     }
 
     // Update is called once per frame
@@ -157,22 +173,35 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public void MakeStore(Tile at)
     {
-        var tiles = Tile.AllTiles;
-        tiles.ForEach(x => x.Type = TileType.Customer);
+        if (at.Decision != DecisionType.Player)
+        {
+            Debug.Log("Invalid position");
+            return;
+        }
+        
+        foreach (var tile in Tile.AllTiles)
+        {
+            tile.Type = TileType.Customer;
+            tile.Decision = DecisionType.None;
+        }
         at.Type = TileType.MyStore;
         Player.Position = at;
 
-        var r = new System.Random();
-        while (true)
-        {
-            var rr = r.Next(tiles.Count);
-            if (tiles[rr].Type != TileType.MyStore)
-            {
-                tiles[rr].Type = TileType.OpponentStore;
-                Enemy.Position = tiles[rr];
-                break;
-            }
-        }
+        var enemyTile = Tile.AllTiles.Find(t => t.Q == -at.Q && t.R == -at.R);
+        enemyTile.Type = TileType.OpponentStore;
+        Enemy.Position = enemyTile;
+        
+        // var r = new System.Random();
+        // while (true)
+        // {
+        //     var rr = r.Next(tiles.Count);
+        //     if (tiles[rr].Type != TileType.MyStore)
+        //     {
+        //         tiles[rr].Type = TileType.OpponentStore;
+        //         Enemy.Position = tiles[rr];
+        //         break;
+        //     }
+        // }
 
         isStorePositioned = true;
 
