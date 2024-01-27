@@ -145,7 +145,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
-        _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
+        _upgradePanelOn.onClick.AddListener(() =>
+        {
+            _upgradePanel.GetComponent<UpgradeManager>().UpdateUi();
+            _upgradePanel.SetActive(true);
+        });
         _shopPanelOn.onClick.AddListener(() => _shopPanel.gameObject.SetActive(true));
 
         Tile.Ttt = _tileTooltip;
