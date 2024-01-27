@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -204,20 +205,20 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         _myDeliveryFee.text
             = "배달비 | "
-            + ((Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement) * Event.DeliveryFeeFactor).ToString();
+            + (Player.DeliveryFee - Player.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias).ToString(CultureInfo.InvariantCulture);
         _enemyDeliveryFee.text
             = "배달비 | "
-            + ((Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostDecrement) * Event.DeliveryFeeFactor).ToString();
+            + (Enemy.DeliveryFee - Enemy.Upgrade.DeliveryCostDecrement + Event.DeliveryFeeBias);
         _myIngreCost.text
             = "재료비 | " 
             +   (Player.IngredientCost 
                 - Player.Upgrade.IngredientCostDecrement
-                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString();
+                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString(CultureInfo.InvariantCulture);
         _enemyIngreCost.text
             = "재료비 | "
             +   (Enemy.IngredientCost
                 - Enemy.Upgrade.IngredientCostDecrement
-                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString();
+                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString(CultureInfo.InvariantCulture);
     }
 
     public void MakeStore(Tile at)
