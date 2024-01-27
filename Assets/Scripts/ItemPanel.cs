@@ -91,12 +91,13 @@ public class ItemPanel : MonoBehaviour
             return;
         }
 
-        player.Money -= Current.Price;
+        // buy item
         player.ItemManager.BuyItem(Current);
-        Current = null;
-        _currentButton.GetComponent<Button>().interactable = false;
-        _money.text = player.Money.ToString();
-        GameManager.Instance.UpdateUpgradableStatUI();
+
+        Current = null; // reset selected
+        _currentButton.GetComponent<Button>().interactable = false; // no more affordable this turn
+        _money.text = player.Money.ToString(); // money UI update
+        GameManager.Instance.UpdateUpgradableStatUI(); // stat UI update
         Notify("구매했습니다.");
     }
 
