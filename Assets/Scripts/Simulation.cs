@@ -196,7 +196,8 @@ public static class Simulation
         enemy.SaleVolume = 0;
         player.Profit = 0;
         enemy.Profit = 0;
-        enemy.Price = DecideOpponentPrice(player, enemy);
+        enemy.Price = enemy.ItemManager.FixedPrice > 0 ?
+            enemy.ItemManager.FixedPrice : DecideOpponentPrice(player, enemy);
         var margin = SellChicken(player, enemy);
         player.Profit = margin.myMargin - player.Rent;
         enemy.Profit = margin.enemyMargin - enemy.Rent;

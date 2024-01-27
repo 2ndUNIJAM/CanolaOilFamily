@@ -4,13 +4,18 @@ using UnityEngine;
 public class ItemManager
 {
     private Store _store;
-    private List<IItem> _toBeApplied = new();
-
-    public bool usingShield = false;
-    public bool isIngredientCostSabotaged = false;
+    
     public const decimal INGREDIENT_COST_SABOTAGE_FACTOR = 2;
+
+    // notify flag
     public bool DoBlocked = false;
     public bool IsThief = false;
+    
+    // item usage flag
+    public bool usingShield = false;
+    public bool isIngredientCostSabotaged = false;
+    private List<IItem> _toBeApplied = new();
+    public decimal FixedPrice = -1;
 
     public ItemManager(Store store)
     {
@@ -44,6 +49,7 @@ public class ItemManager
         DoBlocked = false;
         IsThief = false;
         _toBeApplied.Clear();
+        FixedPrice = -1;
     }
 
     public void BuyItem(IItem item)
@@ -137,10 +143,12 @@ public class SpyItem : IItem
 
     public void OnApply(Store user)
     {
-        throw new System.NotImplementedException();
     }
 
     public void OnBuy(Store user)
     {
+        var r = new System.Random();
+        user.GetEnemy().ItemManager.FixedPrice = user.GetEnemy().Price + 0.5m * (r.Next(5) - 2);
+        ItemPanel.Instance.Notify("상대는 이번 주 동안 $" + user.GetEnemy().ItemManager.FixedPrice + "에 치킨을 판매합니다.");
     }
 }

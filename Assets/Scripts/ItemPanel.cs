@@ -4,10 +4,11 @@ using UnityEngine.UI;
 
 public class ItemPanel : MonoBehaviour
 {
+    public static ItemPanel Instance;
 
     public enum ItemCode
     {
-        FLAME, THEIF, SHIELD
+        FLAME, THEIF, SHIELD, SPY
     }
 
     private Sprite[] _itemSprites;
@@ -45,11 +46,14 @@ public class ItemPanel : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
+
         _itemSprites = new[]
         {
             Resources.Load<Sprite>("Item/Skill_Icon_Flame"),
             Resources.Load<Sprite>("Item/Skill_Icon_Rob"),
-            Resources.Load<Sprite>("Item/Skill_Icon_Shield")
+            Resources.Load<Sprite>("Item/Skill_Icon_Shield"),
+            Resources.Load<Sprite>("Item/Skill_Icon_Spy")
         };
     }
     
@@ -69,6 +73,9 @@ public class ItemPanel : MonoBehaviour
             case ItemCode.SHIELD:
                 Current = new Shield();
                 break;
+            case ItemCode.SPY:
+                Current = new SpyItem();
+                break;
         }
     }
 
@@ -85,6 +92,7 @@ public class ItemPanel : MonoBehaviour
         }
 
         // buy item
+        Notify("구매했습니다.");
         player.ItemManager.BuyItem(Current);
 
         Current = null; // reset selected
@@ -92,10 +100,9 @@ public class ItemPanel : MonoBehaviour
         _money.text = player.Money.ToString(); // money UI update
         GameManager.Instance.UpdateUpgradableStatUI(); // stat UI update
         GameManager.Instance.PlaySfx(SfxIndex.PurchaseItem);
-        Notify("구매했습니다.");
     }
 
-    private void Notify(string msg)
+    public void Notify(string msg)
     {
         _extraNotify.text = msg;
         _extraNotify.gameObject.SetActive(true);
