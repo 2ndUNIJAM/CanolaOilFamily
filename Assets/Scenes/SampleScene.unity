@@ -4441,78 +4441,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1111434362}
     m_Modifications:
-    - target: {fileID: 525164488344532594, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 113
-      objectReference: {fileID: 0}
-    - target: {fileID: 595979885852900149, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -120
-      objectReference: {fileID: 0}
-    - target: {fileID: 903887991908938248, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -80
-      objectReference: {fileID: 0}
-    - target: {fileID: 2247169546322831738, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -222
-      objectReference: {fileID: 0}
-    - target: {fileID: 3374904821481913992, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -182
-      objectReference: {fileID: 0}
     - target: {fileID: 3555123311303403382, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_Name
       value: WeeklyResult
-      objectReference: {fileID: 0}
-    - target: {fileID: 3555123311303403382, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4131255254773990482, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 210
-      objectReference: {fileID: 0}
-    - target: {fileID: 4289428766286228029, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -265
-      objectReference: {fileID: 0}
-    - target: {fileID: 4416771664875340689, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4473171143826199712, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634043386737627140, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 480
-      objectReference: {fileID: 0}
-    - target: {fileID: 5634043386737627140, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5871493002015683421, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 170
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691365281932343725, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 480
-      objectReference: {fileID: 0}
-    - target: {fileID: 6691365281932343725, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6872313477212417803, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
       objectReference: {fileID: 2043792359}
-    - target: {fileID: 6872313477212417803, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: StartControlPhase
-      objectReference: {fileID: 0}
     - target: {fileID: 7563653761283425138, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4592,10 +4528,6 @@ PrefabInstance:
     - target: {fileID: 7563653761283425138, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8770967640179139361, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 73
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4902,6 +4834,7 @@ MonoBehaviour:
   _eventName: {fileID: 353963228}
   _eventDescription: {fileID: 1182937835}
   _topEventIcon: {fileID: 1766667073}
+  _tileTooltip: {fileID: 0}
   weeklyResultPanel: {fileID: 1895492155}
   titleText: {fileID: 1895492154}
   myPriceText: {fileID: 1895492153}
