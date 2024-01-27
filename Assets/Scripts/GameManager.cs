@@ -344,6 +344,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
+        // check if dead
         if (Player.Money <= 0)
         {
             FinishGame(false);
@@ -355,6 +356,22 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             FinishGame(true);
             return;
         }
+
+        // theif check
+        decimal myGinpai = 0, marineGinpai = 0;
+        
+        if (Player.ItemManager.IsThief && !Player.ItemManager.DoBlocked)
+        {
+            myGinpai = Enemy.Profit / 2;
+        }
+
+        if (Enemy.ItemManager.IsThief && !Enemy.ItemManager.DoBlocked)
+        {
+            marineGinpai = Player.Profit / 2;
+        }
+
+        Player.Profit += (myGinpai - marineGinpai);
+        Enemy.Profit += (marineGinpai - myGinpai);
 
         EndWeek();
     }

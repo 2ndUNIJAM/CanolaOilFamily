@@ -102,8 +102,6 @@ public class ThiefItem : IItem
 
     public void OnApply(Store user)
     {
-        user.GetEnemy().Money -= AMOUNT;
-        user.Money += AMOUNT;
     }
 }
 
