@@ -71,7 +71,7 @@ public class Store
     // This process should NOT be happened in constructor since it needs to occur UI text change.
     public void InitValues()
     {
-        Price = 15;
+        Price = 18;
         Money = 300;
         _delivFee = 1.5m;
         _ingCost = 10;
