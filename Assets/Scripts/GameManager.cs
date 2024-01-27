@@ -39,6 +39,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private GameObject _upgradePanel;
     [SerializeField]
+    private Button _shopPanelOn;
+    [SerializeField]
+    private GameObject _shopPanel;
+    [SerializeField]
     private GameObject _eventNoticePanel;
     [SerializeField]
     private Image _eventImage;
@@ -100,6 +104,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
         _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
+        _shopPanelOn.onClick.AddListener(() => _shopPanel.SetActive(true));
 
         Event.Init();
 
