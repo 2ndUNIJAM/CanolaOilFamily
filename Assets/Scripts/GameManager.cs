@@ -526,16 +526,31 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         // Summary
         _enemyActionSummary.text = string.Empty;
 
+        string sin = string.Empty;
+
         if (Player.ItemManager.IsThief)
+            sin = "습격";
+        else if (Player.ItemManager.IsFlamer)
+            sin = "방화";
+
+        if (sin != string.Empty)
         {
             _enemyActionSummary.text += Player.ItemManager.DoBlocked ?
-                "상대가 습격을 방어했습니다." : "상대 가게를 습격했습니다.";
+                "상대가 " + sin + "을(를) 방어했습니다." : "상대 가게를 " + sin + "했습니다.";
             _enemyActionSummary.text += '\n';
         }
+
+        sin = string.Empty;
+
         if (Enemy.ItemManager.IsThief)
+            sin = "습격";
+        else if (Enemy.ItemManager.IsFlamer)
+            sin = "방화";
+
+        if (sin != string.Empty)
         {
             _enemyActionSummary.text += Enemy.ItemManager.DoBlocked ?
-                "상대의 습격을 방어했습니다." : "상대가 가게를 습격했습니다.";
+                "상대의 " + sin + "을(를) 방어했습니다." : "상대가 가게를 " + sin + "했습니다.";
             _enemyActionSummary.text += '\n';
         }
         

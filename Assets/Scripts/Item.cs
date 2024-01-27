@@ -10,6 +10,7 @@ public class ItemManager
     // notify flag
     public bool DoBlocked = false;
     public bool IsThief = false;
+    public bool IsFlamer = false;
     
     // item usage flag
     public bool usingShield = false;
@@ -48,6 +49,7 @@ public class ItemManager
         isIngredientCostSabotaged = false;
         DoBlocked = false;
         IsThief = false;
+        IsFlamer = false;
         _toBeApplied.Clear();
         FixedPrice = -1;
     }
