@@ -1,11 +1,12 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public static class Simulation
 {
-    private const decimal SimulationInterval = 0.5m;
     private const int SimulationIntervalMaxCount = 2;
+    private const decimal SimulationInterval = 0.5m;
 
     // Price for one 
     private static decimal GetFinalPrice(Tile tile, Store store)

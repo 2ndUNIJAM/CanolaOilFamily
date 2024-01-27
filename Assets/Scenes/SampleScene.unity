@@ -4505,6 +4505,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6872313477212417803, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 2043792359}
+    - target: {fileID: 6872313477212417803, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: StartControlPhase
+      objectReference: {fileID: 0}
     - target: {fileID: 7563653761283425138, guid: ce9d5d91cd1d04490b1cd285d7c80144, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

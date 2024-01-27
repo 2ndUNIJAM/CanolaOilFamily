@@ -1,10 +1,14 @@
+using System.Collections;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
+    private const float SimulationMotionInterval = 0.03f;
     private const string DecimalSpecifier = "#####0.0";
+    
+    private Coroutine _simulationCoroutine;
     
     public const int MaxWeeks = 52;
     
@@ -105,8 +109,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private int _weeks; // current weeks
     public int Weeks
     {
-        get { return _weeks; }
-        set
+        get => _weeks;
+        private set
         {
             _weeks = value;
             _weekText.text = _weeks.ToString();
@@ -195,6 +199,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 tile.Decision = DecisionType.Player;    // Valid MyStore position
             }
+            tile.UpdateSprite();
         }
     }
 
@@ -253,8 +258,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         {
             tile.Type = TileType.Customer;
             tile.Decision = DecisionType.None;
+            tile.UpdateSprite();
         }
         at.Type = TileType.MyStore;
+        at.UpdateSprite();
         Player.Position = at;
         Tile.ShuffleTileList();
 
@@ -274,6 +281,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             enemyTile.Type = TileType.OpponentStore;
             Enemy.Position = enemyTile;
         }
+        enemyTile.UpdateSprite();
         
         // If enemy store position is special tile, randomly select the special tile
         if (enemyTile.SpecialType != SpecialTileType.None)
@@ -284,6 +292,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 {
                     tile.SpecialType = enemyTile.SpecialType;
                     enemyTile.SpecialType = SpecialTileType.None;
+                    tile.UpdateSprite();
+                    enemyTile.UpdateSprite();
                     break;
                 }
             }
@@ -304,7 +314,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public void StartControlPhase()
     {
-        Weeks++;
+        Weeks += 1;
 
         Event.ResetEvent();
         _topEventIcon.gameObject.SetActive(false);
@@ -339,7 +349,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Enemy.ItemManager.ApplyItem();
 
         Simulation.Simulate();
-        AfterSimulation();
+        _simulationCoroutine = StartCoroutine(SimulationMotionCoroutine());
     }
 
     private void AfterSimulation()
@@ -368,8 +378,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             return;
         }
         
-        weeklyResultPanel.SetActive(true);
-
         titleText.text = Weeks.ToString();
         
         // Sales
@@ -408,12 +416,26 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             _enemyActionSummary.text += '\n';
         }
         //todo upgrade notify
+        
+        weeklyResultPanel.SetActive(true);
     }
 
     private void FinishGame(bool isPlayerWin)
     {
         // TODO: Show game result panel
         // TODO: Back to title scene
+    }
+
+    private IEnumerator SimulationMotionCoroutine()
+    {
+        foreach (var tile in Tile.AllTiles)
+        {
+            if (tile.Type != TileType.Customer) continue;
+            tile.UpdateSprite();
+            yield return new WaitForSeconds(SimulationMotionInterval);
+        }
+
+        AfterSimulation();
     }
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
