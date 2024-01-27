@@ -1,5 +1,3 @@
-#define INVULNERABLE
-
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -302,7 +300,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void AfterSimulation()
     {
-#if !INVULNERABLE
         if (Player.Money <= 0)
         {
             FinishGame(false);
@@ -314,7 +311,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             FinishGame(true);
             return;
         }
-#endif
 
         EndWeek();
     }
