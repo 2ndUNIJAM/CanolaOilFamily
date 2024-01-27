@@ -169,13 +169,15 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         // Random select Special tiles
         Tile.ShuffleTileList();
         
-        // HighOrder
+        Tile.AllTiles[0].SpecialType = SpecialTileType.HighOrder;
+        Tile.AllTiles[1].SpecialType = SpecialTileType.LowOrder;
+        Tile.AllTiles[2].SpecialType = SpecialTileType.OccasionalHighOrder;
+        Tile.AllTiles[3].SpecialType = SpecialTileType.RandomOrder;
         
-        
-        // LowOrder
-        
-        
-        // RandomOrder
+        Debug.Log($"HighOrder: {Tile.AllTiles[0].Q}, {Tile.AllTiles[0].R}");
+        Debug.Log($"LowOrder: {Tile.AllTiles[1].Q}, {Tile.AllTiles[1].R}");
+        Debug.Log($"OccasionalHighOrder: {Tile.AllTiles[2].Q}, {Tile.AllTiles[2].R}");
+        Debug.Log($"RandomOrder: {Tile.AllTiles[3].Q}, {Tile.AllTiles[3].R}");
         
         // Set tiles initial validity
         // Decision of uninitialized tiles shows validity
@@ -250,6 +252,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
         at.Type = TileType.MyStore;
         Player.Position = at;
+        Tile.ShuffleTileList();
 
         // Determine enemy store position
         Tile enemyTile;
@@ -266,6 +269,20 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             enemyTile = Tile.AllTiles.Find(t => t.Q == at.S && t.R == at.R);
             enemyTile.Type = TileType.OpponentStore;
             Enemy.Position = enemyTile;
+        }
+        
+        // If enemy store position is special tile, randomly select the special tile
+        if (enemyTile.SpecialType != SpecialTileType.None)
+        {
+            foreach (var tile in Tile.AllTiles)
+            {
+                if (tile.SpecialType == SpecialTileType.None)
+                {
+                    tile.SpecialType = enemyTile.SpecialType;
+                    enemyTile.SpecialType = SpecialTileType.None;
+                    break;
+                }
+            }
         }
 
         IsStorePositioned = true;
@@ -349,7 +366,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         
         weeklyResultPanel.SetActive(true);
 
-        titleText.text = $"{Weeks}주차 정산";
+        titleText.text = Weeks.ToString();
         
         // Sales
         myPriceText.text = Player.Price.ToString(DecimalSpecifier);

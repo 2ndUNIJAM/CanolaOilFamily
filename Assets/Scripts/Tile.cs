@@ -84,6 +84,7 @@ public class Tile : MonoBehaviour
         {
             _specialType = value;
             SetSpacialTileValues();
+            UpdateSprite();
         }
     }
 

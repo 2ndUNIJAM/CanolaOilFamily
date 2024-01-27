@@ -21,7 +21,8 @@ public static class Simulation
     }
 
     // doesn't consider stock
-    private static DecisionType GetDecision(Tile tile, Store player, Store opponent, int playerStock, int opponentStock)
+    private static DecisionType GetDecision(Tile tile, Store player, Store opponent,
+        int playerStock, int opponentStock, int purchaseCount)
     {
         var playerStat = player.Upgrade;
         var opponentStat = opponent.Upgrade;
@@ -40,7 +41,7 @@ public static class Simulation
         {
             if (playerDecisionPrice > tile.MaximumPrice)
             {
-                if (opponentStock >= tile.PurchaseCount)
+                if (opponentStock >= purchaseCount)
                 {
                     return DecisionType.Opponent;
                 }
@@ -51,7 +52,7 @@ public static class Simulation
             }
             else if (opponentDecisionPrice > tile.MaximumPrice)
             {
-                if (playerStock >= tile.PurchaseCount)
+                if (playerStock >= purchaseCount)
                 {
                     return DecisionType.Player;
                 }
@@ -65,11 +66,11 @@ public static class Simulation
                 // Random select player
                 if (Random.Range(0, 2) == 0)
                 {
-                    if (playerStock >= tile.PurchaseCount)
+                    if (playerStock >= purchaseCount)
                     {
                         return DecisionType.Player;
                     }
-                    else if (opponentStock >= tile.PurchaseCount)
+                    else if (opponentStock >= purchaseCount)
                     {
                         return DecisionType.Opponent;
                     }
@@ -82,11 +83,11 @@ public static class Simulation
                 // Random select opponent
                 else
                 {
-                    if (opponentStock >= tile.PurchaseCount)
+                    if (opponentStock >= purchaseCount)
                     {
                         return DecisionType.Opponent;
                     }
-                    else if (opponentStock >= tile.PurchaseCount)
+                    else if (opponentStock >= purchaseCount)
                     {
                         return DecisionType.Player;
                     }
@@ -101,11 +102,11 @@ public static class Simulation
         // Player is cheaper
         if (playerDecisionPrice < opponentDecisionPrice)
         {
-            if (playerStock >= tile.PurchaseCount)
+            if (playerStock >= purchaseCount)
             {
                 return DecisionType.Player;
             }
-            else if (opponentDecisionPrice <= tile.MaximumPrice && opponentStock >= tile.PurchaseCount)
+            else if (opponentDecisionPrice <= tile.MaximumPrice && opponentStock >= purchaseCount)
             {
                 return DecisionType.Opponent;
             }
@@ -118,11 +119,11 @@ public static class Simulation
         // Opponent is cheaper
         if (playerDecisionPrice > opponentDecisionPrice)
         {
-            if (opponentStock >= tile.PurchaseCount)
+            if (opponentStock >= purchaseCount)
             {
                 return DecisionType.Opponent;
             }
-            else if (playerDecisionPrice <= tile.MaximumPrice && playerStock >= tile.PurchaseCount)
+            else if (playerDecisionPrice <= tile.MaximumPrice && playerStock >= purchaseCount)
             {
                 return DecisionType.Player;
             }
@@ -133,13 +134,13 @@ public static class Simulation
         }
         
         // Both are same
-        if (playerStock >= tile.PurchaseCount / 2)
+        if (playerStock >= purchaseCount / 2)
         {
-            if (opponentStock >= tile.PurchaseCount / 2)
+            if (opponentStock >= purchaseCount / 2)
             {
                 return DecisionType.Both;
             }
-            else if (playerStock >= tile.PurchaseCount)
+            else if (playerStock >= purchaseCount)
             {
                 return DecisionType.Player;
             }
@@ -148,7 +149,7 @@ public static class Simulation
                 return DecisionType.None;
             }
         }
-        else if (opponentStock >= tile.PurchaseCount)
+        else if (opponentStock >= purchaseCount)
         {
             return DecisionType.Opponent;
         }
@@ -224,7 +225,7 @@ public static class Simulation
             var purchaseCount = tile.PurchaseCount * Event.OrderFactor;
             var playerStat = player.Upgrade;
             var opponentStat = opponent.Upgrade;
-            var decision = GetDecision(tile, player, opponent, playerStock, opponentStock);
+            var decision = GetDecision(tile, player, opponent, playerStock, opponentStock, purchaseCount);
 
             var playerIngredientCost = player.IngredientCost
                                         + Event.IngredientCostAdjustValue
@@ -241,16 +242,14 @@ public static class Simulation
             {
                 case DecisionType.Player:
                     playerStock -= purchaseCount;
-                    var ingreCost = 
                     myMargin += (player.Price - playerIngredientCost) * purchaseCount;
-                    player.SaleVolume += purchaseCount;
+                    if (!isVirtual) player.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
-                    ingreCost = 
                     enemyMargin += (opponent.Price - opponentIngredientCost) * purchaseCount;
-                    opponent.SaleVolume += purchaseCount;
+                    if (!isVirtual) opponent.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Both:
@@ -258,8 +257,12 @@ public static class Simulation
                     opponentStock -= purchaseCount / 2;
                     myMargin += (player.Price - playerIngredientCost) * purchaseCount / 2;
                     enemyMargin += (opponent.Price - opponentIngredientCost) * purchaseCount / 2;
-                    player.SaleVolume += purchaseCount / 2;
-                    opponent.SaleVolume += purchaseCount / 2;
+                    if (!isVirtual)
+                    {
+                        player.SaleVolume += purchaseCount / 2;
+                        opponent.SaleVolume += purchaseCount / 2;
+                    }
+
                     break;
 
                 case DecisionType.None:
