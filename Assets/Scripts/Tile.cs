@@ -157,7 +157,7 @@ public class Tile : MonoBehaviour
 
     private void OnMouseUpAsButton()
     {
-        if (!GameManager.Instance.isStorePositioned)
+        if (!GameManager.Instance.IsStorePositioned)
         {
             GameManager.Instance.MakeStore(this);
         }

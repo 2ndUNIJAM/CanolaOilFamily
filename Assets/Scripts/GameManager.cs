@@ -85,8 +85,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text myMoneyText;
     [SerializeField]
     private TMPro.TMP_Text enemyMoneyText;
+    [SerializeField]
+    private TMPro.TMP_Text _enemyActionSummary;
 
-    private GameObject _tilePrefab;
 
     [Header("Sprites")]
     public Sprite playerStoreTileSprite;
@@ -110,7 +111,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
     }
 
-    public bool isStorePositioned = false;
+    private GameObject _tilePrefab;
+
+    public bool IsStorePositioned = false;
 
     public Store Player = new Store();
     public Store Enemy = new Store();
@@ -265,7 +268,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             Enemy.Position = enemyTile;
         }
 
-        isStorePositioned = true;
+        IsStorePositioned = true;
 
         makeStoreInfoText.SetActive(false);
         readyPanel.SetActive(true);
@@ -308,7 +311,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void StartSimulationPhase()
     {
-        if (!isStorePositioned)
+        if (!IsStorePositioned)
         { return; }
 
         Player.ItemManager.ApplyItem();
@@ -367,6 +370,23 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         // Money
         myMoneyText.text = Player.Money.ToString(DecimalSpecifier);
         enemyMoneyText.text = Enemy.Money.ToString(DecimalSpecifier);
+
+        // Summary
+        _enemyActionSummary.text = string.Empty;
+
+        if (Player.ItemManager.IsThief)
+        {
+            _enemyActionSummary.text += Player.ItemManager.DoBlocked ?
+                "상대가 습격을 방어했습니다." : "상대 가게를 습격했습니다.";
+            _enemyActionSummary.text += '\n';
+        }
+        if (Enemy.ItemManager.IsThief)
+        {
+            _enemyActionSummary.text += Enemy.ItemManager.DoBlocked ?
+                "상대의 습격을 방어했습니다." : "상대가 가게를 습격했습니다.";
+            _enemyActionSummary.text += '\n';
+        }
+        //todo upgrade notify
     }
 
     private void FinishGame(bool isPlayerWin)

@@ -4,16 +4,19 @@ using UnityEngine;
 public class ItemManager
 {
     private Store _store;
+    private List<IItem> _toBeApplied = new();
+
     public bool usingShield = false;
     public bool isIngredientCostSabotaged = false;
     public const decimal INGREDIENT_COST_SABOTAGE_FACTOR = 2;
+    public bool DoBlocked = false;
+    public bool IsThief = false;
 
     public ItemManager(Store store)
     {
         _store = store;
     }
 
-    private List<IItem> _toBeApplied = new();
 
     public static void EnemyBuyItem(ItemManager enemyItemManager) // called at start of each control turn
     {
@@ -34,6 +37,8 @@ public class ItemManager
     {
         usingShield = false;
         isIngredientCostSabotaged = false;
+        DoBlocked = false;
+        IsThief = false;
     }
 
     public void BuyItem(IItem item)
@@ -49,7 +54,7 @@ public class ItemManager
     {
         if (_store.GetEnemy().ItemManager.usingShield)
         {
-            Debug.Log("Apply shield of " + _store.ToString());
+            DoBlocked = true;
             return;
         }
 
@@ -92,6 +97,7 @@ public class ThiefItem : IItem
     private const decimal AMOUNT = 100;
     public void OnBuy(Store user)
     {
+        user.ItemManager.IsThief = true;
     }
 
     public void OnApply(Store user)
