@@ -58,9 +58,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     }
 
     public bool isStorePositioned = false;
-    
-    public Store Player;
-    public Store Enemy;
+
+    public Store Player = new Store();
+    public Store Enemy = new Store();
     
     private void Awake()
     {
@@ -77,9 +77,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     // Start is called before the first frame update
     void Start()
     {
-        Player = new Store();
-        Enemy = new Store();
-
         _weeks = 0;
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");

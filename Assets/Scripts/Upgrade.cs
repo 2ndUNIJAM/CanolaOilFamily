@@ -4,9 +4,12 @@ using JetBrains.Annotations;
 public abstract class Upgrade
 {
     public virtual string Name => "";
+    public virtual string Title => "";
+    public virtual string Description => "";
+    public virtual decimal Price => 0m;
 
     public virtual int LvConstraint => 0;
-    [CanBeNull] public virtual Type UpgradeConstraint => null;
+    public virtual Type UpgradeConstraint => null;
     public virtual bool IsReplaceConstraint => false;
     public virtual string IconPath => null;
     public virtual string ImagePath => null;
