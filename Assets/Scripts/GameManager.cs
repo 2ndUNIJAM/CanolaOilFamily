@@ -379,7 +379,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Player.ItemManager.Init();
         Enemy.ItemManager.Init();
 
-        ItemManager.EnemyBuyItem(Enemy.ItemManager);
+        ItemManager.EnemyTryBuyThief(Enemy.ItemManager);
     }
 
     private void StartSimulationPhase()
