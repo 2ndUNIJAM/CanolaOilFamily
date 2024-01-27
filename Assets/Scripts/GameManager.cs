@@ -34,9 +34,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         Enemy = new Store();
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");
-
-        _increasePrice.onClick.AddListener(() => Player.Price += 0.1f);
-        _decreasePrice.onClick.AddListener(() => Player.Price -= 0.1f);
+        _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
+        _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
 
         for (int r = -3; r <= 3; r++)

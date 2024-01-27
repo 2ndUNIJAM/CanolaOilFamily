@@ -3,14 +3,14 @@ using System.Linq;
 
 public class Store
 {
-    private float _price = 20f;
+    private decimal _price = 20;
 
-    public float Price
+    public decimal Price
     {
         get => _price;
         set
         {
-            if (value is < 10f or > 30f)
+            if (value is < 10 or > 30)
             {
                 return;
             }
@@ -23,9 +23,9 @@ public class Store
     }
 
     public Tile Position;
-    public float DeliveryFee = 1f;
-    public float IngredientCost = 1f;
-    public float Rent = 150f;
+    public decimal DeliveryFee = 1;
+    public decimal IngredientCost = 1;
+    public decimal Rent = 150;
     public int Stock = 100;
     public int Level = 1;
     private List<Upgrade> _upgrades;
@@ -54,7 +54,7 @@ public class Store
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
     }
 
-    public float Money;
+    public decimal Money;
 
     public override string ToString()
     {

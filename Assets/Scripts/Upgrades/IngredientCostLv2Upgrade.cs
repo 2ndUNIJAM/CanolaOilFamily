@@ -7,5 +7,5 @@ public class IngredientCostLv2Upgrade : Upgrade
     public override Type UpgradeConstraint => typeof(IngredientCostLv1Upgrade);
     public override bool IsReplaceConstraint => true;
 
-    public override UpgradeStat Stat => new(ingredientCostDecrement: 1f);
+    public override UpgradeStat Stat => new(ingredientCostDecrement: 1);
 }

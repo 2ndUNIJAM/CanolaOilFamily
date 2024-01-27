@@ -32,7 +32,7 @@ public class Tile : MonoBehaviour
     public bool IsPreferPermanent = false;
 
     public int PurchaseCount { get; set; } = 10;
-    public float MaximumPrice { get; set; } = 20f;
+    public decimal MaximumPrice { get; set; } = 20m;
 
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);

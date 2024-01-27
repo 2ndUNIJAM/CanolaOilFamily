@@ -11,13 +11,13 @@ public enum DecisionType
 
 public static class Simulation
 {
-    private const float SimulationInterval = 0.5f;
+    private const decimal SimulationInterval = 0.5m;
     private const int SimulationIntervalMaxCount = 2;
 
     // Price for one 
-    private static float GetFinalPrice(Tile tile, Store store)
+    private static decimal GetFinalPrice(Tile tile, Store store)
     {
-        var d = (float)Tile.GetDistance(tile, store.Position);
+        var d = (decimal)Tile.GetDistance(tile, store.Position);
         var stats = store.Upgrade;
         if (stats.FreeDeliveryDistance >= d)
             d = 0;
@@ -32,9 +32,9 @@ public static class Simulation
         var opponentStat = opponent.Upgrade;
 
         var playerFinalPrice = GetFinalPrice(tile, player) - playerStat.VersusCostBias -
-                               ((tile.Vip == VipType.MyStore) ? playerStat.VipVersusCostBias : 0f);
+                               ((tile.Vip == VipType.MyStore) ? playerStat.VipVersusCostBias : 0m);
         var opponentFinalPrice = GetFinalPrice(tile, opponent) - opponentStat.VersusCostBias -
-                                 ((tile.Vip == VipType.OpponentStore) ? opponentStat.VipVersusCostBias : 0f);
+                                 ((tile.Vip == VipType.OpponentStore) ? opponentStat.VipVersusCostBias : 0m);
 
         if (playerFinalPrice >= tile.MaximumPrice && opponentFinalPrice >= tile.MaximumPrice)
         {
@@ -110,9 +110,9 @@ public static class Simulation
         }
     }
 
-    private static float DecideOpponentPrice(Store player, Store opponent)
+    private static decimal DecideOpponentPrice(Store player, Store opponent)
     {
-        var bestMargin = float.MinValue;
+        var bestMargin = decimal.MinValue;
         var bestPrice = player.Price;
 
         for (var price = player.Price - SimulationIntervalMaxCount * SimulationInterval;
@@ -148,13 +148,13 @@ public static class Simulation
         enemy.Money += margin.enemyMargin;
     }
 
-    private static (float myMargin, float enemyMargin) SellChicken(Store player, Store opponent)
+    private static (decimal myMargin, decimal enemyMargin) SellChicken(Store player, Store opponent)
     {
         var playerStock = player.Stock;
         var opponentStock = opponent.Stock;
 
-        var myMargin = 0f;
-        var enemyMargin = 0f;
+        var myMargin = 0m;
+        var enemyMargin = 0m;
 
         Tile.ShuffleTileList();
 
