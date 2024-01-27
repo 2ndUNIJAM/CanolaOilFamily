@@ -168,7 +168,7 @@ public class UpgradeManager : MonoBehaviour
         ChangeLockState(isDisabled, isLocked, go);
     }
 
-    private void UpdateUi()
+    public void UpdateUi()
     {
         var player = GameManager.Instance.Player;
         _currentMoney.text = player.Money.ToString(CultureInfo.InvariantCulture);

@@ -40,8 +40,6 @@ public class Tile : MonoBehaviour
     private const int LowOrderCount = 6;
     private const int OccasionalOrderPeriod = 5;
     
-    private TileType _type;
-    private DecisionType _decision = DecisionType.None;
     private SpecialTileType _specialType = SpecialTileType.None;
     
     private SpriteRenderer _spriteRenderer;
@@ -59,39 +57,20 @@ public class Tile : MonoBehaviour
 
     public static TileTooltip Ttt;
     
-    public TileType Type
-    {
-        get => _type;
-        set
-        {
-            _type = value;
-            UpdateSprite();
-        }
-    }
-
-    public DecisionType Decision
-    {
-        get => _decision;
-        set
-        {
-            _decision = value;
-            UpdateSprite();
-        }
-    }
-
-    public SpecialTileType SpecialType
+   public SpecialTileType SpecialType
     {
         get => _specialType;
         set
         {
             _specialType = value;
             SetSpacialTileValues();
-            UpdateSprite();
         }
     }
 
     public int PurchaseCount { get; set; } = 10;
     public decimal MaximumPrice { get; set; } = 20m;
+     public TileType Type { get; set; }
+     public DecisionType Decision { get; set; } = DecisionType.None;
 
     private static Vector2 C_VECTOR = new(0.86602540378f, 0);
     private static Vector2 R_VECTOR = new(-0.43301270189f, -0.75f);
@@ -177,7 +156,7 @@ public class Tile : MonoBehaviour
         Ttt.gameObject.SetActive(false);
     }
 
-    private void UpdateSprite()
+    public void UpdateSprite()
     {
         switch (Type)
         {

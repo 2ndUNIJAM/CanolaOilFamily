@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -5,7 +6,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
+    private const float SimulationMotionInterval = 0.03f;
     private const string DecimalSpecifier = "#####0.0";
+    
+    private Coroutine _simulationCoroutine;
     
     public const int MaxWeeks = 52;
     
@@ -106,8 +110,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private int _weeks; // current weeks
     public int Weeks
     {
-        get { return _weeks; }
-        set
+        get => _weeks;
+        private set
         {
             _weeks = value;
             _weekText.text = _weeks.ToString();
@@ -142,7 +146,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         _increasePrice.onClick.AddListener(() => Player.Price += 0.5m);
         _decreasePrice.onClick.AddListener(() => Player.Price -= 0.5m);
         _simulateButton.onClick.AddListener(StartSimulationPhase);
-        _upgradePanelOn.onClick.AddListener(() => _upgradePanel.SetActive(true));
+        _upgradePanelOn.onClick.AddListener(() =>
+        {
+            _upgradePanel.GetComponent<UpgradeManager>().UpdateUi();
+            _upgradePanel.SetActive(true);
+        });
         _shopPanelOn.onClick.AddListener(() => _shopPanel.gameObject.SetActive(true));
 
         Tile.Ttt = _tileTooltip;
@@ -196,6 +204,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             {
                 tile.Decision = DecisionType.Player;    // Valid MyStore position
             }
+            tile.UpdateSprite();
         }
     }
 
@@ -254,8 +263,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         {
             tile.Type = TileType.Customer;
             tile.Decision = DecisionType.None;
+            tile.UpdateSprite();
         }
         at.Type = TileType.MyStore;
+        at.UpdateSprite();
         Player.Position = at;
         Tile.ShuffleTileList();
 
@@ -275,6 +286,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             enemyTile.Type = TileType.OpponentStore;
             Enemy.Position = enemyTile;
         }
+        enemyTile.UpdateSprite();
         
         // If enemy store position is special tile, randomly select the special tile
         if (enemyTile.SpecialType != SpecialTileType.None)
@@ -285,6 +297,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 {
                     tile.SpecialType = enemyTile.SpecialType;
                     enemyTile.SpecialType = SpecialTileType.None;
+                    tile.UpdateSprite();
+                    enemyTile.UpdateSprite();
                     break;
                 }
             }
@@ -305,8 +319,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public void StartControlPhase()
     {
-        Weeks++;
+        Weeks += 1;
 
+        _simulateButton.interactable = true;
+        
         Event.ResetEvent();
         _topEventIcon.gameObject.SetActive(false);
         var eventInfo = Event.FireEvent(Weeks);
@@ -336,11 +352,14 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         if (!IsStorePositioned)
         { return; }
 
+        _simulateButton.interactable = false;
+        Debug.Log("StartSimulationPhase");
+
         Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
 
         Simulation.Simulate();
-        AfterSimulation();
+        _simulationCoroutine = StartCoroutine(SimulationMotionCoroutine());
     }
 
     private void AfterSimulation()
@@ -418,8 +437,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             return;
         }
         
-        weeklyResultPanel.SetActive(true);
-
         titleText.text = Weeks.ToString();
         
         // Sales
@@ -457,6 +474,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
                 "상대의 습격을 방어했습니다." : "상대가 가게를 습격했습니다.";
             _enemyActionSummary.text += '\n';
         }
+        //todo upgrade notify
+        
+        weeklyResultPanel.SetActive(true);
         if (enemyDidThis != null)
         {
             _enemyActionSummary.text += "상대가 가게를 강화했습니다. ";
@@ -468,6 +488,18 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         // TODO: Show game result panel
         // TODO: Back to title scene
+    }
+
+    private IEnumerator SimulationMotionCoroutine()
+    {
+        foreach (var tile in Tile.AllTiles)
+        {
+            if (tile.Type != TileType.Customer) continue;
+            tile.UpdateSprite();
+            yield return new WaitForSeconds(SimulationMotionInterval);
+        }
+
+        AfterSimulation();
     }
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
