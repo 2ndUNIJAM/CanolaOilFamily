@@ -11,7 +11,6 @@ public abstract class Upgrade
     public virtual int LvConstraint => 0;
     public virtual Type UpgradeConstraint => null;
     public virtual bool IsReplaceConstraint => false;
-    public virtual string IconPath => null;
     public virtual string ImagePath => null;
     public virtual int ToLevel => -1;
     public virtual UpgradeStat Stat => new();

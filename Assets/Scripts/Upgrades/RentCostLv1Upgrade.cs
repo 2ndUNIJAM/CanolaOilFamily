@@ -8,5 +8,4 @@ public class RentCostLv1Upgrade : Upgrade
     public override int LvConstraint => 1;
     public override UpgradeStat Stat => new(rentCostDecrement: 20);
     public override string ImagePath => "Sprites/upgrade_rent_image";
-    public override string IconPath => "Sprites/upgrade_rent_image";
 }

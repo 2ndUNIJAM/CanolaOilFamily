@@ -2,37 +2,40 @@
 using System.Linq;
 using UnityEngine;
 
-public static class ResourceDictionary
+using System.Collections.Generic;
+using UnityEngine;
+
+public static class ResourcesDictionary
 {
-    private static readonly Dictionary<string, object> Dict = new();
+    private static Dictionary<string, Object> resourceCache = new ();
 
-    public static object Get(string path)
+    public static T Load<T>(string path) where T : Object
     {
-        if (Dict.TryGetValue(path, out object obj)) return obj;
+        if (resourceCache.ContainsKey(path))
+        {
+            // Return cached resource if available
+            return resourceCache[path] as T;
+        }
+        else
+        {
+            // Load and cache the resource
+            T loadedResource = Resources.Load<T>(path);
 
-        object temp = Resources.Load(path);
-        Debug.Log($"{temp} temp");
-        Dict.Add(path, temp);
-        return temp;
+            if (loadedResource != null)
+            {
+                resourceCache.Add(path, loadedResource);
+            }
+            else
+            {
+                Debug.LogError($"Failed to load resource at path: {path}");
+            }
+
+            return loadedResource;
+        }
     }
 
-    public static T Get<T>(string path) where T : class => Get(path) as T;
-
-    public static object[] GetAll(string path)
+    public static void ClearCache()
     {
-        if (Dict.TryGetValue(path, out object obj)) return obj as object[];
-
-        object[] temp = Resources.LoadAll(path);
-        Dict.Add(path, temp);
-        return temp;
-    }
-
-    public static T[] GetAll<T>(string path)
-    {
-        if (Dict.TryGetValue(path, out object obj)) return obj as T[];
-
-        var temp = Resources.LoadAll(path, typeof(T)).Cast<T>().ToArray();
-        Dict.Add(path, temp);
-        return temp;
+        resourceCache.Clear();
     }
 }

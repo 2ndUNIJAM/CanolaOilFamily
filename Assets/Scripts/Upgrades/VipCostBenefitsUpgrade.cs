@@ -10,5 +10,4 @@ public class VipCostBenefitsUpgrade : Upgrade
     public override Type UpgradeConstraint => typeof(QuickVipUpgrade);
     public override UpgradeStat Stat => new(vipVersusCostBias: 2);
     public override string ImagePath => "Sprites/upgrade_vip_image";
-    public override string IconPath => "Sprites/upgrade_vip_image";
 }

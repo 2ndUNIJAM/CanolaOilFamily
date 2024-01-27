@@ -11,5 +11,4 @@ public class VersusCostBenefitsLv4Upgrade : Upgrade
     public override bool IsReplaceConstraint => true;
     public override UpgradeStat Stat => new(versusCostBias: 1);
     public override string ImagePath => "Sprites/upgrade_versus_image";
-    public override string IconPath => "Sprites/upgrade_versus_image";
 }

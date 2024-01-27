@@ -12,5 +12,4 @@ public class IngredientCostLv2Upgrade : Upgrade
 
     public override UpgradeStat Stat => new(ingredientCostDecrement: 1);
     public override string ImagePath => "Sprites/upgrade_ingredient_image";
-    public override string IconPath => "Sprites/upgrade_ingredient_image";
 }

@@ -12,5 +12,4 @@ public class StoreLv2Upgrade: Upgrade
     public override int ToLevel => 2;
 
     public override string ImagePath => "Sprites/upgrade_store_image";
-    public override string IconPath => "Sprites/upgrade_store_image";
 }

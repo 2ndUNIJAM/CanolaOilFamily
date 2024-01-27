@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine;
 
 public class Store
 {
@@ -81,6 +83,8 @@ public class Store
         IngredientCost = 10;
     }
 
+    public bool HasUpgrade(Upgrade upgrade) => _upgrades.Contains(upgrade);
+    
     public bool IsNextUpgrade(Upgrade upgrade) =>
         upgrade.UpgradeConstraint == null ||
         _upgrades.Any(upg => upg.GetType() == upgrade.UpgradeConstraint);
@@ -95,11 +99,13 @@ public class Store
         if (upgrade.UpgradeConstraint != null)
         {
             var index = _upgrades.FindIndex(upg => upg.GetType() == upgrade.UpgradeConstraint);
-            if (index >= 0) 
+            if (index < 0) return;
+            if (upgrade.IsReplaceConstraint)
                 _upgrades.RemoveAt(index);
         }
         _upgrades.Add(upgrade);
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
+        Debug.Log(_upgrades.Select(it => it.Name).ToString());
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,8 +17,10 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _rentIcon;
     [SerializeField] private GameObject _deliveryIcon;
     [SerializeField] private GameObject _versusIcon;
+    [SerializeField] private Image _purchaseBtn;
 
     private Upgrade _currentSelection = null;
+
     public Upgrade CurrentSelection
     {
         get => _currentSelection;
@@ -27,7 +30,27 @@ public class UpgradeManager : MonoBehaviour
             _infoParent.SetActive(value != null);
             _infoTitle.text = value?.Title;
             _infoContent.text = value?.Description;
-            _infoImage.sprite = Resources.Load<Sprite>(value?.ImagePath);
+            if (value != null)
+            {
+                _infoImage.sprite = ResourcesDictionary.Load<Sprite>(value.ImagePath);
+                var tmp = _purchaseBtn.GetComponentInChildren<TextMeshProUGUI>();
+                var player = GameManager.Instance.Player;
+                if (value.LvConstraint > player.Level)
+                {
+                    _purchaseBtn.sprite = ResourcesDictionary.Load<Sprite>("gray_btn");
+                    tmp.text = $"가게 확장 Lv.{value.LvConstraint} 필요";
+                }
+                else if (player.HasUpgrade(value))
+                {
+                    _purchaseBtn.sprite = ResourcesDictionary.Load<Sprite>("gray_btn");
+                    tmp.text = "Lv.MAX";
+                }
+                else
+                {
+                    _purchaseBtn.sprite = ResourcesDictionary.Load<Sprite>("yellow_btn");
+                    tmp.text = "강화";
+                }
+            }
         }
     }
 
@@ -57,6 +80,7 @@ public class UpgradeManager : MonoBehaviour
 
     private Upgrade GetCurrentUpgrade(List<Upgrade> list, Store store)
     {
+        if (store.HasUpgrade(list.Last())) return list.Last();
         for (var i = list.Count - 1; i >= 0; i--)
         {
             if (store.IsNextUpgrade(list[i]))
@@ -84,8 +108,8 @@ public class UpgradeManager : MonoBehaviour
     public void OnPurchaseUpgrade()
     {
         var c = CurrentSelection;
-        if (c == null) return;
         var player = GameManager.Instance.Player;
+        if (c == null || player.HasUpgrade(c) || c.LvConstraint > player.Level) return;
 
         if (c.ToLevel != -1)
             player.Level = c.ToLevel;
@@ -95,12 +119,12 @@ public class UpgradeManager : MonoBehaviour
         UpdateUi();
     }
 
-    private void ChangeLockState(bool isLocked, GameObject g)
+    private void ChangeLockState(bool isDisabled, bool isLocked, GameObject g)
     {
         var parent = g.GetComponent<Image>();
-        
+
         Color parentColor = parent.color;
-        parentColor.a = isLocked ? 0.3f : 1f;
+        parentColor.a = isDisabled ? 0.3f : 1f;
         parent.color = parentColor;
 
         foreach (Transform child in g.transform)
@@ -111,7 +135,20 @@ public class UpgradeManager : MonoBehaviour
             {
                 var color = child.GetComponent<Image>();
                 if (color != null)
+                {
                     color.color = parentColor;
+                }
+                else
+                {
+                    var tmp = child.GetComponent<TextMeshProUGUI>();
+                    if (tmp != null)
+                    {
+                        var tmpColor = tmp.color;
+                        tmpColor.a = isDisabled ? 0.3f : 1f;
+                        tmp.color = tmpColor;
+                    }
+                        
+                }
             }
         }
     }
@@ -121,15 +158,18 @@ public class UpgradeManager : MonoBehaviour
         var current = GetCurrentUpgrade(list, player);
         var tmp = go.GetComponentInChildren<TextMeshProUGUI>();
         tmp.text = current.Price.ToString(CultureInfo.InvariantCulture);
-        ChangeLockState(current.LvConstraint > player.Level, go);
+        var isLocked = current.LvConstraint > player.Level;
+        var isDisabled = isLocked || player.HasUpgrade(current);
+        ChangeLockState(isDisabled, isLocked, go);
     }
+
     private void UpdateUi()
     {
         var player = GameManager.Instance.Player;
         UpdateUiInternal(player, _store, _storeIcon);
         UpdateUiInternal(player, _delivery, _deliveryIcon);
         UpdateUiInternal(player, _ingredient, _ingredientIcon);
-        UpdateUiInternal(player, _vip,_vipIcon);
+        UpdateUiInternal(player, _vip, _vipIcon);
         UpdateUiInternal(player, _rent, _rentIcon);
         UpdateUiInternal(player, _versus, _versusIcon);
     }

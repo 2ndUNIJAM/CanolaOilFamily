@@ -10,5 +10,4 @@ public class VersusCostBenefitsLv3Upgrade : Upgrade
     public override Type UpgradeConstraint => typeof(VersusPriorityUpgrade);
     public override UpgradeStat Stat => new(versusCostBias: 0.5m);
     public override string ImagePath => "Sprites/upgrade_versus_image";
-    public override string IconPath => "Sprites/upgrade_versus_image";
 }

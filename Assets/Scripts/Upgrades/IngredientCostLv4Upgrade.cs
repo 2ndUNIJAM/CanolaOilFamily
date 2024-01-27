@@ -11,5 +11,4 @@ public class IngredientCostLv4Upgrade : Upgrade
     public override bool IsReplaceConstraint => true;
     public override UpgradeStat Stat => new(ingredientCostDecrement: 2);
     public override string ImagePath => "Sprites/upgrade_ingredient_image";
-    public override string IconPath => "Sprites/upgrade_ingredient_image";
 }
