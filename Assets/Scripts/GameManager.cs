@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     [Header("UI")]
     [SerializeField]
+    private GameObject readyPanel;
+    [SerializeField]
+    private GameObject makeStoreInfoText;
+    [SerializeField]
     private Button _simulateButton;
     [SerializeField]
     private TMPro.TMP_Text _priceText;
@@ -257,6 +261,11 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         isStorePositioned = true;
 
+        makeStoreInfoText.SetActive(false);
+        readyPanel.SetActive(true);
+        _shopPanelOn.gameObject.SetActive(true);
+        _upgradePanelOn.gameObject.SetActive(true);
+        
         // start first turn
         Player.InitValues();
         Enemy.InitValues();
