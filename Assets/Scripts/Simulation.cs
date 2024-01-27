@@ -1,5 +1,4 @@
 using System;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 
 public static class Simulation
@@ -129,10 +128,16 @@ public static class Simulation
     {
         var player = GameManager.Instance.Player;
         var enemy = GameManager.Instance.Enemy;
+        player.SaleVolume = 0;
+        enemy.SaleVolume = 0;
+        player.Profit = 0;
+        enemy.Profit = 0;
         enemy.Price = DecideOpponentPrice(player, enemy);
         var margin = SellChicken(player, enemy);
-        player.Money += margin.myMargin - player.Rent;
-        enemy.Money += margin.enemyMargin - enemy.Rent;
+        player.Profit = margin.myMargin - player.Rent;
+        enemy.Profit = margin.enemyMargin - enemy.Rent;
+        player.Money += player.Profit;
+        enemy.Money += enemy.Profit;
     }
 
     private static (decimal myMargin, decimal enemyMargin) SellChicken(Store player, Store opponent, bool isVirtual = false)
@@ -162,12 +167,14 @@ public static class Simulation
                     playerStock -= purchaseCount;
                     myMargin += (player.Price - (player.IngredientCost + Event.IngredientCostAdjustValue -
                                                  (decimal)playerStat.IngredientCostDecrement)) * purchaseCount;
+                    player.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Opponent:
                     opponentStock -= purchaseCount;
                     enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
                                                       (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount;
+                    opponent.SaleVolume += purchaseCount;
                     break;
 
                 case DecisionType.Both:
@@ -177,6 +184,8 @@ public static class Simulation
                                                  (decimal)playerStat.IngredientCostDecrement)) * purchaseCount / 2;
                     enemyMargin += (opponent.Price - (opponent.IngredientCost + Event.IngredientCostAdjustValue -
                                                       (decimal)opponentStat.IngredientCostDecrement)) * purchaseCount / 2;
+                    player.SaleVolume += purchaseCount / 2;
+                    opponent.SaleVolume += purchaseCount / 2;
                     break;
 
                 case DecisionType.None:

@@ -60,7 +60,9 @@ public class Store
     public decimal Rent => BaseRent - Upgrade.RentCostDecrement;
     
     public Tile Position;
-    public int Stock = 50;
+    public int Stock = 50;      // Not decreased by selling
+    public int SaleVolume = 0;  // Weekly
+    public decimal Profit = 0;  // Weekly
     public int Level = 0;
     private List<Upgrade> _upgrades = new();
     public UpgradeStat Upgrade = new();

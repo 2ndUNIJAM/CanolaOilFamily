@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
 {
+    private const string DecimalSpecifier = "#####0.0";
+    
     public const int MaxWeeks = 52;
     
     public static GameManager Instance { get; private set; }
@@ -52,6 +54,34 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private TMPro.TMP_Text _eventDescription;
     [SerializeField]
     private Image _topEventIcon;
+    
+    [Header("Weekly Result Panel")]
+    [SerializeField]
+    private GameObject weeklyResultPanel;
+    [SerializeField]
+    private TMPro.TMP_Text titleText;
+
+    [Space(10)]
+    [SerializeField]
+    private TMPro.TMP_Text myPriceText;
+    [SerializeField]
+    private TMPro.TMP_Text enemyPriceText;
+    [SerializeField]
+    private TMPro.TMP_Text myVolumeText;
+    [SerializeField]
+    private TMPro.TMP_Text enemyVolumeText;
+    [SerializeField]
+    private TMPro.TMP_Text myRentText;
+    [SerializeField]
+    private TMPro.TMP_Text enemyRentText;
+    [SerializeField]
+    private TMPro.TMP_Text myProfitText;
+    [SerializeField]
+    private TMPro.TMP_Text enemyProfitText;
+    [SerializeField]
+    private TMPro.TMP_Text myMoneyText;
+    [SerializeField]
+    private TMPro.TMP_Text enemyMoneyText;
 
     private GameObject _tilePrefab;
 
@@ -233,7 +263,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         StartControlPhase();
     }
 
-    private void StartControlPhase()
+    public void StartControlPhase()
     {
         Weeks++;
 
@@ -289,18 +319,40 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 #endif
 
         EndWeek();
-        StartControlPhase();
     }
     
 
     private void EndWeek()
     {
-        // TODO: Show this week result panel
-
         if (Weeks == MaxWeeks)
         {
             FinishGame(Player.Money > Enemy.Money);
+            return;
         }
+        
+        weeklyResultPanel.SetActive(true);
+
+        titleText.text = $"Week {Weeks} Result";
+        
+        // Sales
+        myPriceText.text = Player.Price.ToString(DecimalSpecifier);
+        enemyPriceText.text = Enemy.Price.ToString(DecimalSpecifier);
+
+        // Volume
+        myVolumeText.text = Player.SaleVolume.ToString();
+        enemyVolumeText.text = Enemy.SaleVolume.ToString();
+
+        // Rent
+        myRentText.text = Player.Rent.ToString(DecimalSpecifier);
+        enemyRentText.text = Enemy.Rent.ToString(DecimalSpecifier);
+
+        // Profit
+        myProfitText.text = Player.Profit.ToString(DecimalSpecifier);
+        enemyProfitText.text = Enemy.Profit.ToString(DecimalSpecifier);
+
+        // Money
+        myMoneyText.text = Player.Money.ToString(DecimalSpecifier);
+        enemyMoneyText.text = Enemy.Money.ToString(DecimalSpecifier);
     }
 
     private void FinishGame(bool isPlayerWin)
