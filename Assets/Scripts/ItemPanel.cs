@@ -35,11 +35,13 @@ public class ItemPanel : MonoBehaviour
     [SerializeField] private TMPro.TMP_Text _name;
     [SerializeField] private TMPro.TMP_Text _desc;
     [SerializeField] private TMPro.TMP_Text _extraNotify;
+    [SerializeField] private TMPro.TMP_Text _money;
 
     private void OnEnable()
     {
         Current = null;
         _selectedContent.SetActive(false);
+        _money.text = GameManager.Instance.Player.Money.ToString();
         DeNotify();
     }
 
@@ -93,6 +95,7 @@ public class ItemPanel : MonoBehaviour
         player.ItemManager.BuyItem(Current);
         Current = null;
         _currentButton.GetComponent<Button>().interactable = false;
+        _money.text = player.Money.ToString();
         GameManager.Instance.UpdateUpgradableStatUI();
         Notify("구매했습니다.");
     }
