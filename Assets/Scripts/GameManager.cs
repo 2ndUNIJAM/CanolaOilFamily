@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour // I AM SINGLETON!
@@ -94,8 +95,22 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private TMPro.TMP_Text _enemyActionSummary;
 
+    [Header("Game Result Panel")]
+    [SerializeField]
+    private GameObject gameResult;
+    [SerializeField]
+    private Image resultBackgroundImage;
+    [SerializeField]
+    private TMPro.TMP_Text resultWeekText;
+    [SerializeField]
+    private TMPro.TMP_Text resultMyMoneyText;
+
 
     [Header("Sprites")]
+    [SerializeField] private Sprite victorySprite;
+    [SerializeField] private Sprite defeatSprite;
+    
+    [Space(10)]
     public Sprite playerStoreTileSprite;
     public Sprite enemyStoreTileSprite;
     
@@ -431,8 +446,12 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void FinishGame(bool isPlayerWin)
     {
-        // TODO: Show game result panel
-        // TODO: Back to title scene
+        resultBackgroundImage.sprite = isPlayerWin ? victorySprite : defeatSprite;
+        
+        resultWeekText.text = Weeks.ToString();
+        resultMyMoneyText.text = Player.Money.ToString(DecimalSpecifier);
+        
+        gameResult.SetActive(true);
     }
 
     private IEnumerator SimulationMotionCoroutine()
@@ -449,4 +468,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
 
+    public void OnClickGoToTitleButton()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
 }
