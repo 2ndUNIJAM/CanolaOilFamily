@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         
         weeklyResultPanel.SetActive(true);
 
-        titleText.text = $"Week {Weeks} Result";
+        titleText.text = $"{Weeks}주차 정산";
         
         // Sales
         myPriceText.text = Player.Price.ToString(DecimalSpecifier);
