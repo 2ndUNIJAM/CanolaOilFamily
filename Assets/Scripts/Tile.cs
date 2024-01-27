@@ -131,6 +131,7 @@ public class Tile : MonoBehaviour
                 switch (_state)
                 {
                     case TileState.None:
+                        _spriteRenderer.sprite = GameManager.Instance.normalTileSprites[spriteIndex];
                         break;
                     
                     case TileState.Player:
