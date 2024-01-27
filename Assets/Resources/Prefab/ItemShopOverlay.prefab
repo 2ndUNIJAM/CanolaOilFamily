@@ -1103,7 +1103,7 @@ GameObject:
   - component: {fileID: 5379353317799180592}
   - component: {fileID: 6838521013782641638}
   - component: {fileID: 3977746877146857690}
-  - component: {fileID: 6247832323842462366}
+  - component: {fileID: 7126551945905170729}
   m_Layer: 0
   m_Name: ItemRobbery
   m_TagString: Untagged
@@ -1170,7 +1170,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6247832323842462366
+--- !u!114 &7126551945905170729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2101,7 +2101,7 @@ GameObject:
   - component: {fileID: 482193815593329465}
   - component: {fileID: 8271431278350457549}
   - component: {fileID: 8419754283066704160}
-  - component: {fileID: 7985628004255774}
+  - component: {fileID: 6898120479575397877}
   m_Layer: 0
   m_Name: ItemShield
   m_TagString: Untagged
@@ -2168,7 +2168,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7985628004255774
+--- !u!114 &6898120479575397877
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
