@@ -28,8 +28,6 @@ public class ItemPanel : MonoBehaviour
         }
     }
 
-    private GameObject _currentButton;
-
     [SerializeField] private GameObject _selectedContent;
     [SerializeField] private Image _selectedImage;
     [SerializeField] private TMPro.TMP_Text _name;
@@ -72,11 +70,6 @@ public class ItemPanel : MonoBehaviour
                 Current = new Shield();
                 break;
         }
-    }
-
-    public void SelectButton(GameObject button)
-    {
-        _currentButton = button;
     }
 
     public void Purchase()
