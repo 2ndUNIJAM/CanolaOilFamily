@@ -3,7 +3,7 @@ using System.Linq;
 
 public class Store
 {
-    private decimal _price = 20;
+    private decimal _price;
 
     public decimal Price
     {
@@ -67,6 +67,7 @@ public class Store
     public Store()
     {
         ItemManager = new(this);
+        _price = 15;
     }
 
     public bool IsNextUpgrade(Upgrade upgrade) =>

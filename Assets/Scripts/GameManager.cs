@@ -211,6 +211,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void StartControlPhase()
     {
+        Weeks++;
+
         Player.ItemManager.Init();
         Enemy.ItemManager.Init();
 
@@ -219,6 +221,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
     private void StartSimulationPhase()
     {
+        if (!isStorePositioned)
+        { return; }
+
         Player.ItemManager.ApplyItem();
         Enemy.ItemManager.ApplyItem();
 
@@ -241,21 +246,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         }
 
         EndWeek();
+        StartControlPhase();
     }
-
-    private void StartWeek()
-    {
-        Weeks++;
-        
-        /*
-         * TODO:
-         * Show enemy upgrade
-         * Show week event (if exists)
-         * Upgrade, item, pricing
-         *
-         * finally: simulation
-         */
-    }
+    
 
     private void EndWeek()
     {
