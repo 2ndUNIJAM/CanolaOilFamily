@@ -59,8 +59,8 @@ public class Store
     public Tile Position;
     public decimal Rent = 150;
     public int Stock = 100;
-    public int Level = 1;
-    private List<Upgrade> _upgrades;
+    public int Level = 0;
+    private List<Upgrade> _upgrades = new();
     public UpgradeStat Upgrade = new();
     public ItemManager ItemManager;
 

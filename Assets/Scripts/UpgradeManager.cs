@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Runtime.CompilerServices;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +19,18 @@ public class UpgradeManager : MonoBehaviour
     [SerializeField] private GameObject _deliveryIcon;
     [SerializeField] private GameObject _versusIcon;
 
-    private Upgrade currentSelection = null;
+    private Upgrade _currentSelection = null;
+    public Upgrade CurrentSelection
+    {
+        get => _currentSelection;
+        set
+        {
+            _currentSelection = value;
+            _infoParent.SetActive(value != null);
+            _infoTitle.text = value?.Title;
+            _infoContent.text = value?.Description;
+        }
+    }
 
     private List<Upgrade> _store = new()
         { new StoreLv1Upgrade(), new StoreLv2Upgrade(), new StoreLv3Upgrade(), new StoreLv4Upgrade() };
@@ -39,7 +53,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void Start()
     {
-        ChangeLockState(true, _storeIcon);
+        UpdateUi();
     }
 
     private Upgrade GetCurrentUpgrade(List<Upgrade> list, Store store)
@@ -57,7 +71,7 @@ public class UpgradeManager : MonoBehaviour
 
     private void ChangeCurrentSelection(List<Upgrade> list)
     {
-        currentSelection = GetCurrentUpgrade(list, GameManager.Instance.Player);
+        CurrentSelection = GetCurrentUpgrade(list, GameManager.Instance.Player);
         UpdateUi();
     }
 
@@ -70,7 +84,7 @@ public class UpgradeManager : MonoBehaviour
 
     public void OnPurchaseUpgrade()
     {
-        var c = currentSelection;
+        var c = CurrentSelection;
         if (c == null) return;
         var player = GameManager.Instance.Player;
 
@@ -78,7 +92,7 @@ public class UpgradeManager : MonoBehaviour
             player.Level = c.ToLevel;
 
         player.BuyUpgrade(c);
-        currentSelection = null;
+        CurrentSelection = null;
         UpdateUi();
     }
 
@@ -93,7 +107,7 @@ public class UpgradeManager : MonoBehaviour
 
         foreach (Transform child in g.transform)
         {
-            if (child.tag == "Lock")
+            if (child.CompareTag("Lock"))
                 child.gameObject.SetActive(isLocked);
             else
             {
@@ -104,8 +118,21 @@ public class UpgradeManager : MonoBehaviour
         }
     }
 
+    private void UpdateUiInternal(Store player, List<Upgrade> list, GameObject go)
+    {
+        var current = GetCurrentUpgrade(list, player);
+        var tmp = go.GetComponentInChildren<TextMeshProUGUI>();
+        tmp.text = current.Price.ToString(CultureInfo.InvariantCulture);
+        ChangeLockState(current.LvConstraint > player.Level, go);
+    }
     private void UpdateUi()
     {
-        // TODO: update ui based on currentSelection, each lists' GetCurrentUpgrade return value.
+        var player = GameManager.Instance.Player;
+        UpdateUiInternal(player, _store, _storeIcon);
+        UpdateUiInternal(player, _delivery, _deliveryIcon);
+        UpdateUiInternal(player, _ingredient, _ingredientIcon);
+        UpdateUiInternal(player, _vip,_vipIcon);
+        UpdateUiInternal(player, _rent, _rentIcon);
+        UpdateUiInternal(player, _versus, _versusIcon);
     }
 }

@@ -58,9 +58,9 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     }
 
     public bool isStorePositioned = false;
-    
-    public Store Player;
-    public Store Enemy;
+
+    public Store Player = new Store();
+    public Store Enemy = new Store();
     
     private void Awake()
     {
@@ -77,9 +77,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     // Start is called before the first frame update
     void Start()
     {
-        Player = new Store();
-        Enemy = new Store();
-
         _weeks = 0;
 
         _tilePrefab = Resources.Load<GameObject>("TileObject");
@@ -187,21 +184,22 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         at.Type = TileType.MyStore;
         Player.Position = at;
 
-        var enemyTile = Tile.AllTiles.Find(t => t.Q == -at.Q && t.R == -at.R);
-        enemyTile.Type = TileType.OpponentStore;
-        Enemy.Position = enemyTile;
-        
-        // var r = new System.Random();
-        // while (true)
-        // {
-        //     var rr = r.Next(tiles.Count);
-        //     if (tiles[rr].Type != TileType.MyStore)
-        //     {
-        //         tiles[rr].Type = TileType.OpponentStore;
-        //         Enemy.Position = tiles[rr];
-        //         break;
-        //     }
-        // }
+        // Determine enemy store position
+        Tile enemyTile;
+        if (Random.Range(0, 2) == 0)
+        {
+            // Point symmetry
+            enemyTile = Tile.AllTiles.Find(t => t.Q == -at.Q && t.R == -at.R);
+            enemyTile.Type = TileType.OpponentStore;
+            Enemy.Position = enemyTile;
+        }
+        else
+        {
+            // Line symmetry
+            enemyTile = Tile.AllTiles.Find(t => t.Q == at.S && t.R == at.R);
+            enemyTile.Type = TileType.OpponentStore;
+            Enemy.Position = enemyTile;
+        }
 
         isStorePositioned = true;
 
@@ -263,6 +261,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private void FinishGame(bool isPlayerWin)
     {
         // TODO: Show game result panel
+        // TODO: Back to title scene
     }
 
     public Store FindMyEnemy(Store you) => you == Player ? Enemy : Player;
