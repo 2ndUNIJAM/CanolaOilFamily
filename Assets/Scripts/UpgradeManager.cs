@@ -98,11 +98,10 @@ public class UpgradeManager : MonoBehaviour
 
     private void ChangeLockState(bool isLocked, GameObject g)
     {
-        // Assuming your parent GameObject has a Renderer component
         var parent = g.GetComponent<Image>();
         
         Color parentColor = parent.color;
-        parentColor.a = isLocked ? 0.3f : 1f; // Set the desired alpha value for the parent
+        parentColor.a = isLocked ? 0.3f : 1f;
         parent.color = parentColor;
 
         foreach (Transform child in g.transform)
