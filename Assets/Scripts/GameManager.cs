@@ -31,7 +31,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         if (Instance is null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -42,7 +41,6 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
         Player = new Store();
         Enemy = new Store();
 
