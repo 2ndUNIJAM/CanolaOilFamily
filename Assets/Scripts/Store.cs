@@ -3,7 +3,7 @@ using System.Linq;
 
 public class Store
 {
-    private const decimal BaseRent = 30m;
+    private const decimal BaseRent = 300m;
     
     private decimal _price;
 
