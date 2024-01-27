@@ -1783,6 +1783,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemShopOverlay
       objectReference: {fileID: 0}
+    - target: {fileID: 8953254047220982659, guid: 09db5bf07e2f9b74688f6f7b70a8c9bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
