@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEngine;
 
 public class Store
 {
@@ -105,7 +103,6 @@ public class Store
         }
         _upgrades.Add(upgrade);
         Upgrade = _upgrades.Aggregate(new UpgradeStat(), (stat, u) => stat + u.Stat);
-        Debug.Log(_upgrades.Select(it => it.Name).ToString());
     }
 
 
