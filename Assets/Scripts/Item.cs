@@ -87,9 +87,9 @@ public interface IItem
 
 public class EnemyIngredientCostIncrease : IItem
 {
-    public string Name => "방화";
-    public string Description => "상대 가게에 불을 질러 재료비를 증가시킨다.";
-    public int Price => 150;
+    public string Name => "공장 방화";
+    public string Description => "상대 가게에 불을 질러 재료비를 2$ 증가시킨다.";
+    public int Price => 300;
 
     public void OnBuy(Store user)
     {
