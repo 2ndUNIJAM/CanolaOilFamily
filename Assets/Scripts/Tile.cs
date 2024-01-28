@@ -147,6 +147,13 @@ public class Tile : MonoBehaviour
 
     private void OnMouseEnter()
     {
+        void SwitchSpecialType(SpecialTileType stt)
+        {
+            switch (stt) 
+            {
+            }
+        }
+
         Ttt.gameObject.SetActive(true);
         Ttt.SetPosition(transform.position, R);
         
@@ -159,6 +166,7 @@ public class Tile : MonoBehaviour
             Ttt.SetText("우리 가게", string.Empty);
             break;
         case TileType.Customer:
+        default:
             switch (_specialType)
             {
                 case SpecialTileType.RandomOrder:
@@ -178,9 +186,9 @@ public class Tile : MonoBehaviour
                     break;
             }
             break;
-        default:
-            Ttt.gameObject.SetActive(false);
-            break;
+        //default:
+            //Ttt.gameObject.SetActive(false);
+            //break;
         }
     }
 
