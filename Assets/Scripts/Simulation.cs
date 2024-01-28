@@ -230,11 +230,11 @@ public static class Simulation
             var playerIngredientCost = player.IngredientCost
                                         + Event.IngredientCostAdjustValue
                                         - (decimal)playerStat.IngredientCostDecrement
-                                        + (player.ItemManager.isIngredientCostSabotaged ? 1 : 0);
+                                        + (player.ItemManager.isIngredientCostSabotaged ? 2 : 0);
             var opponentIngredientCost = opponent.IngredientCost
                                         + Event.IngredientCostAdjustValue
                                         - (decimal)opponentStat.IngredientCostDecrement
-                                        + (opponent.ItemManager.isIngredientCostSabotaged ? 1 : 0);
+                                        + (opponent.ItemManager.isIngredientCostSabotaged ? 2 : 0);
 
 
             // Calculates final decision for player and opponent

@@ -294,12 +294,12 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
             = "재료비 | " 
             +   (Player.IngredientCost 
                 - Player.Upgrade.IngredientCostDecrement
-                + (Player.ItemManager.isIngredientCostSabotaged ? 1 : 0 )).ToString(PriceSpecifier);
+                + (Player.ItemManager.isIngredientCostSabotaged ? 2 : 0 )).ToString(PriceSpecifier);
         _enemyIngreCost.text
             = "재료비 | "
             +   (Enemy.IngredientCost
                 - Enemy.Upgrade.IngredientCostDecrement
-                + (Enemy.ItemManager.isIngredientCostSabotaged ? 1 : 0)).ToString(PriceSpecifier);
+                + (Enemy.ItemManager.isIngredientCostSabotaged ? 2 : 0)).ToString(PriceSpecifier);
         _myRent.text
             = "임대료 | " + (Player.Rent - Player.Upgrade.RentCostDecrement).ToString(PriceSpecifier);
         _enemyRent.text
