@@ -40,7 +40,7 @@ public static class Event
         {
             (6, 10, () => SetDoubleDeliveryFee(-0.5m), ("배달 이벤트", "배달비 $0.5 감소", _sprites[0])),
             (16, 20, () => SetDoubleOrder(), ("월드컵", "구매 치킨 수 2배 증가", _sprites[2])),
-            (24, 28, () => SetDoubleDeliveryFee(0.5m), ("폭우", "배달비 $0.5 증가", _sprites[3])),
+            (24, 24, () => SetDoubleDeliveryFee(0.5m), ("폭우", "배달비 $0.5 증가", _sprites[3])),
             (26, 26, () => SetAdjustRent(0), ("가게 보수", "(지속) 임대료 $300 증가", _sprites[4])),
             (36, 40, () => SetAdjustIngredientCost(2), ("조류 독감", "재료비 $2 증가", _sprites[5])),
             (42, 44, () => SetAdjustIngredientCost(-1), ("풍년", "재료비 $1 감소", _sprites[6])),
