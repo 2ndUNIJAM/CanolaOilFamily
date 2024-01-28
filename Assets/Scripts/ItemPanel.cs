@@ -118,12 +118,14 @@ public class ItemPanel : MonoBehaviour
         transform.GetChild(2).GetComponent<Button>().interactable = false;
         transform.GetChild(3).GetComponent<Button>().interactable = false;
         transform.GetChild(4).GetComponent<Button>().interactable = false;
+        transform.GetChild(5).GetComponent<Button>().interactable = false;
     }
 
     public void Refresh()
     {
         transform.GetChild(2).GetComponent<Button>().interactable = true;
         transform.GetChild(3).GetComponent<Button>().interactable = true;
-        transform.GetChild(4).GetComponent<Button>().interactable = true;
+        transform.GetChild(4).GetComponent<Button>().interactable = false;
+        transform.GetChild(5).GetComponent<Button>().interactable = true;
     }
 }
