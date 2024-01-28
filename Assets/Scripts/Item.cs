@@ -111,8 +111,8 @@ public class ThiefItem : IItem
     public void OnBuy(Store user)
     {
         user.ItemManager.IsThief = true;
-        ItemManager.EnemyTryBuyShield(user.GetEnemy().ItemManager);
-
+        if (user == GameManager.Instance.Player)
+            ItemManager.EnemyTryBuyShield(user.GetEnemy().ItemManager);
     }
 
     public void OnApply(Store user)
