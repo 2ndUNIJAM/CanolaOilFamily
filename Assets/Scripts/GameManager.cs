@@ -183,14 +183,12 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     
     private void Awake()
     {
-        if (Instance is null)
+        if (Instance is not null)
         {
-            Instance = this;
+            Destroy(Instance);
         }
-        else
-        {
-            Destroy(gameObject);
-        }
+        
+        Instance = this;
     }
     
     // Start is called before the first frame update
@@ -213,6 +211,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
 
         Event.Init();
 
+        Tile.AllTiles.Clear();
+        
         for (int r = -3; r <= 3; r++)
         {
             if (r < 0)
