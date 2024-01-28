@@ -128,7 +128,7 @@ public class Shield : IItem
     public int Price => 30;
     public void OnBuy(Store user)
     {
-        user.GetEnemy().ItemManager.usingShield = true;
+        user.ItemManager.usingShield = true;
     }
 
     public void OnApply(Store user)

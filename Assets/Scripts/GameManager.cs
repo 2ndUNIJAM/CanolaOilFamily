@@ -475,7 +475,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         System.Random r = new();
         List<List<Upgrade>> upgll = new()
         {
-            UpgradeManager._delivery, UpgradeManager._ingredient, UpgradeManager._rent, UpgradeManager._store
+            UpgradeManager._delivery, UpgradeManager._store
         };
 
         var count = 0;
@@ -484,7 +484,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         {
             next = UpgradeManager.GetCurrentUpgrade(upgll[r.Next(upgll.Count)], Enemy);
 
-            if (count++ > 10)
+            if (count++ > 3)
                 break;
 
             if (Enemy.HasUpgrade(next))
