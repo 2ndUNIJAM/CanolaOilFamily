@@ -5770,6 +5770,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   readyPanel: {fileID: 234887365}
   makeStoreInfoText: {fileID: 2139700021}
+  myStandingAnim: {fileID: 1100238273}
+  enemyStandingAnim: {fileID: 383349542}
   _simulateButton: {fileID: 1948742427}
   _priceText: {fileID: 445836598}
   _increasePrice: {fileID: 913440577}

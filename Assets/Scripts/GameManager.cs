@@ -38,6 +38,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     [SerializeField]
     private GameObject makeStoreInfoText;
     [SerializeField]
+    private Animator myStandingAnim;
+    [SerializeField]
+    private Animator enemyStandingAnim;
+    [SerializeField]
     private Button _simulateButton;
     [SerializeField]
     private TMP_Text _priceText;
@@ -261,6 +265,10 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         
         // Play BGM
         bgmSource.Play();
+        
+        // UI Show
+        myStandingAnim.SetTrigger(AnimShowHash);
+        enemyStandingAnim.SetTrigger(AnimShowHash);
     }
 
     // Update is called once per frame
