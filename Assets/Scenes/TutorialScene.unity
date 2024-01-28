@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC601\uC5C5\uC774\uC775\n= \uD310\uB9E4\uB791 X (\uD310\uB9E4\uAC00\uACA9
+  m_text: "\uC601\uC5C5\uC774\uC775\n= \uD310\uB9E4\uB7C9 X (\uD310\uB9E4\uAC00\uACA9
     - \uC7AC\uB8CC\uBE44) - \uC784\uB300\uB8CC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 1da4e9cba9be64e40a00495bdfe7cfef, type: 2}
