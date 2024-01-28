@@ -19,6 +19,11 @@ public class TitleManager : MonoBehaviour
         Application.Quit();
 #endif
     }
+
+    public void OnClickTutorialButton()
+    {
+        SceneManager.LoadScene("TutorialScene");
+    }
     
     public void OnClickStartButton()
     {
