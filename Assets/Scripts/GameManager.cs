@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
+using Random = UnityEngine.Random;
 
 public enum SfxIndex
 {
@@ -592,6 +594,18 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public void PlaySfx(SfxIndex sfxIndex)
     {
         sfxSource.clip = sfxClips[(int)sfxIndex];
+
+        sfxSource.volume = sfxIndex switch
+        {
+            SfxIndex.Simulation      => 1f,
+            SfxIndex.WeekResult      => 0.4f,
+            SfxIndex.PurchaseUpgrade => 0.4f,
+            SfxIndex.PurchaseItem    => 0.4f,
+            SfxIndex.Defeat          => 0.8f,
+            SfxIndex.Victory         => 1f,
+            _ => throw new ArgumentException()
+        };
+        
         sfxSource.Play();
     }
 
@@ -606,4 +620,13 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     {
         SceneManager.LoadScene("TitleScene");
     }
+
+    #region DebugFunctions
+
+    public void OnClickInstantVictory()
+    {
+        Enemy.Money = -3000;
+    }
+
+    #endregion
 }
