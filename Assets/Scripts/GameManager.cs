@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public enum SfxIndex
 {
@@ -249,7 +248,7 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
         {
             if ((tile.Q >= -1 && tile.S <= +1) || tile.SpecialType != SpecialTileType.None)
             {
-                tile.Decision = DecisionType.Opponent;  // Invalid MyStore position
+                tile.Decision = DecisionType.None;      // Invalid MyStore position
             }
             else
             {
