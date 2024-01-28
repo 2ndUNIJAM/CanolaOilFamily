@@ -566,7 +566,8 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     private void FinishGame(bool isPlayerWin)
     {
         resultBackgroundImage.sprite = isPlayerWin ? victorySprite : defeatSprite;
-        
+
+        bgmSource.Stop();
         PlaySfx(isPlayerWin ? SfxIndex.Victory : SfxIndex.Defeat);
         
         resultWeekText.text = Weeks.ToString();

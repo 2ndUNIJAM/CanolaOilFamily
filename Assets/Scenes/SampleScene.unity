@@ -1712,8 +1712,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 0
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 3172a693fa88a604c995bc099dafed2f, type: 2}
+  m_sharedMaterial: {fileID: 8154236733386079282, guid: 3172a693fa88a604c995bc099dafed2f, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5341,8 +5341,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0c4769b9c65c642e081262f051282bd3, type: 3}
   - {fileID: 8300000, guid: 0c4769b9c65c642e081262f051282bd3, type: 3}
   - {fileID: 8300000, guid: 58ce4b3b4d3614ef68712fb5d4f3d995, type: 3}
-  - {fileID: 8300000, guid: 8576b1e36e7c9456bb169c80b7431d69, type: 3}
-  - {fileID: 8300000, guid: 0c4769b9c65c642e081262f051282bd3, type: 3}
+  - {fileID: 8300000, guid: 58ce4b3b4d3614ef68712fb5d4f3d995, type: 3}
+  - {fileID: 8300000, guid: 9df0aa32f1ebf47cbb249380be16ef1b, type: 3}
   IsStorePositioned: 0
 --- !u!82 &2043792360
 AudioSource:
