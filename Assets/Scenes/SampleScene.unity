@@ -7052,6 +7052,14 @@ PrefabInstance:
       propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7961843095805538908, guid: 9d11aab2020e0b1499975ffe57c966be, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: d0ee80279999e4ff296e8896cfdd91ad, type: 2}
+    - target: {fileID: 7961843095805538908, guid: 9d11aab2020e0b1499975ffe57c966be, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8155769948982475315, guid: 9d11aab2020e0b1499975ffe57c966be, type: 3}
       propertyPath: m_fontAsset
       value: 
