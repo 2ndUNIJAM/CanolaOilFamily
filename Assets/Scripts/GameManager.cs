@@ -389,6 +389,12 @@ public class GameManager : MonoBehaviour // I AM SINGLETON!
     public void StartControlPhase()
     {
         Weeks += 1;
+
+        if (Weeks == 26)
+        {
+            Player.BaseRent += 300;
+            Enemy.BaseRent += 300;
+        }
         
         weeklyResultPanelAnim.SetTrigger(AnimHideHash);
 
